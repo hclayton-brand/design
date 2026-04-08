@@ -503,45 +503,43 @@
     }
 
     .section-heading-dark {
-      font-size: 46px;
-      font-weight: 700;
+      font-size: 32px;
+      font-weight: 600;
       color: #0B0D0F;
-      line-height: 1.15;
+      line-height: 1.45;
       letter-spacing: 0.3px;
     }
 
     .ide-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 770px;
     }
 
-    .ide-logo-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .ide-logo-circle {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
+    .ide-card {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 900;
-      color: white;
-      letter-spacing: 0.5px;
+      gap: 8px;
+      height: 120px;
+      padding: 24px;
     }
 
-    .ide-logo-name {
-      font-size: 15px;
-      font-weight: 400;
-      color: #363B3D;
-      text-align: center;
+    .ide-card-logo {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+    }
+
+    .ide-card-name {
+      font-size: 22px;
+      font-weight: 500;
+      color: #0B0D0F;
+      line-height: 1.5;
+      text-align: left;
     }
 
     /* ─── MAVEN BANNER ─────────────────────────────────── */
@@ -867,63 +865,24 @@
 
       <div class="ide-logos">
 
-        <div class="ide-logo-item">
-          <!-- Android Studio -->
-          <svg class="ide-logo-circle" width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="72" height="72" rx="18" fill="#3DDC84"/>
-            <path d="M22 46L28 36L22 26h4l6 10-6 10h-4zM50 46L44 36l6-10h-4l-6 10 6 10h4z" fill="white" stroke="white" stroke-width="0.5"/>
-            <circle cx="29" cy="24" r="3" fill="white"/>
-            <circle cx="43" cy="24" r="3" fill="white"/>
-            <path d="M25 30h22v14a11 11 0 01-22 0V30z" fill="white" opacity="0.9"/>
-            <circle cx="30" cy="37" r="2.5" fill="#3DDC84"/>
-            <circle cx="42" cy="37" r="2.5" fill="#3DDC84"/>
-          </svg>
-          <span class="ide-logo-name">Android Studio</span>
+        <div class="ide-card">
+          <img class="ide-card-logo" src="./Images/Android.svg" alt="Android Studio">
+          <span class="ide-card-name">Android Studio</span>
         </div>
 
-        <div class="ide-logo-item">
-          <!-- IntelliJ IDEA -->
-          <svg class="ide-logo-circle" width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="72" height="72" rx="18" fill="url(#ij-grad)"/>
-            <defs>
-              <linearGradient id="ij-grad" x1="0" y1="0" x2="72" y2="72">
-                <stop stop-color="#FE315D"/>
-                <stop offset="1" stop-color="#FF7A00"/>
-              </linearGradient>
-            </defs>
-            <rect x="18" y="18" width="36" height="36" rx="4" fill="white"/>
-            <rect x="22" y="22" width="14" height="14" rx="2" fill="#0A0A0A"/>
-            <rect x="22" y="40" width="28" height="3" rx="1.5" fill="#0A0A0A"/>
-          </svg>
-          <span class="ide-logo-name">IntelliJ IDEA</span>
+        <div class="ide-card">
+          <img class="ide-card-logo" src="./Images/Intellij.svg" alt="IntelliJ IDEA">
+          <span class="ide-card-name">IntelliJ IDEA</span>
         </div>
 
-        <div class="ide-logo-item">
-          <!-- Eclipse -->
-          <svg class="ide-logo-circle" width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="72" height="72" rx="18" fill="#2C2255"/>
-            <circle cx="36" cy="36" r="14" stroke="#F7941E" stroke-width="3" fill="none"/>
-            <ellipse cx="36" cy="36" rx="8" ry="14" stroke="#F7941E" stroke-width="3" fill="none"/>
-            <line x1="22" y1="36" x2="50" y2="36" stroke="#F7941E" stroke-width="3"/>
-          </svg>
-          <span class="ide-logo-name">Eclipse</span>
+        <div class="ide-card">
+          <img class="ide-card-logo" src="./Images/Eclipse.svg" alt="eclipse">
+          <span class="ide-card-name">eclipse</span>
         </div>
 
-        <div class="ide-logo-item">
-          <!-- NetBeans -->
-          <svg class="ide-logo-circle" width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="72" height="72" rx="18" fill="url(#nb-grad)"/>
-            <defs>
-              <linearGradient id="nb-grad" x1="0" y1="0" x2="72" y2="72">
-                <stop stop-color="#1B6AC6"/>
-                <stop offset="1" stop-color="#00CFDD"/>
-              </linearGradient>
-            </defs>
-            <path d="M36 20L52 30v24L36 64 20 54V30L36 20z" fill="white" opacity="0.2"/>
-            <path d="M36 24L48 31v18L36 56 24 49V31L36 24z" fill="white" opacity="0.9"/>
-            <path d="M28 35l8 6 8-6" stroke="#1B6AC6" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-          </svg>
-          <span class="ide-logo-name">NetBeans</span>
+        <div class="ide-card">
+          <img class="ide-card-logo" src="./Images/netbeans.svg" alt="NetBeans">
+          <span class="ide-card-name">NetBeans</span>
         </div>
 
       </div>
