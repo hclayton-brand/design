@@ -271,6 +271,43 @@
       display: block;
     }
 
+    /* ─── BENTO RESPONSIVE ────────────────────────────── */
+    @media (max-width: 1024px) {
+      .bento {
+        padding: 60px 24px;
+        overflow-x: hidden;
+      }
+
+      .bento-row {
+        flex-wrap: wrap;
+        width: 100%;
+        height: auto;
+        flex-shrink: 1;
+      }
+
+      .bento-card {
+        width: calc(50% - 15px);
+        height: 380px;
+        flex-shrink: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .bento {
+        padding: 40px 16px;
+      }
+
+      .bento-row {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .bento-card {
+        width: 100%;
+        height: 360px;
+      }
+    }
+
     /* ─── STATS ────────────────────────────────────────── */
     .stats {
       background: #FFFFFF;
