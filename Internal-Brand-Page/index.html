@@ -137,14 +137,10 @@
 
     /* ----------------------------------------------------------
        Folder expanded (click-to-open) state
+       Position/size are set by JS; this class handles visuals only.
        ---------------------------------------------------------- */
     .hero__folder--expanded {
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 20;
-      background-image: none;
+      background-image: none !important;
       cursor: default;
       overflow: hidden;
     }
@@ -484,42 +480,103 @@
   <script>
     const hero    = document.querySelector('.hero');
     const folders = document.querySelectorAll('.hero__folder');
+    const EASING  = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    const DURATION = '0.55s';
+    let activeFolder = null;
 
     function expandFolder(folder) {
+      // Capture the folder's current on-screen position (pixel values)
+      const rect = folder.getBoundingClientRect();
+
+      // Store origin so we can reverse the animation on close
+      folder._origRect = rect;
+
+      // Pin the folder to its current visual position using fixed positioning
+      Object.assign(folder.style, {
+        transition:      'none',
+        position:        'fixed',
+        left:            rect.left   + 'px',
+        top:             rect.top    + 'px',
+        width:           rect.width  + 'px',
+        height:          rect.height + 'px',
+        right:           'auto',
+        bottom:          'auto',
+        zIndex:          '100',
+        overflow:        'hidden',
+        cursor:          'default'
+      });
+
+      // Force the browser to register the start state before we change it
+      folder.getBoundingClientRect();
+
+      // Now animate to full screen
+      folder.style.transition = [
+        `left ${DURATION} ${EASING}`,
+        `top ${DURATION} ${EASING}`,
+        `width ${DURATION} ${EASING}`,
+        `height ${DURATION} ${EASING}`
+      ].join(', ');
+
+      folder.style.left   = '0';
+      folder.style.top    = '0';
+      folder.style.width  = '100vw';
+      folder.style.height = '100vh';
+
       folder.classList.add('hero__folder--expanded');
       hero.classList.add('hero--folder-open');
+      activeFolder = folder;
     }
 
     function collapseFolder() {
-      const expanded = document.querySelector('.hero__folder--expanded');
-      if (!expanded) return;
-      expanded.classList.remove('hero__folder--expanded');
+      if (!activeFolder) return;
+      const folder = activeFolder;
+      const orig   = folder._origRect;
+
+      // Hide inner content immediately so it doesn't show during slide-back
+      folder.classList.remove('hero__folder--expanded');
       hero.classList.remove('hero--folder-open');
+      activeFolder = null;
+
+      // Slide back to original position
+      folder.style.transition = [
+        `left ${DURATION} ${EASING}`,
+        `top ${DURATION} ${EASING}`,
+        `width ${DURATION} ${EASING}`,
+        `height ${DURATION} ${EASING}`
+      ].join(', ');
+
+      folder.style.left   = orig.left   + 'px';
+      folder.style.top    = orig.top    + 'px';
+      folder.style.width  = orig.width  + 'px';
+      folder.style.height = orig.height + 'px';
+
+      // Once the animation finishes, strip all inline styles so CSS takes over again
+      folder.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName !== 'left') return;
+        folder.style.cssText = '';
+        folder.removeEventListener('transitionend', handler);
+      });
     }
 
-    folders.forEach(folder => {
-      // Click to open
+    folders.forEach(function (folder) {
       folder.addEventListener('click', function (e) {
-        if (folder.classList.contains('hero__folder--expanded')) return;
+        if (activeFolder === folder) return;
         expandFolder(folder);
       });
 
-      // Keyboard: Enter or Space to open
       folder.addEventListener('keydown', function (e) {
-        if ((e.key === 'Enter' || e.key === ' ') && !folder.classList.contains('hero__folder--expanded')) {
+        if ((e.key === 'Enter' || e.key === ' ') && activeFolder !== folder) {
           e.preventDefault();
           expandFolder(folder);
         }
       });
 
-      // Back button closes the folder
       folder.querySelector('.folder-back-btn').addEventListener('click', function (e) {
         e.stopPropagation();
         collapseFolder();
       });
     });
 
-    // Escape key closes
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') collapseFolder();
     });
