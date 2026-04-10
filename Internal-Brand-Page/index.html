@@ -94,8 +94,11 @@
       bottom: -120px;
       background: #0B0D0F url('Images/Folder.svg') left top / auto 81.15vh no-repeat;
       user-select: none;
-      cursor: default;
-      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  left 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  top 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  opacity 0.25s ease;
     }
 
     .hero__folder:hover {
@@ -125,11 +128,97 @@
       font-weight: 400;
       color: var(--color-white);
       white-space: nowrap;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, opacity 0.2s ease;
     }
 
     .hero__folder:hover .folder-label {
       color: #40BCC1;
+    }
+
+    /* ----------------------------------------------------------
+       Folder expanded (click-to-open) state
+       ---------------------------------------------------------- */
+    .hero__folder--expanded {
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      background-image: none;
+      cursor: default;
+      overflow: hidden;
+    }
+
+    .hero__folder--expanded:hover {
+      transform: none;
+    }
+
+    .hero__folder--expanded:hover .folder-label {
+      color: var(--color-white);
+    }
+
+    .hero__folder--expanded .folder-label {
+      opacity: 0;
+    }
+
+    /* Push other folders and content out when one is open */
+    .hero--folder-open .hero__folder:not(.hero__folder--expanded) {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hero--folder-open .hero__content {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hero__content {
+      transition: opacity 0.25s ease;
+    }
+
+    /* Content revealed inside the expanded folder */
+    .folder-inner {
+      position: absolute;
+      inset: 0;
+      padding: 48px 60px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .hero__folder--expanded .folder-inner {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.25s ease 0.45s;
+    }
+
+    .folder-back-btn {
+      align-self: flex-start;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--color-white);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 10px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 48px;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .folder-back-btn:hover {
+      border-color: #40BCC1;
+      color: #40BCC1;
+    }
+
+    .folder-expanded-title {
+      font-family: var(--font-mono);
+      font-size: clamp(40px, 5vw, 80px);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--color-white);
     }
 
     /* ----------------------------------------------------------
@@ -294,26 +383,54 @@
          bottom of the viewport, with z-index layering making
          only the top "tab" area of back folders visible.
          ===================================================== -->
-    <div class="hero__folder hero__folder--back" aria-hidden="true">
+    <div class="hero__folder hero__folder--back" tabindex="0" role="button">
       <span class="folder-label">Presentations</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Presentations</h2>
+      </div>
     </div>
-    <div class="hero__folder hero__folder--mid" aria-hidden="true">
+    <div class="hero__folder hero__folder--mid" tabindex="0" role="button">
       <span class="folder-label">Social Media Headers</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Social Media Headers</h2>
+      </div>
     </div>
-    <div class="hero__folder hero__folder--front" aria-hidden="true">
+    <div class="hero__folder hero__folder--front" tabindex="0" role="button">
       <span class="folder-label">Letterheads</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Letterheads</h2>
+      </div>
     </div>
-    <div class="hero__folder hero__folder--extra" aria-hidden="true">
+    <div class="hero__folder hero__folder--extra" tabindex="0" role="button">
       <span class="folder-label">Email Signature</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Email Signature</h2>
+      </div>
     </div>
-    <div class="hero__folder hero__folder--fifth" aria-hidden="true">
+    <div class="hero__folder hero__folder--fifth" tabindex="0" role="button">
       <span class="folder-label">Copy &amp; Tone Guide</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Copy &amp; Tone Guide</h2>
+      </div>
     </div>
-    <div class="hero__folder hero__folder--sixth" aria-hidden="true">
+    <div class="hero__folder hero__folder--sixth" tabindex="0" role="button">
       <span class="folder-label">Brand Style Guide</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Brand Style Guide</h2>
+      </div>
     </div>
-    <div class="hero__folder hero__folder--seventh" aria-hidden="true">
+    <div class="hero__folder hero__folder--seventh" tabindex="0" role="button">
       <span class="folder-label">Asset Library</span>
+      <div class="folder-inner">
+        <button class="folder-back-btn" aria-label="Close folder">← Back</button>
+        <h2 class="folder-expanded-title">Asset Library</h2>
+      </div>
     </div>
 
     <!-- =====================================================
@@ -363,5 +480,49 @@
     </div>
 
   </section>
+
+  <script>
+    const hero    = document.querySelector('.hero');
+    const folders = document.querySelectorAll('.hero__folder');
+
+    function expandFolder(folder) {
+      folder.classList.add('hero__folder--expanded');
+      hero.classList.add('hero--folder-open');
+    }
+
+    function collapseFolder() {
+      const expanded = document.querySelector('.hero__folder--expanded');
+      if (!expanded) return;
+      expanded.classList.remove('hero__folder--expanded');
+      hero.classList.remove('hero--folder-open');
+    }
+
+    folders.forEach(folder => {
+      // Click to open
+      folder.addEventListener('click', function (e) {
+        if (folder.classList.contains('hero__folder--expanded')) return;
+        expandFolder(folder);
+      });
+
+      // Keyboard: Enter or Space to open
+      folder.addEventListener('keydown', function (e) {
+        if ((e.key === 'Enter' || e.key === ' ') && !folder.classList.contains('hero__folder--expanded')) {
+          e.preventDefault();
+          expandFolder(folder);
+        }
+      });
+
+      // Back button closes the folder
+      folder.querySelector('.folder-back-btn').addEventListener('click', function (e) {
+        e.stopPropagation();
+        collapseFolder();
+      });
+    });
+
+    // Escape key closes
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') collapseFolder();
+    });
+  </script>
 </body>
 </html>
