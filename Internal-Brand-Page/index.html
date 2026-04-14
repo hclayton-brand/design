@@ -230,7 +230,7 @@
 
     .hero__logo {
       display: block;
-      width: 140px;
+      width: 155px;
       height: auto;
       margin-bottom: 20px;
     }
@@ -261,6 +261,22 @@
       font-family: var(--font-mono);
       font-size: 16px;
       color: var(--color-white);
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .folder-card:hover {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(64, 188, 193, 0.5);
+    }
+
+    .hero__folder-cards {
+      transition: opacity 0.25s ease;
+    }
+
+    .hero--folder-open .hero__folder-cards {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .folder-card-icon {
@@ -343,6 +359,15 @@
         gap: 10px;
         padding: 0 24px 56px;
         z-index: 5;
+      }
+
+      /* Tighter padding for expanded folder panel on mobile */
+      .folder-inner {
+        padding: 40px 24px;
+      }
+
+      .folder-expanded-title {
+        font-size: clamp(28px, 8vw, 48px);
       }
     }
 
@@ -574,6 +599,52 @@
       folder.querySelector('.folder-back-btn').addEventListener('click', function (e) {
         e.stopPropagation();
         collapseFolder();
+      });
+    });
+
+    // Mobile folder cards — each card maps to the folder at the same index
+    document.querySelectorAll('.folder-card').forEach(function (card, i) {
+      card.addEventListener('click', function () {
+        if (activeFolder) return;
+        const folder = folders[i];
+        if (!folder) return;
+
+        const rect = card.getBoundingClientRect();
+        folder._origRect = rect;
+
+        // folder is display:none on mobile — override so it can animate
+        Object.assign(folder.style, {
+          display:    'block',
+          transition: 'none',
+          position:   'fixed',
+          left:       rect.left   + 'px',
+          top:        rect.top    + 'px',
+          width:      rect.width  + 'px',
+          height:     rect.height + 'px',
+          right:      'auto',
+          bottom:     'auto',
+          zIndex:     '100',
+          overflow:   'hidden',
+          cursor:     'default'
+        });
+
+        folder.getBoundingClientRect(); // force reflow
+
+        folder.style.transition = [
+          `left ${DURATION} ${EASING}`,
+          `top ${DURATION} ${EASING}`,
+          `width ${DURATION} ${EASING}`,
+          `height ${DURATION} ${EASING}`
+        ].join(', ');
+
+        folder.style.left   = '0';
+        folder.style.top    = '0';
+        folder.style.width  = '100vw';
+        folder.style.height = '100vh';
+
+        folder.classList.add('hero__folder--expanded');
+        hero.classList.add('hero--folder-open');
+        activeFolder = folder;
       });
     });
 
