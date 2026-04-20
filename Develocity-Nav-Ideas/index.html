@@ -16,9 +16,10 @@
       --text-primary: #f0f0f5;
       --text-secondary: #8888a0;
       --text-muted: #555568;
-      --accent: #7c6aff;
-      --accent-glow: rgba(124,106,255,0.18);
-      --accent-2: #2dd4bf;
+      --accent: #209bc4;
+      --accent-2: #4dc9c0;
+      --accent-glow: rgba(32,155,196,0.18);
+      --gradient-cta: linear-gradient(164.6deg, #209bc4 0%, #4dc9c0 100%);
       --nav-height: 60px;
       --mega-width: 760px;
       --radius: 10px;
@@ -96,14 +97,13 @@
     }
     .btn-ghost:hover { color: var(--text-primary); background: var(--surface-raised); }
     .btn-cta {
-      padding: 7px 16px; border-radius: 7px;
+      padding: 7px 16px; border-radius: 8px;
       font-size: 13px; font-weight: 600; color: #fff;
-      background: var(--accent);
+      background: var(--gradient-cta);
       border: none; cursor: pointer; text-decoration: none;
       transition: opacity 0.15s, box-shadow 0.15s;
-      box-shadow: 0 0 0 0 var(--accent-glow);
     }
-    .btn-cta:hover { opacity: 0.88; box-shadow: 0 0 16px var(--accent-glow); }
+    .btn-cta:hover { opacity: 0.88; box-shadow: 0 4px 20px var(--accent-glow); }
 
     /* ── MEGA MENU PANEL ────────────────────────────────────────── */
     .mega {
@@ -240,12 +240,12 @@
     }
     .hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; }
     .hero-btn-primary {
-      padding: 11px 24px; border-radius: 9px;
+      padding: 11px 24px; border-radius: 8px;
       font-size: 14px; font-weight: 600; color: #fff;
-      background: var(--accent); border: none; cursor: pointer;
-      transition: opacity 0.15s; text-decoration: none;
+      background: var(--gradient-cta); border: none; cursor: pointer;
+      transition: opacity 0.15s, box-shadow 0.15s; text-decoration: none;
     }
-    .hero-btn-primary:hover { opacity: 0.85; }
+    .hero-btn-primary:hover { opacity: 0.88; box-shadow: 0 4px 24px var(--accent-glow); }
     .hero-btn-secondary {
       padding: 11px 24px; border-radius: 9px;
       font-size: 14px; font-weight: 500; color: var(--text-secondary);
