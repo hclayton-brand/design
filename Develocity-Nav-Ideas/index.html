@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Develocity — Navigation Prototype</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface-raised: #18181f;
+      --border: rgba(255,255,255,0.08);
+      --border-active: rgba(255,255,255,0.18);
+      --text-primary: #f0f0f5;
+      --text-secondary: #8888a0;
+      --text-muted: #555568;
+      --accent: #7c6aff;
+      --accent-glow: rgba(124,106,255,0.18);
+      --accent-2: #2dd4bf;
+      --nav-height: 60px;
+      --mega-width: 760px;
+      --radius: 10px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { background: var(--bg); color: var(--text-primary); font-family: var(--font); }
+
+    /* ── NAV SHELL ─────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 1200px; width: 100%; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; gap: 0;
+    }
+
+    /* ── LOGO ───────────────────────────────────────────────────── */
+    .logo {
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; flex: 1;
+    }
+
+    /* ── NAV LINKS ──────────────────────────────────────────────── */
+    .nav-links {
+      display: flex; align-items: center; gap: 2px; flex: 1;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-trigger {
+      display: flex; align-items: center; gap: 5px;
+      padding: 6px 12px; border-radius: 7px;
+      font-size: 13.5px; font-weight: 500; color: var(--text-secondary);
+      background: none; border: none; cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-trigger:hover, .nav-item.open .nav-trigger {
+      color: var(--text-primary);
+      background: var(--surface-raised);
+    }
+    .nav-trigger svg {
+      width: 12px; height: 12px; transition: transform 0.2s;
+    }
+    .nav-item.open .nav-trigger svg { transform: rotate(180deg); }
+
+    .nav-link {
+      display: flex; align-items: center;
+      padding: 6px 12px; border-radius: 7px;
+      font-size: 13.5px; font-weight: 500; color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-link:hover { color: var(--text-primary); background: var(--surface-raised); }
+
+    /* ── NAV ACTIONS ────────────────────────────────────────────── */
+    .nav-actions {
+      display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end;
+    }
+    .btn-ghost {
+      padding: 6px 14px; border-radius: 7px;
+      font-size: 13px; font-weight: 500; color: var(--text-secondary);
+      background: none; border: none; cursor: pointer; text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+    }
+    .btn-ghost:hover { color: var(--text-primary); background: var(--surface-raised); }
+    .btn-cta {
+      padding: 7px 16px; border-radius: 7px;
+      font-size: 13px; font-weight: 600; color: #fff;
+      background: var(--accent);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: opacity 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    .btn-cta:hover { opacity: 0.88; box-shadow: 0 0 16px var(--accent-glow); }
+
+    /* ── MEGA MENU PANEL ────────────────────────────────────────── */
+    .mega {
+      position: absolute; top: calc(100% + 10px);
+      left: 0; transform: none;
+      width: var(--mega-width);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      display: none; overflow: hidden;
+    }
+    .nav-item.open .mega { display: flex; }
+
+    /* ── MEGA LAYOUT ────────────────────────────────────────────── */
+    .mega-sidebar {
+      width: 192px; flex-shrink: 0;
+      padding: 20px 12px;
+      border-right: 1px solid var(--border);
+      background: var(--surface-raised);
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .mega-sidebar-heading {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      padding: 0 8px 6px;
+    }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-radius: 7px;
+      font-size: 12.5px; font-weight: 500; color: var(--text-secondary);
+      cursor: pointer; background: none; border: none; width: 100%; text-align: left;
+      transition: color 0.12s, background 0.12s;
+    }
+    .sidebar-link:hover { color: var(--text-primary); background: var(--border); }
+    .sidebar-link.active {
+      color: var(--accent);
+      background: var(--accent-glow);
+      font-weight: 600;
+    }
+    .sidebar-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; flex-shrink: 0;
+    }
+
+    .mega-body {
+      flex: 1; padding: 20px; overflow: hidden;
+    }
+    .mega-body-heading {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* ── CARD GRID ──────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .card {
+      padding: 13px 14px; border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+      text-align: left;
+    }
+    .card:hover {
+      border-color: var(--border-active);
+      background: var(--surface-raised);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .card-icon {
+      width: 28px; height: 28px; border-radius: 7px; margin-bottom: 8px;
+      display: grid; place-items: center;
+      font-size: 14px;
+    }
+    .card-title {
+      font-size: 12.5px; font-weight: 600; color: var(--text-primary);
+      margin-bottom: 3px; line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 11px; color: var(--text-secondary); line-height: 1.45;
+    }
+    .card-badge {
+      display: inline-block; margin-top: 6px;
+      padding: 2px 7px; border-radius: 4px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.04em;
+    }
+    .badge-mvp { background: rgba(45,212,191,0.12); color: var(--accent-2); }
+    .badge-opt { background: rgba(255,200,80,0.1); color: #ffc850; }
+
+    /* ── VIEWS ──────────────────────────────────────────────────── */
+    .mega-view { display: none; }
+    .mega-view.active { display: block; }
+
+    /* ── OVERLAY ────────────────────────────────────────────────── */
+    .overlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.25);
+      display: none;
+    }
+    .overlay.visible { display: block; }
+
+    /* ── PAGE BODY (demo) ───────────────────────────────────────── */
+    .hero {
+      padding-top: calc(var(--nav-height) + 80px);
+      text-align: center;
+      max-width: 680px; margin: 0 auto; padding-inline: 24px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 20px;
+      border: 1px solid var(--border-active);
+      font-size: 11.5px; font-weight: 600; color: var(--accent);
+      background: var(--accent-glow); margin-bottom: 28px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 800; line-height: 1.12;
+      letter-spacing: -1.5px; margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.65;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .hero-btn-primary {
+      padding: 11px 24px; border-radius: 9px;
+      font-size: 14px; font-weight: 600; color: #fff;
+      background: var(--accent); border: none; cursor: pointer;
+      transition: opacity 0.15s; text-decoration: none;
+    }
+    .hero-btn-primary:hover { opacity: 0.85; }
+    .hero-btn-secondary {
+      padding: 11px 24px; border-radius: 9px;
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+      background: var(--surface-raised);
+      border: 1px solid var(--border); cursor: pointer;
+      transition: color 0.15s, border-color 0.15s; text-decoration: none;
+    }
+    .hero-btn-secondary:hover { color: var(--text-primary); border-color: var(--border-active); }
+    .hint {
+      margin-top: 60px; font-size: 12px; color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── OVERLAY ───────────────────────────────────────────────────── -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ── NAVIGATION ────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+
+    <!-- Primary links -->
+    <div class="nav-links">
+
+      <!-- PRODUCTS ──────────────────────────────────── -->
+      <div class="nav-item" id="nav-products">
+        <button class="nav-trigger" onclick="toggleMenu('products')">
+          Products
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M2 4l4 4 4-4"/>
+          </svg>
+        </button>
+
+        <div class="mega" id="mega-products">
+          <!-- Sidebar -->
+          <div class="mega-sidebar">
+            <p class="mega-sidebar-heading">Observability Platform</p>
+            <button class="sidebar-link active" id="sb-overview" onclick="switchView('products','overview')">
+              <span class="sidebar-dot"></span>Products Overview
+            </button>
+            <button class="sidebar-link" id="sb-pipeline" onclick="switchView('products','pipeline')">
+              <span class="sidebar-dot"></span>Telemetry Pipeline
+            </button>
+          </div>
+
+          <!-- Body -->
+          <div class="mega-body">
+
+            <!-- VIEW: Overview -->
+            <div class="mega-view active" id="view-overview">
+              <p class="mega-body-heading">Products Overview</p>
+              <div class="card-grid">
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(124,106,255,0.12);">🧩</div>
+                  <div class="card-title">Platform Introduction</div>
+                  <div class="card-desc">Core platform capabilities and getting started.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(45,212,191,0.12);">🧠</div>
+                  <div class="card-title">Context Engine</div>
+                  <div class="card-desc">MCP Server, Skills &amp; Develocity Analytics.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(255,140,80,0.12);">🗄️</div>
+                  <div class="card-title">Fact Store</div>
+                  <div class="card-desc">Store and retrieve all types of Attestations.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(100,180,255,0.12);">🏗️</div>
+                  <div class="card-title">Deployment Architecture</div>
+                  <div class="card-desc">Data Plane and Control Plane topology.</div>
+                  <span class="card-badge badge-opt">Optional</span>
+                </div>
+                <div class="card" style="opacity:0.45">
+                  <div class="card-icon" style="background:rgba(255,255,255,0.06);">📊</div>
+                  <div class="card-title">Develocity Analytics</div>
+                  <div class="card-desc">Analytics dashboards and insights.</div>
+                </div>
+                <div class="card" style="opacity:0.45">
+                  <div class="card-icon" style="background:rgba(255,255,255,0.06);">🔧</div>
+                  <div class="card-title">Toolchain O11y</div>
+                  <div class="card-desc">End-to-end toolchain observability.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- VIEW: Telemetry Pipeline -->
+            <div class="mega-view" id="view-pipeline">
+              <p class="mega-body-heading">Telemetry Pipeline</p>
+              <div class="card-grid">
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(124,106,255,0.12);">⚙️</div>
+                  <div class="card-title">Build Systems</div>
+                  <div class="card-desc">Fast adoption for Central team.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(45,212,191,0.12);">📦</div>
+                  <div class="card-title">Package Manager</div>
+                  <div class="card-desc">Fast adoption for Central team.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(255,140,80,0.12);">🔄</div>
+                  <div class="card-title">CI Systems</div>
+                  <div class="card-desc">Shift left with continuous integration.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(100,180,255,0.12);">🏛️</div>
+                  <div class="card-title">Repository Manager</div>
+                  <div class="card-desc">Consistency across enterprises.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(200,120,255,0.12);">📋</div>
+                  <div class="card-title">Data Collection at DORA VS Gates</div>
+                  <div class="card-desc">Gate-level telemetry collection.</div>
+                  <span class="card-badge badge-mvp">MVP</span>
+                </div>
+                <div class="card" style="opacity:0.45">
+                  <div class="card-icon" style="background:rgba(255,255,255,0.06);">🐳</div>
+                  <div class="card-title">Docker</div>
+                  <div class="card-desc">Container-layer telemetry.</div>
+                  <span class="card-badge badge-opt">Optional</span>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /mega-body -->
+        </div><!-- /mega -->
+      </div><!-- /nav-item products -->
+
+      <!-- SOLUTIONS ─────────────────────────────────── -->
+      <div class="nav-item" id="nav-solutions">
+        <button class="nav-trigger" onclick="toggleMenu('solutions')">
+          Solutions
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M2 4l4 4 4-4"/>
+          </svg>
+        </button>
+
+        <div class="mega" id="mega-solutions">
+          <!-- Sidebar -->
+          <div class="mega-sidebar">
+            <p class="mega-sidebar-heading">Browse by</p>
+            <button class="sidebar-link active" id="sb-telemetry" onclick="switchView('solutions','telemetry')">
+              <span class="sidebar-dot"></span>By Telemetry Data
+            </button>
+            <button class="sidebar-link" id="sb-layer" onclick="switchView('solutions','layer')">
+              <span class="sidebar-dot"></span>By Layer
+            </button>
+            <button class="sidebar-link" id="sb-usecase" onclick="switchView('solutions','usecase')">
+              <span class="sidebar-dot"></span>By Use Case
+            </button>
+          </div>
+
+          <!-- Body -->
+          <div class="mega-body">
+
+            <!-- VIEW: By Telemetry Data -->
+            <div class="mega-view active" id="view-telemetry">
+              <p class="mega-body-heading">By Telemetry Data</p>
+              <div class="card-grid">
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(124,106,255,0.12);">🔏</div>
+                  <div class="card-title">Provenance</div>
+                  <div class="card-desc">Build Scan — full supply chain provenance.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(45,212,191,0.12);">🛡️</div>
+                  <div class="card-title">Policy</div>
+                  <div class="card-desc">Policy Scan — enforce standards at scale.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(255,140,80,0.12);">📜</div>
+                  <div class="card-title">Attestation</div>
+                  <div class="card-desc">Ad hoc Attestation — flexible evidence capture.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(100,180,255,0.12);">🔌</div>
+                  <div class="card-title">Integrations</div>
+                  <div class="card-desc">Pull data in addition to push-based collection.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- VIEW: By Layer -->
+            <div class="mega-view" id="view-layer">
+              <p class="mega-body-heading">By Layer</p>
+              <div class="card-grid">
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(124,106,255,0.12);">✈️</div>
+                  <div class="card-title">Artifact Plane</div>
+                  <div class="card-desc">Auto-instrumentation across artifact lifecycle.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(45,212,191,0.12);">👁️</div>
+                  <div class="card-title">Know</div>
+                  <div class="card-desc">Build Scan, Policy Scan, Ad hoc Attestation.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(255,140,80,0.12);">💡</div>
+                  <div class="card-title">Understand</div>
+                  <div class="card-desc">Flaky Test detection and domain knowledge.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(100,180,255,0.12);">🤖</div>
+                  <div class="card-title">Change</div>
+                  <div class="card-desc">AI Agents &amp; Build Artifact CDN.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- VIEW: By Use Case -->
+            <div class="mega-view" id="view-usecase">
+              <p class="mega-body-heading">By Use Case</p>
+              <div class="card-grid">
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(124,106,255,0.12);">⚡</div>
+                  <div class="card-title">Build Acceleration</div>
+                  <div class="card-desc">Scale — feature-level depth available.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(45,212,191,0.12);">🏭</div>
+                  <div class="card-title">Infrastructure Efficiency</div>
+                  <div class="card-desc">Scale — AI Agents &amp; Build Artifact CDN.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(255,140,80,0.12);">📦</div>
+                  <div class="card-title">Artifact O11y</div>
+                  <div class="card-desc">Govern — DORA-powered Artifact Delivery Performance.</div>
+                </div>
+                <div class="card">
+                  <div class="card-icon" style="background:rgba(100,180,255,0.12);">🔧</div>
+                  <div class="card-title">Toolchain O11y</div>
+                  <div class="card-desc">Enable — Intelligent Cache.</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /mega-body -->
+        </div><!-- /mega -->
+      </div><!-- /nav-item solutions -->
+
+      <a class="nav-link" href="#">Pricing</a>
+      <a class="nav-link" href="#">Docs</a>
+      <a class="nav-link" href="#">Blog</a>
+
+    </div><!-- /nav-links -->
+
+    <!-- Logo (centre) -->
+    <a class="logo" href="#">
+      <img src="assets/Develocity-logo-idea.svg" alt="Develocity" height="22" />
+    </a>
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <a class="btn-ghost" href="#">Watch demo</a>
+      <a class="btn-cta" href="#">Get started</a>
+    </div>
+
+  </div><!-- /nav-inner -->
+</nav>
+
+<!-- ── HERO (demo page) ───────────────────────────────────────────── -->
+<main style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+        <circle cx="5" cy="5" r="4"/>
+      </svg>
+      AI-Powered Build Intelligence
+    </div>
+    <h1>Observe, understand,<br/><em>accelerate</em> your builds</h1>
+    <p>Develocity's Observability Platform captures every signal from your entire software supply chain — giving AI the context it needs to make your team dramatically faster.</p>
+    <div class="hero-actions">
+      <a class="hero-btn-primary" href="#">Start for free</a>
+      <a class="hero-btn-secondary" href="#">See the platform →</a>
+    </div>
+    <p class="hint">↑ Click Products or Solutions in the nav to explore the mega-menu</p>
+  </div>
+</main>
+
+<script>
+  let openMenu = null;
+
+  function toggleMenu(id) {
+    if (openMenu === id) return closeAll();
+    closeAll();
+    openMenu = id;
+    document.getElementById('nav-' + id).classList.add('open');
+    document.getElementById('overlay').classList.add('visible');
+  }
+
+  function closeAll() {
+    openMenu = null;
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
+    document.getElementById('overlay').classList.remove('visible');
+  }
+
+  document.getElementById('overlay').addEventListener('click', closeAll);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+  // View switching — Products
+  const productsViews = {
+    overview: { btn: 'sb-overview', view: 'view-overview' },
+    pipeline: { btn: 'sb-pipeline', view: 'view-pipeline' },
+  };
+
+  // View switching — Solutions
+  const solutionsViews = {
+    telemetry: { btn: 'sb-telemetry', view: 'view-telemetry' },
+    layer:     { btn: 'sb-layer',     view: 'view-layer'     },
+    usecase:   { btn: 'sb-usecase',   view: 'view-usecase'   },
+  };
+
+  function switchView(menu, key) {
+    const map = menu === 'products' ? productsViews : solutionsViews;
+    Object.entries(map).forEach(([k, { btn, view }]) => {
+      document.getElementById(btn).classList.toggle('active', k === key);
+      document.getElementById(view).classList.toggle('active', k === key);
+    });
+  }
+</script>
+</body>
+</html>
