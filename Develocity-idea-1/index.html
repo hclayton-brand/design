@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Develocity — The context engineering layer for AI-driven software delivery</title>
+
+<!-- Fonts: Fraunces (display serif, editorial) + Geist (body sans, infra-register) + JetBrains Mono (technical proof) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS — DEVELOCITY HOMEPAGE
+   Palette aligned with gradle.com — cool dark backgrounds,
+   Gradle Blue + Gradle Green accent gradient.
+   ============================================================ */
+:root {
+  /* Palette — gradle.com cool dark neutrals */
+  --ink-1000: #0b0d0f;      /* deepest, for page bg (gray-1) */
+  --ink-950:  #141416;      /* section bg alt (gray-10) */
+  --ink-900:  #191d21;      /* elevated surface */
+  --ink-800:  #20262d;      /* card/border surface */
+  --ink-700:  #2e3135;      /* borders active (dark-background) */
+  --ink-600:  #35393e;      /* hover borders */
+  --ink-500:  #515860;      /* low-contrast text */
+
+  --bone-500: #808080;      /* muted text (gray-3) */
+  --bone-400: #9a9a9a;      /* body muted (gray-7) */
+  --bone-300: #b2b2b2;      /* body (gray-4) */
+  --bone-200: #cccccc;      /* emphasis body (gray-8) */
+  --bone-100: #e5e5e5;      /* high contrast text (gray-5) */
+  --bone-050: #f0f0f2;      /* brightest */
+
+  /* Gradle brand accent: Blue → Green gradient */
+  --amber-500: #209bc4;
+  --amber-400: #4dc9c0;
+  --amber-300: #77def0;
+  --amber-glow: rgba(32, 155, 196, 0.15);
+  --amber-glow-strong: rgba(32, 155, 196, 0.35);
+
+  /* Typography */
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Scale */
+  --max-w: 1320px;
+  --px: clamp(1.25rem, 4vw, 3rem);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink-1000);
+  color: var(--bone-200);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Grain overlay for atmosphere */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; background: none; border: 0; color: inherit; }
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+.container { max-width: var(--max-w); margin: 0 auto; padding-inline: var(--px); position: relative; }
+.container--tight { max-width: 1040px; }
+
+section { position: relative; z-index: 2; }
+
+/* Section label (small uppercase eyebrow inside body sections) */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber-500);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+.section-label::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: var(--amber-500);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 1.125rem var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  background: rgba(10, 9, 8, 0.72);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease);
+}
+.nav.scrolled { border-bottom-color: var(--ink-800); }
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+}
+.nav__logo {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+.footer__logo {
+  height: 20px;
+  width: auto;
+  display: block;
+  opacity: 0.75;
+}
+.footer__logo:hover { opacity: 1; }
+
+.nav__links {
+  display: none;
+  gap: 2.25rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--bone-400);
+}
+@media (min-width: 960px) { .nav__links { display: flex; } }
+.nav__links a { transition: color 0.2s; }
+.nav__links a:hover { color: var(--bone-050); }
+
+.nav__actions { display: flex; align-items: center; gap: 0.5rem; }
+.nav__login { display: none; font-size: 0.875rem; color: var(--bone-400); padding: 0.5rem 0.75rem; }
+@media (min-width: 640px) { .nav__login { display: inline-block; } }
+.nav__login:hover { color: var(--bone-050); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all 0.2s var(--ease);
+  line-height: 1;
+  border: 1px solid transparent;
+}
+.btn--primary {
+  background: var(--bone-050);
+  color: var(--ink-1000);
+}
+.btn--primary:hover {
+  background: var(--amber-500);
+  color: var(--ink-1000);
+}
+.btn--ghost {
+  color: var(--bone-200);
+  border-color: var(--ink-700);
+  background: transparent;
+}
+.btn--ghost:hover {
+  border-color: var(--bone-400);
+  color: var(--bone-050);
+}
+.btn__arrow {
+  transition: transform 0.2s var(--ease);
+}
+.btn:hover .btn__arrow { transform: translateX(3px); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  padding-top: clamp(8rem, 14vh, 11rem);
+  padding-bottom: clamp(4rem, 8vh, 6rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient amber glow behind the schematic */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 60%;
+  height: 70%;
+  background: radial-gradient(circle, var(--amber-glow) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(40px);
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+@media (min-width: 1024px) {
+  .hero__grid { grid-template-columns: 1.15fr 1fr; gap: 5rem; }
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bone-500);
+  margin-bottom: 1.75rem;
+  opacity: 0;
+  animation: riseIn 0.9s var(--ease-out) 0.1s forwards;
+}
+.hero__eyebrow-mark {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--amber-500);
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  transform: translateY(-2px);
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--bone-050);
+  margin-bottom: 1.75rem;
+  font-feature-settings: "ss01" on, "ss02" on;
+  opacity: 0;
+  animation: riseIn 1.1s var(--ease-out) 0.2s forwards;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  max-width: 18ch;
+}
+.hero__headline em {
+  font-style: italic;
+  color: var(--amber-400);
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+}
+
+.hero__strapline {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 360;
+  font-style: italic;
+  letter-spacing: -0.015em;
+  color: var(--bone-300);
+  margin-bottom: 3rem;
+  font-feature-settings: "ss01" on;
+  opacity: 0;
+  animation: riseIn 1.1s var(--ease-out) 0.35s forwards;
+}
+
+.hero__cta { display: flex; gap: 0.75rem; flex-wrap: wrap; opacity: 0; animation: riseIn 1.1s var(--ease-out) 0.5s forwards; }
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================================================
+   HERO SCHEMATIC (architectural diagram)
+   Makes the tagline visible: substrate → context layer → consumers
+   ============================================================ */
+.schematic {
+  position: relative;
+  aspect-ratio: 1 / 1.05;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  opacity: 0;
+  animation: fadeIn 1.4s var(--ease-out) 0.6s forwards;
+}
+.schematic svg { width: 100%; height: 100%; display: block; }
+
+/* Schematic animations */
+@keyframes pulsePath {
+  0%, 100% { stroke-opacity: 0.25; }
+  50% { stroke-opacity: 0.9; }
+}
+@keyframes flowUp {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-240px); opacity: 0; }
+}
+@keyframes glowLayer {
+  0%, 100% { filter: drop-shadow(0 0 8px var(--amber-glow)); }
+  50% { filter: drop-shadow(0 0 24px var(--amber-glow-strong)); }
+}
+
+.schematic__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--bone-500);
+}
+.schematic__label--accent { fill: var(--amber-500); }
+.schematic__tag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--bone-300);
+}
+
+/* ============================================================
+   PROOF BAR (F100)
+   ============================================================ */
+.proof {
+  border-top: 1px solid var(--ink-800);
+  border-bottom: 1px solid var(--ink-800);
+  padding: 2.5rem 0;
+  background: var(--ink-950);
+}
+.proof__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .proof__row { flex-direction: row; gap: 3rem; }
+}
+.proof__claim {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bone-400);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.proof__claim strong {
+  color: var(--amber-500);
+  font-weight: 500;
+}
+.proof__logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  flex: 1;
+}
+.proof__logo {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--bone-500);
+  transition: color 0.3s;
+  font-feature-settings: "ss01" on;
+}
+.proof__logo:hover { color: var(--bone-100); }
+
+/* ============================================================
+   BOTTLENECK SECTION — maximalist typographic landmark
+   ============================================================ */
+.bottleneck {
+  padding: clamp(6rem, 14vh, 10rem) 0;
+  position: relative;
+}
+
+.bottleneck__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: var(--bone-050);
+  font-weight: 340;
+  margin-bottom: 2.5rem;
+  max-width: 22ch;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+}
+.bottleneck__title em {
+  font-style: italic;
+  color: var(--amber-400);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+
+.bottleneck__body {
+  max-width: 58ch;
+  color: var(--bone-400);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  margin-bottom: 5rem;
+}
+.bottleneck__body p + p { margin-top: 1.25rem; }
+.bottleneck__body strong { color: var(--bone-100); font-weight: 500; }
+
+/* Five broken roles — typographic sequence */
+.roles {
+  border-top: 1px solid var(--ink-800);
+}
+.role {
+  border-bottom: 1px solid var(--ink-800);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 1.75rem 0;
+  cursor: pointer;
+  transition: background 0.3s var(--ease);
+}
+.role:hover { background: linear-gradient(90deg, transparent, var(--ink-900) 20%, var(--ink-900) 80%, transparent); }
+
+.role__number {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-500);
+  width: 2rem;
+  letter-spacing: 0.1em;
+}
+
+.role__content { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+@media (min-width: 900px) {
+  .role { grid-template-columns: 3rem minmax(0, 1fr) 2fr 8rem; }
+  .role__content { flex-direction: row; align-items: baseline; gap: 2rem; }
+}
+
+.role__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 340;
+  letter-spacing: -0.025em;
+  color: var(--bone-100);
+  line-height: 1;
+  transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+  font-feature-settings: "ss01" on;
+}
+.role:hover .role__name {
+  color: var(--amber-400);
+  font-style: italic;
+}
+
+.role__consequence {
+  font-size: 0.9375rem;
+  color: var(--bone-400);
+  line-height: 1.6;
+  max-width: 48ch;
+}
+
+.role__pillar {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+.role:hover .role__pillar { color: var(--amber-500); }
+
+.bottleneck__bridge {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--ink-800);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.3;
+  font-weight: 340;
+  letter-spacing: -0.02em;
+  color: var(--bone-200);
+  font-style: italic;
+  max-width: 38ch;
+}
+
+/* ============================================================
+   WEDGE SECTION
+   ============================================================ */
+.wedge {
+  padding: clamp(6rem, 12vh, 9rem) 0;
+  background: var(--ink-950);
+  border-top: 1px solid var(--ink-800);
+  border-bottom: 1px solid var(--ink-800);
+}
+
+.wedge__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--bone-050);
+  font-weight: 340;
+  margin-bottom: 1.75rem;
+  max-width: 22ch;
+}
+.wedge__title em { font-style: italic; color: var(--amber-400); }
+
+.wedge__intro {
+  max-width: 56ch;
+  color: var(--bone-400);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  margin-bottom: 5rem;
+}
+
+.moats { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 900px) { .moats { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+
+.moat {
+  padding: 2.5rem 2rem;
+  background: var(--ink-900);
+  border: 1px solid var(--ink-800);
+  border-top: 1px solid var(--amber-500);
+  position: relative;
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.moat:hover {
+  transform: translateY(-4px);
+  border-color: var(--ink-600);
+  border-top-color: var(--amber-400);
+}
+
+.moat__tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber-500);
+  margin-bottom: 1.25rem;
+}
+.moat__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 360;
+  letter-spacing: -0.02em;
+  color: var(--bone-050);
+  margin-bottom: 1.25rem;
+  line-height: 1.15;
+}
+.moat__body {
+  color: var(--bone-400);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.wedge__bridge {
+  margin-top: 4rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-style: italic;
+  color: var(--bone-300);
+  font-weight: 340;
+  letter-spacing: -0.015em;
+}
+
+/* ============================================================
+   PILLARS
+   ============================================================ */
+.pillars { padding: clamp(5rem, 10vh, 7rem) 0; }
+
+.pillars__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 4rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.pillars__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 340;
+  letter-spacing: -0.025em;
+  color: var(--bone-050);
+  line-height: 1.1;
+  max-width: 20ch;
+}
+.pillars__lead {
+  max-width: 38ch;
+  color: var(--bone-400);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.pillar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  padding: clamp(3rem, 6vh, 5rem) 0;
+  border-top: 1px solid var(--ink-800);
+  position: relative;
+}
+@media (min-width: 960px) {
+  .pillar { grid-template-columns: 1fr 1.25fr; gap: 5rem; align-items: start; }
+}
+.pillar:last-of-type { border-bottom: 1px solid var(--ink-800); }
+
+.pillar__number {
+  position: absolute;
+  top: clamp(3rem, 6vh, 5rem);
+  right: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-500);
+}
+
+.pillar__left { position: sticky; top: 6rem; }
+.pillar__tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber-500);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.pillar__tag::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: var(--amber-500);
+}
+
+.pillar__name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 320;
+  letter-spacing: -0.04em;
+  color: var(--bone-050);
+  line-height: 0.95;
+  margin-bottom: 1.5rem;
+  font-feature-settings: "ss01" on;
+  font-variation-settings: "opsz" 144, "SOFT" 20;
+}
+.pillar__name em {
+  font-style: italic;
+  color: var(--amber-400);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+
+.pillar__subhead {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1.6vw, 1.35rem);
+  font-weight: 360;
+  font-style: italic;
+  color: var(--bone-300);
+  line-height: 1.4;
+  max-width: 28ch;
+  letter-spacing: -0.01em;
+}
+
+.pillar__body {
+  color: var(--bone-300);
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+.pillar__body strong { color: var(--bone-050); font-weight: 500; }
+
+.pillar__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+.pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--ink-900);
+  border: 1px solid var(--ink-800);
+  color: var(--bone-300);
+  transition: all 0.25s var(--ease);
+}
+.pill:hover {
+  border-color: var(--amber-500);
+  color: var(--amber-400);
+}
+
+.proof-card {
+  padding: 2rem;
+  background: var(--ink-900);
+  border: 1px solid var(--ink-800);
+  border-left: 2px solid var(--amber-500);
+  margin-bottom: 2rem;
+  position: relative;
+}
+.proof-card__customer {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--bone-050);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.015em;
+}
+.proof-card__metric {
+  font-family: var(--font-mono);
+  font-size: 1.375rem;
+  color: var(--amber-400);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+.proof-card__quote {
+  color: var(--bone-400);
+  font-size: 0.9375rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+.proof-card__placeholder {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  margin-top: 0.75rem;
+  display: block;
+}
+
+.pillar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--bone-100);
+  border-bottom: 1px solid var(--ink-700);
+  padding-bottom: 0.375rem;
+  transition: all 0.25s var(--ease);
+}
+.pillar__link:hover {
+  color: var(--amber-400);
+  border-bottom-color: var(--amber-500);
+}
+.pillar__link svg { transition: transform 0.25s var(--ease); }
+.pillar__link:hover svg { transform: translateX(4px); }
+
+/* ============================================================
+   UNIVERSAL COVERAGE
+   ============================================================ */
+.coverage {
+  padding: clamp(6rem, 12vh, 9rem) 0;
+  background: var(--ink-950);
+  border-top: 1px solid var(--ink-800);
+  border-bottom: 1px solid var(--ink-800);
+  position: relative;
+  overflow: hidden;
+}
+.coverage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--ink-800) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ink-800) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  pointer-events: none;
+}
+.coverage .container { position: relative; z-index: 2; }
+
+.coverage__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--bone-050);
+  font-weight: 340;
+  margin-bottom: 1.5rem;
+  max-width: 18ch;
+}
+.coverage__title em { font-style: italic; color: var(--amber-400); }
+.coverage__lead {
+  max-width: 58ch;
+  color: var(--bone-400);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  margin-bottom: 4rem;
+}
+
+.coverage-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 700px) { .coverage-groups { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .coverage-groups { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
+
+.cgroup { border-top: 1px solid var(--ink-700); padding-top: 1.5rem; }
+.cgroup__label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber-500);
+  margin-bottom: 1.25rem;
+}
+.cgroup__list { display: flex; flex-direction: column; gap: 0.75rem; }
+.cgroup__item {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  color: var(--bone-200);
+  letter-spacing: -0.01em;
+  font-feature-settings: "ss01" on;
+  transition: color 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.cgroup__item::before {
+  content: "";
+  width: 4px; height: 4px;
+  background: var(--ink-500);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.25s;
+}
+.cgroup__item:hover { color: var(--bone-050); }
+.cgroup__item:hover::before { background: var(--amber-500); }
+
+.coverage__link {
+  margin-top: 4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--bone-100);
+  border-bottom: 1px solid var(--ink-700);
+  padding-bottom: 0.375rem;
+  transition: all 0.25s var(--ease);
+}
+.coverage__link:hover { color: var(--amber-400); border-bottom-color: var(--amber-500); }
+.coverage__link svg { transition: transform 0.25s; }
+.coverage__link:hover svg { transform: translateX(4px); }
+
+/* ============================================================
+   WHAT'S NEW
+   ============================================================ */
+.whats-new { padding: clamp(6rem, 12vh, 9rem) 0; }
+
+.whats-new__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 3.5rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.whats-new__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 340;
+  letter-spacing: -0.025em;
+  color: var(--bone-050);
+}
+.whats-new__title em { font-style: italic; color: var(--amber-400); }
+
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--ink-800);
+  border: 1px solid var(--ink-800);
+}
+@media (min-width: 700px) { .news-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .news-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.news-item {
+  padding: 2rem 1.75rem;
+  background: var(--ink-1000);
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.news-item:hover { background: var(--ink-900); }
+
+.news-item__meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.news-item__type {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber-500);
+}
+.news-item__date {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-500);
+}
+.news-item__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--bone-050);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.75rem;
+  flex: 1;
+}
+.news-item__desc {
+  font-size: 0.8125rem;
+  color: var(--bone-500);
+  line-height: 1.55;
+}
+
+/* ============================================================
+   BOTTOM CTA
+   ============================================================ */
+.cta-final {
+  padding: clamp(7rem, 14vh, 10rem) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--ink-800);
+}
+.cta-final::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center bottom, var(--amber-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-final__content { position: relative; z-index: 2; }
+
+.cta-final__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--bone-050);
+  font-weight: 340;
+  margin-bottom: 0.75rem;
+  max-width: 22ch;
+  margin-inline: auto;
+  font-variation-settings: "opsz" 144, "SOFT" 40;
+}
+.cta-final__title em { font-style: italic; color: var(--amber-400); font-variation-settings: "opsz" 144, "SOFT" 100; }
+.cta-final__buttons {
+  display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+  margin-top: 2.75rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  border-top: 1px solid var(--ink-800);
+  padding: clamp(4rem, 8vh, 6rem) 0 3rem;
+  background: var(--ink-950);
+}
+
+.footer__lineage {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--bone-300);
+  font-weight: 340;
+  font-style: italic;
+  letter-spacing: -0.015em;
+  max-width: 50ch;
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--ink-800);
+}
+.footer__lineage strong {
+  font-style: normal;
+  color: var(--bone-050);
+  font-weight: 500;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+@media (min-width: 700px) { .footer__grid { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; } }
+
+.footer__col h4 {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-500);
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+.footer__col ul { list-style: none; display: flex; flex-direction: column; gap: 0.625rem; }
+.footer__col a { font-size: 0.875rem; color: var(--bone-300); transition: color 0.2s; }
+.footer__col a:hover { color: var(--amber-400); }
+
+.footer__bottom {
+  border-top: 1px solid var(--ink-800);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footer__copy {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-500);
+  letter-spacing: 0.05em;
+}
+.footer__social { display: flex; gap: 1rem; }
+.footer__social a {
+  color: var(--bone-500);
+  transition: color 0.2s;
+  display: inline-flex;
+}
+.footer__social a:hover { color: var(--amber-400); }
+
+/* ============================================================
+   RESPONSIVE FINE-TUNING
+   ============================================================ */
+@media (max-width: 768px) {
+  .role { grid-template-columns: 2rem 1fr; }
+  .role__pillar { grid-column: 2; justify-self: start; color: var(--bone-500); }
+  .pillar__left { position: static; }
+}
+</style>
+</head>
+<body>
+
+<!-- =======================================================
+     NAVIGATION
+     ======================================================= -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav__brand">
+    <img src="images/DV_Logo_RGB-REV.svg" alt="Develocity" class="nav__logo">
+  </a>
+  <div class="nav__links">
+    <a href="#products">Products</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#customers">Customers</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#docs">Docs</a>
+    <a href="#blog">Blog</a>
+  </div>
+  <div class="nav__actions">
+    <a href="#login" class="nav__login">Log in</a>
+    <a href="#sales" class="btn btn--primary">
+      Talk to sales
+      <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- =======================================================
+     HERO
+     ======================================================= -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__grid">
+      <!-- Left: copy -->
+      <div>
+        <div class="hero__eyebrow">
+          <span class="hero__eyebrow-mark"></span>
+          The universal toolchain and artifact observability platform
+        </div>
+        <h1 class="hero__headline">
+          The <em>context engineering</em> layer for AI-driven software delivery.
+        </h1>
+        <p class="hero__strapline">Enable, govern, and scale.</p>
+        <div class="hero__cta">
+          <a href="#sales" class="btn btn--primary">
+            Talk to sales
+            <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+          <a href="#explore" class="btn btn--ghost">
+            Explore the platform
+            <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: architectural schematic -->
+      <div class="schematic" aria-hidden="true">
+        <svg viewBox="0 0 500 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="layerGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#209bc4" stop-opacity="0.18"/>
+              <stop offset="50%" stop-color="#4dc9c0" stop-opacity="0.06"/>
+              <stop offset="100%" stop-color="#209bc4" stop-opacity="0.18"/>
+            </linearGradient>
+            <linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4dc9c0" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#4dc9c0" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#4dc9c0" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Top layer: Consumers (humans + agents) -->
+          <g transform="translate(0, 30)">
+            <text x="10" y="0" class="schematic__label">Consumers</text>
+            <!-- Humans box -->
+            <g transform="translate(30, 20)">
+              <rect x="0" y="0" width="180" height="56" fill="#191d21" stroke="#2e3135" stroke-width="1"/>
+              <text x="18" y="22" class="schematic__tag">Engineers</text>
+              <circle cx="150" cy="28" r="3" fill="#808080"/>
+              <circle cx="158" cy="28" r="3" fill="#808080"/>
+              <circle cx="142" cy="28" r="3" fill="#808080"/>
+              <text x="18" y="42" class="schematic__label">Humans</text>
+            </g>
+            <!-- Agents box -->
+            <g transform="translate(290, 20)">
+              <rect x="0" y="0" width="180" height="56" fill="#191d21" stroke="#209bc4" stroke-width="1" stroke-opacity="0.6"/>
+              <text x="18" y="22" class="schematic__tag">Claude · Copilot · Devin</text>
+              <g transform="translate(148, 22)">
+                <path d="M0 4 L4 0 L8 4 L4 8 Z" fill="#4dc9c0" opacity="0.8"/>
+                <path d="M12 4 L16 0 L20 4 L16 8 Z" fill="#4dc9c0" opacity="0.6"/>
+              </g>
+              <text x="18" y="42" class="schematic__label schematic__label--accent">AI Agents</text>
+            </g>
+          </g>
+
+          <!-- Connectors from middle layer up -->
+          <g stroke="#515860" stroke-width="1" fill="none" opacity="0.5">
+            <path d="M120 130 L120 195"/>
+            <path d="M250 130 L250 195"/>
+            <path d="M380 130 L380 195"/>
+          </g>
+
+          <!-- Animated flow dots going UP -->
+          <g style="animation: flowUp 3s ease-in-out infinite;">
+            <circle cx="120" cy="180" r="2.5" fill="#209bc4"/>
+          </g>
+          <g style="animation: flowUp 3s ease-in-out 0.6s infinite;">
+            <circle cx="250" cy="180" r="2.5" fill="#209bc4"/>
+          </g>
+          <g style="animation: flowUp 3s ease-in-out 1.2s infinite;">
+            <circle cx="380" cy="180" r="2.5" fill="#209bc4"/>
+          </g>
+
+          <!-- MIDDLE LAYER: Context Engineering -->
+          <g transform="translate(0, 200)" style="animation: glowLayer 4s ease-in-out infinite;">
+            <!-- Outer glow rect -->
+            <rect x="20" y="0" width="460" height="120" fill="url(#layerGrad)"/>
+            <rect x="20" y="0" width="460" height="120" fill="none" stroke="#209bc4" stroke-width="1" stroke-opacity="0.5"/>
+
+            <!-- Top edge label -->
+            <text x="30" y="-8" class="schematic__label schematic__label--accent">Develocity — Context Engineering Layer</text>
+
+            <!-- Three sub-components -->
+            <g transform="translate(40, 20)">
+              <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#35393e" stroke-width="1"/>
+              <text x="12" y="22" class="schematic__tag">Know</text>
+              <text x="12" y="40" class="schematic__label">Build Scan</text>
+              <text x="12" y="55" class="schematic__label">Policy Scan</text>
+              <text x="12" y="70" class="schematic__label">Attestation</text>
+            </g>
+            <g transform="translate(185, 20)">
+              <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#35393e" stroke-width="1"/>
+              <text x="12" y="22" class="schematic__tag">Understand</text>
+              <text x="12" y="40" class="schematic__label">Domain model</text>
+              <text x="12" y="55" class="schematic__label">Flaky analysis</text>
+              <text x="12" y="70" class="schematic__label">Dependencies</text>
+            </g>
+            <g transform="translate(330, 20)">
+              <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#209bc4" stroke-width="1" stroke-opacity="0.7"/>
+              <text x="12" y="22" class="schematic__tag" fill="#209bc4">Expose</text>
+              <text x="12" y="40" class="schematic__label">MCP servers</text>
+              <text x="12" y="55" class="schematic__label">Skills</text>
+              <text x="12" y="70" class="schematic__label">Analytics</text>
+            </g>
+          </g>
+
+          <!-- Connectors from substrate up to middle -->
+          <g stroke="#515860" stroke-width="1" fill="none" opacity="0.5">
+            <path d="M80 395 L80 325"/>
+            <path d="M170 395 L170 325"/>
+            <path d="M260 395 L260 325"/>
+            <path d="M350 395 L350 325"/>
+            <path d="M420 395 L420 325"/>
+          </g>
+
+          <!-- Animated flow dots going UP from substrate -->
+          <g style="animation: flowUp 2.5s ease-in-out 0.2s infinite;">
+            <circle cx="80" cy="385" r="2" fill="#209bc4"/>
+          </g>
+          <g style="animation: flowUp 2.5s ease-in-out 0.8s infinite;">
+            <circle cx="170" cy="385" r="2" fill="#209bc4"/>
+          </g>
+          <g style="animation: flowUp 2.5s ease-in-out 1.4s infinite;">
+            <circle cx="260" cy="385" r="2" fill="#209bc4"/>
+          </g>
+          <g style="animation: flowUp 2.5s ease-in-out 2s infinite;">
+            <circle cx="350" cy="385" r="2" fill="#209bc4"/>
+          </g>
+          <g style="animation: flowUp 2.5s ease-in-out 0.5s infinite;">
+            <circle cx="420" cy="385" r="2" fill="#209bc4"/>
+          </g>
+
+          <!-- BOTTOM: SDLC substrate -->
+          <g transform="translate(0, 400)">
+            <text x="10" y="0" class="schematic__label">SDLC Substrate — Telemetry</text>
+            <g transform="translate(30, 20)">
+              <rect x="0" y="0" width="440" height="84" fill="#141416" stroke="#2e3135" stroke-width="1"/>
+              <!-- Row of toolchain tags -->
+              <g transform="translate(12, 18)">
+                <g>
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Gradle</text>
+                </g>
+                <g transform="translate(70, 0)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Maven</text>
+                </g>
+                <g transform="translate(140, 0)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Bazel</text>
+                </g>
+                <g transform="translate(210, 0)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">npm</text>
+                </g>
+                <g transform="translate(280, 0)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">sbt</text>
+                </g>
+                <g transform="translate(350, 0)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Python</text>
+                </g>
+                <!-- Second row -->
+                <g transform="translate(0, 32)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">GH Actions</text>
+                </g>
+                <g transform="translate(70, 32)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">GitLab CI</text>
+                </g>
+                <g transform="translate(140, 32)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Jenkins</text>
+                </g>
+                <g transform="translate(210, 32)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">JFrog</text>
+                </g>
+                <g transform="translate(280, 32)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Nexus</text>
+                </g>
+                <g transform="translate(350, 32)">
+                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">IntelliJ</text>
+                </g>
+              </g>
+            </g>
+            <text x="30" y="110" class="schematic__label" opacity="0.6">build · test · dependency · artifact telemetry</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================
+     F100 PROOF BAR
+     ======================================================= -->
+<section class="proof">
+  <div class="container">
+    <div class="proof__row">
+      <div class="proof__claim">Used by <strong>72%</strong> of the Fortune 100</div>
+      <div class="proof__logos">
+        <span class="proof__logo">Netflix</span>
+        <span class="proof__logo">LinkedIn</span>
+        <span class="proof__logo">ASML</span>
+        <span class="proof__logo">Airbnb</span>
+        <span class="proof__logo">Microsoft</span>
+        <span class="proof__logo">Nasdaq</span>
+        <span class="proof__logo">SAP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================
+     BOTTLENECK SECTION
+     ======================================================= -->
+<section class="bottleneck">
+  <div class="container">
+    <div class="section-label">01 — Why now</div>
+    <h2 class="bottleneck__title">
+      The human was always the bottleneck of software delivery. <em>AI moved it.</em>
+    </h2>
+    <div class="bottleneck__body">
+      <p>
+        For thirty years, software delivery pipelines were designed around a constant: the human. Build times, test cycles, review queues, deploy windows — every piece of the system was tuned to the cadence of developers typing, thinking, and approving. <strong>The pipeline was never designed to be the bottleneck.</strong> It didn't have to be.
+      </p>
+      <p>
+        AI changed the constant. Agents write at machine pace, produce volume no review queue was sized for, and read codebases no single engineer holds in their head. The pipeline — unchanged — is now the slowest thing in the loop. Five roles the human used to own are no longer reliably human.
+      </p>
+    </div>
+
+    <div class="roles">
+      <div class="role">
+        <div class="role__number">01</div>
+        <div class="role__content">
+          <div class="role__name">Pacing</div>
+          <div class="role__consequence">Feedback latency designed for human typing speed becomes a hard ceiling on agent effectiveness.</div>
+        </div>
+        <div class="role__pillar">→ Scale</div>
+      </div>
+      <div class="role">
+        <div class="role__number">02</div>
+        <div class="role__content">
+          <div class="role__name">Gating</div>
+          <div class="role__consequence">Review and approval choke points designed for human change volume stop choking AI-generated change.</div>
+        </div>
+        <div class="role__pillar">→ Govern</div>
+      </div>
+      <div class="role">
+        <div class="role__number">03</div>
+        <div class="role__content">
+          <div class="role__name">Comprehending</div>
+          <div class="role__consequence">No single engineer holds the mental model of an AI-generated codebase. Implicit context disappears.</div>
+        </div>
+        <div class="role__pillar">→ Enable</div>
+      </div>
+      <div class="role">
+        <div class="role__number">04</div>
+        <div class="role__content">
+          <div class="role__name">Deciding</div>
+          <div class="role__consequence">Dependencies, toolchain components, and architectural patterns get chosen by training-data heuristics, not traceable human intent.</div>
+        </div>
+        <div class="role__pillar">→ Govern</div>
+      </div>
+      <div class="role">
+        <div class="role__number">05</div>
+        <div class="role__content">
+          <div class="role__name">Consuming</div>
+          <div class="role__consequence">Agents are first-class consumers of the toolchain. They need machine-native interfaces, not human-readable dashboards.</div>
+        </div>
+        <div class="role__pillar">→ Enable</div>
+      </div>
+    </div>
+
+    <p class="bottleneck__bridge">
+      Develocity is the platform built for the new constraint.
+    </p>
+  </div>
+</section>
+
+<!-- =======================================================
+     WEDGE SECTION
+     ======================================================= -->
+<section class="wedge">
+  <div class="container">
+    <div class="section-label">02 — The wedge</div>
+    <h2 class="wedge__title">
+      Context engineering, <em>not just observability.</em>
+    </h2>
+    <p class="wedge__intro">
+      Most observability platforms collect. Develocity encodes. The platform ingests the full telemetry of the software delivery pipeline — every build, every test, every dependency, every artifact, across every toolchain — and turns it into structured, semantically rich context that humans and AI agents can reason over. This is the context engineering layer.
+    </p>
+
+    <div class="moats">
+      <div class="moat">
+        <div class="moat__tag">Moat 01 — Data</div>
+        <div class="moat__name">The telemetry no one else has.</div>
+        <p class="moat__body">
+          Build Scan is the observability primitive for the SDLC. It captures build, test, and dependency telemetry at a granularity no competitor collects, across every toolchain the enterprise runs on — Gradle, Maven, Bazel, npm, sbt, Python, and the CI systems, IDEs, and artifact repositories that connect to them. A raw data advantage that cannot be back-filled by ingesting more logs.
+        </p>
+      </div>
+      <div class="moat">
+        <div class="moat__tag">Moat 02 — Experience</div>
+        <div class="moat__name">A decade of encoded build expertise.</div>
+        <p class="moat__body">
+          Raw telemetry is not context. Context is telemetry plus the semantic layer that makes it queryable — the encoded knowledge of how builds fail, how tests flake, how dependencies drift, how toolchains misbehave at scale. This expertise comes from the team that created Gradle Build Tool — over 70 million downloads a month — and a decade of diagnosing build systems inside the world's largest engineering organizations. The expertise is the product.
+        </p>
+      </div>
+    </div>
+
+    <p class="wedge__bridge">Neither moat is sufficient on its own. Together, they are the wedge.</p>
+  </div>
+</section>
+
+<!-- =======================================================
+     PILLARS
+     ======================================================= -->
+<section class="pillars">
+  <div class="container">
+    <div class="section-label">03 — What you get</div>
+    <div class="pillars__header">
+      <h2 class="pillars__title">Three outcomes. Four budgets. <em style="color:var(--amber-400); font-style:italic; font-family:var(--font-display);">One platform.</em></h2>
+      <p class="pillars__lead">Enable, govern, and scale — each pillar defending a different budget line inside the enterprise, held together by one platform.</p>
+    </div>
+
+    <!-- ENABLE -->
+    <article class="pillar">
+      <div class="pillar__number">01 / 03</div>
+      <div class="pillar__left">
+        <div class="pillar__tag">Pillar 01 — AI budget</div>
+        <h3 class="pillar__name"><em>Enable.</em></h3>
+        <p class="pillar__subhead">Enable AI agents with the context to reason.</p>
+      </div>
+      <div class="pillar__right">
+        <p class="pillar__body">
+          AI agents working on enterprise codebases run into the same wall human developers do — and then hit it harder, because they have none of the tacit knowledge a senior engineer brings. They need the context explicitly, in a form they can consume. Develocity exposes the SDLC as <strong>structured context</strong>: build history, test outcomes, dependency graphs, artifact lineage, and domain semantics — delivered through MCP servers, Skills, and Develocity Analytics. <strong>Agents stop guessing. They start reasoning.</strong>
+        </p>
+        <div class="pillar__pills">
+          <span class="pill">MCP Servers</span>
+          <span class="pill">Skills</span>
+          <span class="pill">Develocity Analytics</span>
+        </div>
+        <div class="proof-card">
+          <div class="proof-card__customer">[Customer name]</div>
+          <div class="proof-card__metric">[Metric — e.g., 3.4× agent retry reduction]</div>
+          <div class="proof-card__quote">"[One-sentence quote from a champion inside the customer.]"</div>
+          <span class="proof-card__placeholder">Customer + metric to be supplied</span>
+        </div>
+        <a href="#enable" class="pillar__link">
+          Read the Enable architecture
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- GOVERN -->
+    <article class="pillar">
+      <div class="pillar__number">02 / 03</div>
+      <div class="pillar__left">
+        <div class="pillar__tag">Pillar 02 — Security budget</div>
+        <h3 class="pillar__name"><em>Govern.</em></h3>
+        <p class="pillar__subhead">Govern AI-generated software with end-to-end lineage and policy.</p>
+      </div>
+      <div class="pillar__right">
+        <p class="pillar__body">
+          AI doesn't just write code — it writes dependencies, picks versions, pulls artifacts, and makes architectural decisions that used to be human calls. The security question is no longer <em>"did the developer introduce a vulnerability?"</em> It is <em>"what did the agent build, where did every piece come from, and does it meet policy?"</em> Develocity captures <strong>build-time provenance</strong> and <strong>dependency lineage</strong> across the entire toolchain, and enforces policy at the artifact layer — where AI-generated software actually ships. Policy Scan is the enforcement primitive. Build Scan is the evidence surface.
+        </p>
+        <div class="pillar__pills">
+          <span class="pill">Policy Scan</span>
+          <span class="pill">Build Scan Provenance</span>
+          <span class="pill">Dependency Lineage</span>
+          <span class="pill">Attestation</span>
+        </div>
+        <div class="proof-card">
+          <div class="proof-card__customer">[Customer name]</div>
+          <div class="proof-card__metric">[Metric — e.g., 100% build provenance coverage]</div>
+          <div class="proof-card__quote">"[One-sentence quote.]"</div>
+          <span class="proof-card__placeholder">Customer + metric to be supplied</span>
+        </div>
+        <a href="#govern" class="pillar__link">
+          Read the Govern architecture
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- SCALE -->
+    <article class="pillar">
+      <div class="pillar__number">03 / 03</div>
+      <div class="pillar__left">
+        <div class="pillar__tag">Pillar 03 — Engineering + Infra budgets</div>
+        <h3 class="pillar__name"><em>Scale.</em></h3>
+        <p class="pillar__subhead">Scale AI-driven build and test — fast and cost-efficient.</p>
+      </div>
+      <div class="pillar__right">
+        <p class="pillar__body">
+          AI multiplies build and test volume by orders of magnitude. Pipelines designed for human commit cadence collapse under agent commit cadence, and the cost curve collapses with them. Develocity's acceleration primitives — <strong>universal cache, test distribution, predictive test selection</strong> — cut feedback latency so agents can iterate productively, and cut compute cost so the infrastructure bill doesn't track agent volume linearly. Speed matters in agentic loops not because agents are paid to wait, but because feedback loops slower than a threshold make the agent itself ineffective. Cost matters because AI volume is the new unit economics of software delivery.
+        </p>
+        <div class="pillar__pills">
+          <span class="pill">Universal Build Cache</span>
+          <span class="pill">Test Distribution</span>
+          <span class="pill">Predictive Test Selection</span>
+        </div>
+        <div class="proof-card">
+          <div class="proof-card__customer">[Customer name]</div>
+          <div class="proof-card__metric">[Metric — e.g., 68% CI pipeline time reduction · 42% compute cost saved]</div>
+          <div class="proof-card__quote">"[One-sentence quote.]"</div>
+          <span class="proof-card__placeholder">Customer + metrics to be supplied</span>
+        </div>
+        <a href="#scale" class="pillar__link">
+          Read the Scale architecture
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- =======================================================
+     UNIVERSAL COVERAGE
+     ======================================================= -->
+<section class="coverage">
+  <div class="container">
+    <div class="section-label">04 — Coverage</div>
+    <h2 class="coverage__title">Every toolchain. <em>One platform.</em></h2>
+    <p class="coverage__lead">
+      Develocity is the observability platform for the whole software delivery surface — not one ecosystem, not one vendor's stack, not one build tool. Build systems, package managers, CI, repositories, IDEs. If your engineers use it, Develocity sees it.
+    </p>
+
+    <div class="coverage-groups">
+      <div class="cgroup">
+        <div class="cgroup__label">Build systems</div>
+        <div class="cgroup__list">
+          <span class="cgroup__item">Gradle</span>
+          <span class="cgroup__item">Maven</span>
+          <span class="cgroup__item">Bazel</span>
+          <span class="cgroup__item">npm</span>
+          <span class="cgroup__item">sbt</span>
+          <span class="cgroup__item">Python</span>
+          <span class="cgroup__item">Go</span>
+        </div>
+      </div>
+      <div class="cgroup">
+        <div class="cgroup__label">CI / CD</div>
+        <div class="cgroup__list">
+          <span class="cgroup__item">GitHub Actions</span>
+          <span class="cgroup__item">GitLab CI</span>
+          <span class="cgroup__item">Jenkins</span>
+          <span class="cgroup__item">CircleCI</span>
+          <span class="cgroup__item">Buildkite</span>
+          <span class="cgroup__item">TeamCity</span>
+        </div>
+      </div>
+      <div class="cgroup">
+        <div class="cgroup__label">Artifact repositories</div>
+        <div class="cgroup__list">
+          <span class="cgroup__item">Artifactory</span>
+          <span class="cgroup__item">Nexus</span>
+          <span class="cgroup__item">GitHub Packages</span>
+          <span class="cgroup__item">Azure Artifacts</span>
+        </div>
+      </div>
+      <div class="cgroup">
+        <div class="cgroup__label">IDEs</div>
+        <div class="cgroup__list">
+          <span class="cgroup__item">IntelliJ IDEA</span>
+          <span class="cgroup__item">VS Code</span>
+          <span class="cgroup__item">Android Studio</span>
+          <span class="cgroup__item">Xcode</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#integrations" class="coverage__link">
+      See the full integration matrix
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- =======================================================
+     WHAT'S NEW
+     ======================================================= -->
+<section class="whats-new">
+  <div class="container">
+    <div class="section-label">05 — Currency</div>
+    <div class="whats-new__header">
+      <h2 class="whats-new__title">What's new at <em>Develocity.</em></h2>
+      <a href="#blog" class="pillar__link">
+        See all updates
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+
+    <div class="news-grid">
+      <a href="#" class="news-item">
+        <div class="news-item__meta">
+          <span class="news-item__type">Release</span>
+          <span class="news-item__date">Apr 2026</span>
+        </div>
+        <h3 class="news-item__title">[Product release — feature announcement with a technical hook]</h3>
+        <p class="news-item__desc">Placeholder — to be sourced from the editorial flow.</p>
+      </a>
+      <a href="#" class="news-item">
+        <div class="news-item__meta">
+          <span class="news-item__type">Blog</span>
+          <span class="news-item__date">Apr 2026</span>
+        </div>
+        <h3 class="news-item__title">[Technical post by a Develocity engineer]</h3>
+        <p class="news-item__desc">Placeholder — a champion-shareable, technically substantive post.</p>
+      </a>
+      <a href="#" class="news-item">
+        <div class="news-item__meta">
+          <span class="news-item__type">Talk</span>
+          <span class="news-item__date">Mar 2026</span>
+        </div>
+        <h3 class="news-item__title">[Conference talk at a named industry event]</h3>
+        <p class="news-item__desc">Placeholder — an engineer-delivered talk at a recognizable venue.</p>
+      </a>
+      <a href="#" class="news-item">
+        <div class="news-item__meta">
+          <span class="news-item__type">Community</span>
+          <span class="news-item__date">Mar 2026</span>
+        </div>
+        <h3 class="news-item__title">[Open-source or ecosystem contribution]</h3>
+        <p class="news-item__desc">Placeholder — industry-standards work or community project.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================
+     BOTTOM CTA
+     ======================================================= -->
+<section class="cta-final">
+  <div class="container container--tight cta-final__content">
+    <div class="section-label" style="justify-content:center;">Get started</div>
+    <h2 class="cta-final__title">
+      The pipeline was never designed to be the bottleneck. <em>Develocity was.</em>
+    </h2>
+    <div class="cta-final__buttons">
+      <a href="#sales" class="btn btn--primary">
+        Talk to sales
+        <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+      <a href="#explore" class="btn btn--ghost">
+        Explore the platform
+        <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================
+     FOOTER
+     ======================================================= -->
+<footer class="footer">
+  <div class="container">
+    <p class="footer__lineage">
+      <strong>Develocity</strong> comes from the creators of Gradle Build Tool — one of the world's most widely used build systems, with over 70 million monthly downloads.
+    </p>
+
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="#">Platform overview</a></li>
+          <li><a href="#">Context Engine</a></li>
+          <li><a href="#">Fact Store</a></li>
+          <li><a href="#">Telemetry Pipeline</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">By use case</a></li>
+          <li><a href="#">By telemetry data</a></li>
+          <li><a href="#">By layer</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Open source</a></li>
+          <li><a href="#">Gradle Build Tool</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Customers</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <div class="footer__brand">
+        <img src="images/DV_Logo_RGB-REV.svg" alt="Develocity" class="footer__logo">
+      </div>
+      <span class="footer__copy">© 2026 Develocity. All rights reserved.</span>
+      <div class="footer__social" aria-label="Social links">
+        <a href="#" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.3a1.8 1.8 0 11.1-3.5 1.8 1.8 0 01-.1 3.5zM19 19h-3v-4.7c0-1.1-.4-1.9-1.4-1.9-.8 0-1.3.5-1.5 1.1v5.5h-3v-9h3v1.3a3.2 3.2 0 012.9-1.6c2.1 0 3 1.5 3 3.8z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8 0 12 0 12s0 4 .5 5.8a3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 16 24 12 24 12s0-4-.5-5.8zM9.5 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.5 8.6L23 22h-7l-5.5-7.1L4.2 22H1l8-9.2L1 2h7l5 6.5zm-1.2 18h1.9L6.4 4H4.4z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav shadow on scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+}, { passive: true });
+</script>
+
+</body>
+</html>
