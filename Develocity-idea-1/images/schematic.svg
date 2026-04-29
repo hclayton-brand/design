@@ -1,0 +1,198 @@
+<svg viewBox="0 0 500 540" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="layerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#209bc4" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="#4dc9c0" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#209bc4" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4dc9c0" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#4dc9c0" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#4dc9c0" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      .schematic__label {
+        font-family: 'Sora', ui-sans-serif, sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        fill: #808080;
+      }
+      .schematic__label--accent { fill: #209bc4; }
+      .schematic__tag {
+        font-family: 'Sora', ui-sans-serif, sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        fill: #cccccc;
+      }
+      @keyframes flowUp {
+        0%   { transform: translateY(0);      opacity: 0; }
+        10%  { opacity: 1; }
+        90%  { opacity: 1; }
+        100% { transform: translateY(240px);  opacity: 0; }
+      }
+      @keyframes glowLayer {
+        0%, 100% { filter: drop-shadow(0 0 8px rgba(32,155,196,0.15)); }
+        50%       { filter: drop-shadow(0 0 24px rgba(32,155,196,0.35)); }
+      }
+    </style>
+  </defs>
+
+  <!-- Top layer: Consumers (humans + agents) -->
+  <g transform="translate(0, 54)">
+    <text x="10" y="0" class="schematic__label">Consumers</text>
+    <!-- Humans box -->
+    <g transform="translate(30, 20)">
+      <rect x="0" y="0" width="180" height="56" fill="#191d21" stroke="#2e3135" stroke-width="1"/>
+      <text x="18" y="22" class="schematic__tag">Engineers</text>
+      <circle cx="150" cy="28" r="3" fill="#808080"/>
+      <circle cx="158" cy="28" r="3" fill="#808080"/>
+      <circle cx="142" cy="28" r="3" fill="#808080"/>
+      <text x="18" y="42" class="schematic__label">Humans</text>
+    </g>
+    <!-- Agents box -->
+    <g transform="translate(290, 20)">
+      <rect x="0" y="0" width="180" height="56" fill="#191d21" stroke="#209bc4" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="18" y="22" class="schematic__tag">Claude · Copilot · Devin</text>
+      <g transform="translate(148, 22)">
+        <path d="M0 4 L4 0 L8 4 L4 8 Z" fill="#4dc9c0" opacity="0.8"/>
+        <path d="M12 4 L16 0 L20 4 L16 8 Z" fill="#4dc9c0" opacity="0.6"/>
+      </g>
+      <text x="18" y="42" class="schematic__label schematic__label--accent">AI Agents</text>
+    </g>
+  </g>
+
+  <!-- Connectors from consumers down to middle -->
+  <g stroke="#515860" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M120 130 L120 180"/>
+    <path d="M250 130 L250 180"/>
+    <path d="M380 130 L380 180"/>
+  </g>
+
+  <!-- Animated flow dots -->
+  <g style="animation: flowUp 3s ease-in-out infinite;">
+    <circle cx="120" cy="180" r="2.5" fill="#209bc4"/>
+  </g>
+  <g style="animation: flowUp 3s ease-in-out 0.6s infinite;">
+    <circle cx="250" cy="180" r="2.5" fill="#209bc4"/>
+  </g>
+  <g style="animation: flowUp 3s ease-in-out 1.2s infinite;">
+    <circle cx="380" cy="180" r="2.5" fill="#209bc4"/>
+  </g>
+
+  <!-- MIDDLE LAYER: Context Engineering -->
+  <g transform="translate(0, 200)" style="animation: glowLayer 4s ease-in-out infinite;">
+    <rect x="20" y="0" width="460" height="120" fill="url(#layerGrad)"/>
+    <rect x="20" y="0" width="460" height="120" fill="none" stroke="#209bc4" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="250" y="-8" text-anchor="middle" class="schematic__label schematic__label--accent">Develocity — Context Engineering Layer</text>
+    <!-- Know -->
+    <g transform="translate(40, 20)">
+      <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#35393e" stroke-width="1"/>
+      <text x="12" y="22" class="schematic__tag">Know</text>
+      <text x="12" y="40" class="schematic__label">Build Scan</text>
+      <text x="12" y="55" class="schematic__label">Policy Scan</text>
+      <text x="12" y="70" class="schematic__label">Attestation</text>
+    </g>
+    <!-- Understand -->
+    <g transform="translate(185, 20)">
+      <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#35393e" stroke-width="1"/>
+      <text x="12" y="22" class="schematic__tag">Understand</text>
+      <text x="12" y="40" class="schematic__label">Domain model</text>
+      <text x="12" y="55" class="schematic__label">Flaky analysis</text>
+      <text x="12" y="70" class="schematic__label">Dependencies</text>
+    </g>
+    <!-- Expose -->
+    <g transform="translate(330, 20)">
+      <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#209bc4" stroke-width="1" stroke-opacity="0.7"/>
+      <text x="12" y="22" class="schematic__tag" fill="#209bc4">Expose</text>
+      <text x="12" y="40" class="schematic__label">MCP servers</text>
+      <text x="12" y="55" class="schematic__label">Skills</text>
+      <text x="12" y="70" class="schematic__label">Analytics</text>
+    </g>
+  </g>
+
+  <!-- Connectors from substrate up to middle -->
+  <g stroke="#515860" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M80 395 L80 325"/>
+    <path d="M170 395 L170 325"/>
+    <path d="M260 395 L260 325"/>
+    <path d="M350 395 L350 325"/>
+    <path d="M420 395 L420 325"/>
+  </g>
+
+  <!-- Animated flow dots from substrate -->
+  <g style="animation: flowUp 2.5s ease-in-out 0.2s infinite;">
+    <circle cx="80" cy="385" r="2" fill="#209bc4"/>
+  </g>
+  <g style="animation: flowUp 2.5s ease-in-out 0.8s infinite;">
+    <circle cx="170" cy="385" r="2" fill="#209bc4"/>
+  </g>
+  <g style="animation: flowUp 2.5s ease-in-out 1.4s infinite;">
+    <circle cx="260" cy="385" r="2" fill="#209bc4"/>
+  </g>
+  <g style="animation: flowUp 2.5s ease-in-out 2s infinite;">
+    <circle cx="350" cy="385" r="2" fill="#209bc4"/>
+  </g>
+  <g style="animation: flowUp 2.5s ease-in-out 0.5s infinite;">
+    <circle cx="420" cy="385" r="2" fill="#209bc4"/>
+  </g>
+
+  <!-- BOTTOM: SDLC substrate -->
+  <g transform="translate(0, 375)">
+    <g transform="translate(30, 20)">
+      <rect x="0" y="0" width="440" height="96" fill="#141416" stroke="#2e3135" stroke-width="1"/>
+      <text x="12" y="14" class="schematic__label">SDLC Substrate — Telemetry</text>
+      <g transform="translate(12, 30)">
+        <g>
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">Gradle</text>
+        </g>
+        <g transform="translate(70, 0)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">Maven</text>
+        </g>
+        <g transform="translate(140, 0)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">Bazel</text>
+        </g>
+        <g transform="translate(210, 0)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">npm</text>
+        </g>
+        <g transform="translate(280, 0)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">sbt</text>
+        </g>
+        <g transform="translate(350, 0)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">Python</text>
+        </g>
+        <g transform="translate(0, 32)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">GH Actions</text>
+        </g>
+        <g transform="translate(70, 32)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">GitLab CI</text>
+        </g>
+        <g transform="translate(140, 32)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">Jenkins</text>
+        </g>
+        <g transform="translate(210, 32)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">JFrog</text>
+        </g>
+        <g transform="translate(280, 32)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">Nexus</text>
+        </g>
+        <g transform="translate(350, 32)">
+          <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
+          <text x="31" y="15" class="schematic__tag" text-anchor="middle">IntelliJ</text>
+        </g>
+      </g>
+    </g>
+    <text x="30" y="124" class="schematic__label" opacity="0.6">build · test · dependency · artifact telemetry</text>
+  </g>
+</svg>

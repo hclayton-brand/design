@@ -5,10 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Develocity — The context engineering layer for AI-driven software delivery</title>
 
-<!-- Fonts: Fraunces (display serif, editorial) + Geist (body sans, infra-register) + JetBrains Mono (technical proof) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -41,9 +40,9 @@
   --amber-glow-strong: rgba(32, 155, 196, 0.35);
 
   /* Typography */
-  --font-display: 'Fraunces', 'Times New Roman', serif;
-  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-display: 'Sora', sans-serif;
+  --font-sans: 'Sora', sans-serif;
+  --font-mono: 'Sora', sans-serif;
 
   /* Scale */
   --max-w: 1320px;
@@ -114,56 +113,195 @@ section { position: relative; z-index: 2; }
 }
 
 /* ============================================================
-   NAV
+   NAV — Develocity mega-menu
    ============================================================ */
+:root {
+  --nv-bg: #0a0c0f;
+  --nv-bg-2: #101317;
+  --nv-surface: #14181d;
+  --nv-surface-2: #191e24;
+  --nv-border: #242a32;
+  --nv-border-strong: #2f3742;
+  --nv-text: #e7ecf2;
+  --nv-text-dim: #9aa4b0;
+  --nv-text-mute: #6b7582;
+  --nv-accent: #4DC9C0;
+  --nv-accent-2: #6EDDD6;
+  --nv-accent-soft: rgba(77,201,192,.12);
+  --nv-amber: #ffb84d;
+}
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 50;
-  padding: 1.125rem var(--px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  background: rgba(10, 9, 8, 0.72);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s var(--ease);
+  z-index: 100;
+  background: rgba(10,12,15,.72);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--nv-border);
 }
-.nav.scrolled { border-bottom-color: var(--ink-800); }
+.nav.is-open { background: rgba(10,12,15,.95); }
+.nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 68px;
+  padding: 0 28px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 40px;
+}
+.brand { display: flex; align-items: center; white-space: nowrap; color: var(--nv-text); text-decoration: none; }
+.brand-logo { height: 24px; width: auto; display: block; }
+.primary { display: flex; align-items: center; gap: 2px; justify-self: start; }
+.nav-item {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 40px; padding: 0 14px;
+  border-radius: 8px;
+  color: var(--nv-text-dim);
+  font-size: 14px; font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: var(--font-sans);
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+  user-select: none;
+  text-decoration: none;
+}
+.nav-item:hover { color: var(--nv-text); background: rgba(255,255,255,.03); }
+.nav-item[aria-expanded="true"] { color: var(--nv-text); background: var(--nv-surface); border-color: var(--nv-border); }
+.nav-item .caret { width: 10px; height: 10px; display: inline-block; opacity: .6; transition: transform .18s ease; }
+.nav-item[aria-expanded="true"] .caret { transform: rotate(180deg); opacity: 1; color: var(--nv-accent); }
+.actions { display: flex; align-items: center; gap: 10px; justify-self: end; }
+.nav .btn-ghost {
+  color: var(--nv-text-dim); background: transparent; border: 1px solid transparent;
+  padding: 0 16px; height: 40px; font-size: 14px; font-weight: 600; border-radius: 8px;
+  font-family: var(--font-sans); cursor: pointer;
+}
+.nav .btn-ghost:hover { color: var(--nv-text); background: rgba(255,255,255,.04); }
+.nav .btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--nv-accent); color: #06221f; font-weight: 700;
+  height: 40px; padding: 0 16px;
+  box-shadow: 0 0 0 1px rgba(77,201,192,.25), 0 8px 20px -10px rgba(77,201,192,.55);
+  border: none; border-radius: 8px; cursor: pointer; text-decoration: none;
+  font-size: 14px; font-family: var(--font-sans);
+}
+.nav .btn-primary:hover { background: var(--nv-accent-2); }
+.nav .btn-primary .arrow { transition: transform .15s ease; }
+.nav .btn-primary:hover .arrow { transform: translateX(2px); }
 
-.nav__brand {
-  display: inline-flex;
-  align-items: center;
+/* Mega backdrop */
+.mega-backdrop {
+  position: fixed; inset: 68px 0 0 0;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(2px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .18s ease;
+  z-index: 90;
 }
-.nav__logo {
-  height: 22px;
-  width: auto;
-  display: block;
+.mega-backdrop.open { opacity: 1; pointer-events: auto; }
+
+/* Mega panel */
+.mega {
+  position: fixed; top: 68px; left: 0; right: 0;
+  z-index: 95;
+  background: var(--nv-bg-2);
+  border-bottom: 1px solid var(--nv-border);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,.6);
+  opacity: 0; transform: translateY(-8px); pointer-events: none;
+  transition: opacity .22s ease, transform .22s ease;
+  color: var(--nv-text); font-family: var(--font-sans);
 }
-.footer__logo {
-  height: 20px;
-  width: auto;
-  display: block;
-  opacity: 0.75;
+.mega.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.mega-inner { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; min-height: 480px; }
+.mega-side {
+  padding: 32px 20px 32px 28px;
+  border-right: 1px solid var(--nv-border);
+  background: linear-gradient(180deg, var(--nv-surface) 0%, var(--nv-bg-2) 100%);
+  display: flex; flex-direction: column; gap: 4px;
 }
+.mega-side-label {
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--nv-text-mute); padding: 4px 10px 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.mega-side-label::before { content: ""; width: 4px; height: 4px; background: var(--nv-accent); border-radius: 50%; }
+.side-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: 8px;
+  color: var(--nv-text-dim); cursor: pointer;
+  font-size: 14px; font-weight: 500;
+  border: 1px solid transparent;
+  transition: all .14s ease; position: relative;
+}
+.side-item:hover { background: var(--nv-surface-2); color: var(--nv-text); }
+.side-item.active { background: var(--nv-surface-2); color: var(--nv-text); border-color: var(--nv-border); }
+.side-item.active::before {
+  content: ""; position: absolute; left: -28px; top: 14px; bottom: 14px;
+  width: 2px; background: var(--nv-accent); border-radius: 0 2px 2px 0;
+}
+.side-item .ico {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--nv-surface); border: 1px solid var(--nv-border);
+  display: grid; place-items: center; flex-shrink: 0;
+  color: var(--nv-text-dim); transition: all .14s ease;
+}
+.side-item.active .ico { background: var(--nv-accent-soft); border-color: var(--nv-accent); color: var(--nv-accent); }
+.side-item .ico svg { width: 14px; height: 14px; }
+.side-item .chev { margin-left: auto; opacity: 0; transition: opacity .14s, transform .14s; color: var(--nv-accent); }
+.side-item.active .chev { opacity: 1; transform: translateX(2px); }
+.side-item-meta { display: flex; flex-direction: column; gap: 1px; }
+.side-item-meta small { font-size: 10px; letter-spacing: .05em; color: var(--nv-text-mute); }
+.mega-main { padding: 32px 40px; display: grid; grid-template-rows: auto 1fr auto; gap: 24px; }
+.mega-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--nv-border); }
+.mega-title { display: flex; flex-direction: column; gap: 6px; }
+.mega-title .kicker { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--nv-text-mute); }
+.mega-title .kicker b { color: var(--nv-accent); font-weight: 600; }
+.mega-title h3 { margin: 0; font-weight: 700; font-size: 22px; letter-spacing: -.01em; color: var(--nv-text); }
+.mega-title p { margin: 4px 0 0; color: var(--nv-text-dim); font-size: 13.5px; max-width: 560px; }
+.mega-head-right { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--nv-text-mute); }
+.mega-head-right .pill { height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--nv-border); display: inline-flex; align-items: center; gap: 6px; }
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-content: start; }
+.mega .card {
+  position: relative; padding: 18px 20px; border-radius: 10px;
+  border: 1px solid var(--nv-border); background: var(--nv-surface);
+  display: grid; grid-template-columns: 40px 1fr auto; gap: 16px;
+  align-items: start; cursor: pointer; transition: all .16s ease;
+  overflow: hidden; text-decoration: none; color: var(--nv-text);
+}
+.mega .card::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(77,201,192,.06) 100%);
+  opacity: 0; transition: opacity .16s ease; pointer-events: none;
+}
+.mega .card:hover { border-color: var(--nv-border-strong); background: var(--nv-surface-2); transform: translateY(-1px); }
+.mega .card:hover::after { opacity: 1; }
+.mega .card:hover .card-arrow { opacity: 1; transform: translate(2px,-2px); }
+.mega .card:hover .card-ico { border-color: var(--nv-accent); color: var(--nv-accent); background: var(--nv-accent-soft); }
+.card-ico { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--nv-border); background: var(--nv-bg-2); display: grid; place-items: center; color: var(--nv-text-dim); transition: all .16s ease; }
+.card-ico svg { width: 18px; height: 18px; }
+.card-body { min-width: 0; }
+.card-title { font-size: 15px; font-weight: 700; color: var(--nv-text); margin: 0 0 4px; letter-spacing: -.005em; display: flex; align-items: center; gap: 8px; }
+.card-title .tag { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: rgba(255,184,77,.1); color: var(--nv-amber); border: 1px solid rgba(255,184,77,.25); font-weight: 600; }
+.card-title .tag.new { background: var(--nv-accent-soft); color: var(--nv-accent); border-color: rgba(77,201,192,.3); }
+.card-desc { font-size: 13px; color: var(--nv-text-dim); margin: 0; font-weight: 400; line-height: 1.5; }
+.card-arrow { opacity: 0; transition: opacity .16s ease, transform .16s ease; color: var(--nv-accent); width: 14px; height: 14px; flex-shrink: 0; margin-top: 4px; }
+.mega .card .outcome { position: absolute; top: 12px; right: 14px; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--nv-text-mute); }
+.mega .card .outcome b { color: var(--nv-accent); font-weight: 600; }
+.mega-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; border-top: 1px solid var(--nv-border); font-size: 13px; color: var(--nv-text-dim); }
+.mega-foot-left { display: flex; align-items: center; gap: 16px; }
+.mega-foot .foot-link { display: inline-flex; align-items: center; gap: 6px; color: var(--nv-text); font-weight: 500; text-decoration: none; }
+.mega-foot .foot-link:hover { color: var(--nv-accent); }
+.mega-foot .dot { width: 4px; height: 4px; background: var(--nv-text-mute); border-radius: 50%; }
+.mini-promo { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-radius: 8px; border: 1px dashed var(--nv-border-strong); font-size: 12px; color: var(--nv-text-dim); }
+.mini-promo b { color: var(--nv-text); font-weight: 600; }
+.mini-promo .bolt { color: var(--nv-accent); }
+.mega-view[hidden] { display: none; }
+
+/* Footer logo */
+.footer__logo { height: 20px; width: auto; display: block; opacity: 0.75; }
 .footer__logo:hover { opacity: 1; }
-
-.nav__links {
-  display: none;
-  gap: 2.25rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--bone-400);
-}
-@media (min-width: 960px) { .nav__links { display: flex; } }
-.nav__links a { transition: color 0.2s; }
-.nav__links a:hover { color: var(--bone-050); }
-
-.nav__actions { display: flex; align-items: center; gap: 0.5rem; }
-.nav__login { display: none; font-size: 0.875rem; color: var(--bone-400); padding: 0.5rem 0.75rem; }
-@media (min-width: 640px) { .nav__login { display: inline-block; } }
-.nav__login:hover { color: var(--bone-050); }
 
 .btn {
   display: inline-flex;
@@ -185,6 +323,16 @@ section { position: relative; z-index: 2; }
   background: var(--amber-500);
   color: var(--ink-1000);
 }
+.btn--text-link {
+  display: inline-flex; align-items: center; gap: 0.4em;
+  color: var(--bone-300);
+  font-size: 0.9rem; font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.btn--text-link:hover { color: var(--bone-050); }
+.btn--text-link .btn__arrow { transition: transform 0.2s; }
+.btn--text-link:hover .btn__arrow { transform: translate(2px, -2px); }
 .btn--ghost {
   color: var(--bone-200);
   border-color: var(--ink-700);
@@ -284,8 +432,19 @@ section { position: relative; z-index: 2; }
   color: var(--bone-300);
   margin-bottom: 3rem;
   font-feature-settings: "ss01" on;
-  opacity: 0;
-  animation: riseIn 1.1s var(--ease-out) 0.35s forwards;
+  opacity: 1;
+}
+.type-cursor {
+  display: inline-block;
+  color: var(--bone-300);
+  font-style: normal;
+  animation: blink .75s step-end infinite;
+  margin-left: 1px;
+}
+.type-cursor.done { display: none; }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
 .hero__cta { display: flex; gap: 0.75rem; flex-wrap: wrap; opacity: 0; animation: riseIn 1.1s var(--ease-out) 0.5s forwards; }
@@ -323,7 +482,7 @@ section { position: relative; z-index: 2; }
   0% { transform: translateY(0); opacity: 0; }
   10% { opacity: 1; }
   90% { opacity: 1; }
-  100% { transform: translateY(-240px); opacity: 0; }
+  100% { transform: translateY(240px); opacity: 0; }
 }
 @keyframes glowLayer {
   0%, 100% { filter: drop-shadow(0 0 8px var(--amber-glow)); }
@@ -1081,26 +1240,293 @@ section { position: relative; z-index: 2; }
 <!-- =======================================================
      NAVIGATION
      ======================================================= -->
-<nav class="nav" id="nav">
-  <a href="#" class="nav__brand">
-    <img src="images/DV_Logo_RGB-REV.svg" alt="Develocity" class="nav__logo">
-  </a>
-  <div class="nav__links">
-    <a href="#products">Products</a>
-    <a href="#solutions">Solutions</a>
-    <a href="#customers">Customers</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#docs">Docs</a>
-    <a href="#blog">Blog</a>
-  </div>
-  <div class="nav__actions">
-    <a href="#login" class="nav__login">Log in</a>
-    <a href="#sales" class="btn btn--primary">
-      Talk to sales
-      <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#" aria-label="Develocity">
+      <img class="brand-logo" src="images/DV_Logo_RGB-REV.svg" alt="Develocity">
     </a>
+
+    <nav class="primary" role="menubar">
+      <button class="nav-item" data-mega="products" aria-expanded="false" aria-haspopup="true">
+        Products
+        <svg class="caret" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"></path></svg>
+      </button>
+      <button class="nav-item" data-mega="solutions" aria-expanded="false" aria-haspopup="true">
+        Solutions
+        <svg class="caret" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"></path></svg>
+      </button>
+      <a class="nav-item" href="#">Developers</a>
+      <a class="nav-item" href="#">Customers</a>
+      <a class="nav-item" href="#">Pricing</a>
+      <a class="nav-item" href="#">Company</a>
+    </nav>
+
+    <div class="actions">
+      <a class="btn-primary" href="#">
+        Request a trial
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
   </div>
-</nav>
+</header>
+
+<div class="mega-backdrop" id="megaBackdrop"></div>
+
+<!-- ============ MEGA: PRODUCTS ============ -->
+<div class="mega" id="mega-products" role="menu" aria-label="Products menu">
+  <div class="mega-inner">
+    <aside class="mega-side">
+      <div class="side-item active" data-facet="observability">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 4 10 2-5h6"></path></svg></span>
+        <span class="side-item-meta">Observability Platform<small>8 products</small></span>
+        <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </div>
+      <div class="side-item" data-facet="telemetry">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h4l2 3h10M4 12h16M4 17h10l2 3h4"></path></svg></span>
+        <span class="side-item-meta">Telemetry Pipeline<small>6 sources</small></span>
+        <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </div>
+    </aside>
+    <main class="mega-main">
+      <div class="mega-view" data-view="observability">
+        <div class="mega-head">
+          <div class="mega-title">
+            <div class="kicker">Products <b>/</b> Observability Platform</div>
+            <h3>Measure, troubleshoot, and accelerate the entire SDLC</h3>
+          </div>
+          <div class="mega-head-right"><span class="pill">● Live, 2026.1</span></div>
+        </div>
+        <div class="cards">
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+            <span class="card-body"><span class="card-title">Platform Introduction <span class="tag new">New</span></span><span class="card-desc">Start here, tour the observability platform.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3v1a3 3 0 0 0 2 2.8V16a3 3 0 0 0 3 3h1v2h2V6a3 3 0 0 0-2-3zM15 3a3 3 0 0 1 3 3v1a3 3 0 0 1 3 3v1a3 3 0 0 1-2 2.8V16a3 3 0 0 1-3 3h-1v2h-2V6a3 3 0 0 1 2-3z"></path></svg></span>
+            <span class="card-body"><span class="card-title">Context Engine <span class="tag new">New</span></span><span class="card-desc">MCP Server, Skills, Develocity Analytics.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg></span>
+            <span class="card-body"><span class="card-title">Fact Store</span><span class="card-desc">Store all types of attestations in one place.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 16v-6M10 16V8M14 16v-9M18 16v-4"></path></svg></span>
+            <span class="card-body"><span class="card-title">Develocity Analytics</span><span class="card-desc">Prebuilt analytics dashboards.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg></span>
+            <span class="card-body"><span class="card-title">Toolchain O11y</span><span class="card-desc">Observability across your entire toolchain.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"></path><path d="M3 7l9 4 9-4M12 11v10"></path></svg></span>
+            <span class="card-body"><span class="card-title">Artifact O11y</span><span class="card-desc">Trace artifacts from source to production.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+        </div>
+        <div class="mega-foot">
+          <div class="mega-foot-left">
+            <a class="foot-link" href="#">Platform overview →</a>
+            <span class="dot"></span>
+            <a class="foot-link" href="#">Release notes</a>
+            <span class="dot"></span>
+            <a class="foot-link" href="#">Architecture</a>
+          </div>
+          <div class="mini-promo"><span class="bolt">⚡</span> <b>New</b>, Context Engine with MCP Server is GA.</div>
+        </div>
+      </div>
+      <div class="mega-view" data-view="telemetry" hidden>
+        <div class="mega-head">
+          <div class="mega-title">
+            <div class="kicker">Products <b>/</b> Telemetry Pipeline</div>
+            <h3>Ingest signals from every tool in your toolchain</h3>
+          </div>
+          <div class="mega-head-right"><span class="pill">6 connectors</span></div>
+        </div>
+        <div class="cards">
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3l7 7-3 3-7-7zM11 6l-8 8 4 4 8-8"></path></svg></span>
+            <span class="card-body"><span class="card-title">Build Systems</span><span class="card-desc">Gradle, Maven, Bazel, sbt, instrument in minutes.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v10"></path></svg></span>
+            <span class="card-body"><span class="card-title">Package Managers</span><span class="card-desc">npm, PyPI, Cargo, dependency-level telemetry.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+            <span class="card-body"><span class="card-title">CI Systems</span><span class="card-desc">40+ providers, GitHub, GitLab, Jenkins, CircleCI.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a3 3 0 0 1 3 3v13a2 2 0 0 1-2 2H7a3 3 0 0 1-3-3V4zM4 17h16M8 8h5"></path></svg></span>
+            <span class="card-body"><span class="card-title">Repository Manager</span><span class="card-desc">Consistent provenance across the enterprise.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+        </div>
+        <div class="mega-foot">
+          <div class="mega-foot-left">
+            <a class="foot-link" href="#">All integrations →</a>
+            <span class="dot"></span>
+            <a class="foot-link" href="#">Ingest API docs</a>
+          </div>
+          <div class="mini-promo"><span class="bolt">⚡</span> <b>Shift-left</b>, CI system data from 40+ providers.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============ MEGA: SOLUTIONS ============ -->
+<div class="mega" id="mega-solutions" role="menu" aria-label="Solutions menu">
+  <div class="mega-inner">
+    <aside class="mega-side">
+      <div class="side-item active" data-facet="data">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path></svg></span>
+        <span class="side-item-meta">By Telemetry Data<small>Provenance, policy, more</small></span>
+        <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </div>
+      <div class="side-item" data-facet="layer">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 18l9 5 9-5"></path></svg></span>
+        <span class="side-item-meta">By Layer<small>Artifact, know, change</small></span>
+        <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </div>
+      <div class="side-item" data-facet="usecase">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+        <span class="side-item-meta">By Use Case<small>Scale, govern, enable</small></span>
+        <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </div>
+    </aside>
+    <main class="mega-main">
+      <div class="mega-view" data-view="data">
+        <div class="mega-head">
+          <div class="mega-title">
+            <div class="kicker">Solutions <b>/</b> By Telemetry Data</div>
+            <h3>Start with the data you already generate</h3>
+          </div>
+          <div class="mega-head-right"><span class="pill">4 signals</span></div>
+        </div>
+        <div class="cards">
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 7h3a2 2 0 0 1 2 2v3H5v-3a2 2 0 0 1 2-2h3zM4 19h16v2H4z"></path></svg></span>
+            <span class="card-body"><span class="card-title">Provenance</span><span class="card-desc">Build Scan, lineage for every artifact.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"></path></svg></span>
+            <span class="card-body"><span class="card-title">Policy</span><span class="card-desc">Policy Scan, enforce rules in the pipeline.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></span>
+            <span class="card-body"><span class="card-title">Attestation</span><span class="card-desc">Ad-hoc attestations, sign what matters.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6M15 2v6M7 8h10v4a5 5 0 0 1-10 0zM12 17v5"></path></svg></span>
+            <span class="card-body"><span class="card-title">Integrations</span><span class="card-desc">Pull third-party data alongside push streams.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+        </div>
+        <div class="mega-foot">
+          <div class="mega-foot-left">
+            <a class="foot-link" href="#">All telemetry types →</a>
+            <span class="dot"></span>
+            <a class="foot-link" href="#">Data model</a>
+          </div>
+          <div class="mini-promo"><span class="bolt">◎</span> <b>Unified</b>, one schema across build, test, and deploy.</div>
+        </div>
+      </div>
+      <div class="mega-view" data-view="layer" hidden>
+        <div class="mega-head">
+          <div class="mega-title">
+            <div class="kicker">Solutions <b>/</b> By Layer</div>
+            <h3>Where in the stack does Develocity operate?</h3>
+          </div>
+          <div class="mega-head-right"><span class="pill">4 layers</span></div>
+        </div>
+        <div class="cards">
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"></path><path d="M3 7l9 4 9-4M12 11v10"></path></svg></span>
+            <span class="card-body"><span class="card-title">Artifact Plane</span><span class="card-desc">Auto-instrumentation at the artifact layer.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+            <span class="card-body"><span class="card-title">Know</span><span class="card-desc">Build Scan, Policy Scan, Ad-hoc Attestation.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4 13v2H8v-2A7 7 0 0 1 12 2z"></path></svg></span>
+            <span class="card-body"><span class="card-title">Understand</span><span class="card-desc">Flaky-test detection, domain knowledge.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"></path></svg></span>
+            <span class="card-body"><span class="card-title">Change</span><span class="card-desc">AI agents and Build Artifact CDN.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+        </div>
+        <div class="mega-foot">
+          <div class="mega-foot-left">
+            <a class="foot-link" href="#">Architecture overview →</a>
+            <span class="dot"></span>
+            <a class="foot-link" href="#">Reference topology</a>
+          </div>
+          <div class="mini-promo"><span class="bolt">⬢</span> <b>Four layers</b>, from artifacts to autonomous change.</div>
+        </div>
+      </div>
+      <div class="mega-view" data-view="usecase" hidden>
+        <div class="mega-head">
+          <div class="mega-title">
+            <div class="kicker">Solutions <b>/</b> By Use Case</div>
+            <h3>Outcomes, not features</h3>
+          </div>
+          <div class="mega-head-right"><span class="pill">3 outcomes</span></div>
+        </div>
+        <div class="cards">
+          <a class="card" href="#">
+            <span class="outcome"><b>Scale</b></span>
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"></path></svg></span>
+            <span class="card-body"><span class="card-title">Build Acceleration</span><span class="card-desc">Feature-level depth available.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="outcome"><b>Govern</b></span>
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4 7h16M7 7l-3 7a3 3 0 0 0 6 0L7 7zM17 7l-3 7a3 3 0 0 0 6 0L17 7z"></path></svg></span>
+            <span class="card-body"><span class="card-title">Artifact O11y</span><span class="card-desc">DORA-powered delivery performance.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="outcome"><b>Enable</b></span>
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg></span>
+            <span class="card-body"><span class="card-title">Toolchain O11y</span><span class="card-desc">Intelligent cache &amp; team insights.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+          <a class="card" href="#">
+            <span class="outcome"><b>Scale</b></span>
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-4 4-8 9-9l5 5c-1 5-5 9-9 9l-3-3-2-2zM15 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM5 19l-2 2M9 15l-2 2"></path></svg></span>
+            <span class="card-body"><span class="card-title">Infrastructure Efficiency</span><span class="card-desc">AI agents, Build Artifact CDN.</span></span>
+            <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+          </a>
+        </div>
+        <div class="mega-foot">
+          <div class="mega-foot-left">
+            <a class="foot-link" href="#">Customer stories →</a>
+            <span class="dot"></span>
+            <a class="foot-link" href="#">ROI calculator</a>
+          </div>
+          <div class="mini-promo"><span class="bolt">↗</span> Netflix saves <b>280,000+ hrs/yr</b> with Develocity.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
 
 <!-- =======================================================
      HERO
@@ -1117,14 +1543,14 @@ section { position: relative; z-index: 2; }
         <h1 class="hero__headline">
           The <em>context engineering</em> layer for AI-driven software delivery.
         </h1>
-        <p class="hero__strapline">Enable, govern, and scale.</p>
+        <p class="hero__strapline"><span id="strapline-tw"></span><span class="type-cursor">|</span></p>
         <div class="hero__cta">
           <a href="#sales" class="btn btn--primary">
             Talk to sales
             <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </a>
-          <a href="#explore" class="btn btn--ghost">
-            Explore the platform
+          <a href="#explore" class="btn--text-link">
+            View a demo
             <svg class="btn__arrow" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </a>
         </div>
@@ -1132,182 +1558,7 @@ section { position: relative; z-index: 2; }
 
       <!-- Right: architectural schematic -->
       <div class="schematic" aria-hidden="true">
-        <svg viewBox="0 0 500 520" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="layerGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#209bc4" stop-opacity="0.18"/>
-              <stop offset="50%" stop-color="#4dc9c0" stop-opacity="0.06"/>
-              <stop offset="100%" stop-color="#209bc4" stop-opacity="0.18"/>
-            </linearGradient>
-            <linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#4dc9c0" stop-opacity="0"/>
-              <stop offset="50%" stop-color="#4dc9c0" stop-opacity="1"/>
-              <stop offset="100%" stop-color="#4dc9c0" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Top layer: Consumers (humans + agents) -->
-          <g transform="translate(0, 30)">
-            <text x="10" y="0" class="schematic__label">Consumers</text>
-            <!-- Humans box -->
-            <g transform="translate(30, 20)">
-              <rect x="0" y="0" width="180" height="56" fill="#191d21" stroke="#2e3135" stroke-width="1"/>
-              <text x="18" y="22" class="schematic__tag">Engineers</text>
-              <circle cx="150" cy="28" r="3" fill="#808080"/>
-              <circle cx="158" cy="28" r="3" fill="#808080"/>
-              <circle cx="142" cy="28" r="3" fill="#808080"/>
-              <text x="18" y="42" class="schematic__label">Humans</text>
-            </g>
-            <!-- Agents box -->
-            <g transform="translate(290, 20)">
-              <rect x="0" y="0" width="180" height="56" fill="#191d21" stroke="#209bc4" stroke-width="1" stroke-opacity="0.6"/>
-              <text x="18" y="22" class="schematic__tag">Claude · Copilot · Devin</text>
-              <g transform="translate(148, 22)">
-                <path d="M0 4 L4 0 L8 4 L4 8 Z" fill="#4dc9c0" opacity="0.8"/>
-                <path d="M12 4 L16 0 L20 4 L16 8 Z" fill="#4dc9c0" opacity="0.6"/>
-              </g>
-              <text x="18" y="42" class="schematic__label schematic__label--accent">AI Agents</text>
-            </g>
-          </g>
-
-          <!-- Connectors from middle layer up -->
-          <g stroke="#515860" stroke-width="1" fill="none" opacity="0.5">
-            <path d="M120 130 L120 195"/>
-            <path d="M250 130 L250 195"/>
-            <path d="M380 130 L380 195"/>
-          </g>
-
-          <!-- Animated flow dots going UP -->
-          <g style="animation: flowUp 3s ease-in-out infinite;">
-            <circle cx="120" cy="180" r="2.5" fill="#209bc4"/>
-          </g>
-          <g style="animation: flowUp 3s ease-in-out 0.6s infinite;">
-            <circle cx="250" cy="180" r="2.5" fill="#209bc4"/>
-          </g>
-          <g style="animation: flowUp 3s ease-in-out 1.2s infinite;">
-            <circle cx="380" cy="180" r="2.5" fill="#209bc4"/>
-          </g>
-
-          <!-- MIDDLE LAYER: Context Engineering -->
-          <g transform="translate(0, 200)" style="animation: glowLayer 4s ease-in-out infinite;">
-            <!-- Outer glow rect -->
-            <rect x="20" y="0" width="460" height="120" fill="url(#layerGrad)"/>
-            <rect x="20" y="0" width="460" height="120" fill="none" stroke="#209bc4" stroke-width="1" stroke-opacity="0.5"/>
-
-            <!-- Top edge label -->
-            <text x="30" y="-8" class="schematic__label schematic__label--accent">Develocity — Context Engineering Layer</text>
-
-            <!-- Three sub-components -->
-            <g transform="translate(40, 20)">
-              <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#35393e" stroke-width="1"/>
-              <text x="12" y="22" class="schematic__tag">Know</text>
-              <text x="12" y="40" class="schematic__label">Build Scan</text>
-              <text x="12" y="55" class="schematic__label">Policy Scan</text>
-              <text x="12" y="70" class="schematic__label">Attestation</text>
-            </g>
-            <g transform="translate(185, 20)">
-              <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#35393e" stroke-width="1"/>
-              <text x="12" y="22" class="schematic__tag">Understand</text>
-              <text x="12" y="40" class="schematic__label">Domain model</text>
-              <text x="12" y="55" class="schematic__label">Flaky analysis</text>
-              <text x="12" y="70" class="schematic__label">Dependencies</text>
-            </g>
-            <g transform="translate(330, 20)">
-              <rect x="0" y="0" width="130" height="80" fill="#141416" stroke="#209bc4" stroke-width="1" stroke-opacity="0.7"/>
-              <text x="12" y="22" class="schematic__tag" fill="#209bc4">Expose</text>
-              <text x="12" y="40" class="schematic__label">MCP servers</text>
-              <text x="12" y="55" class="schematic__label">Skills</text>
-              <text x="12" y="70" class="schematic__label">Analytics</text>
-            </g>
-          </g>
-
-          <!-- Connectors from substrate up to middle -->
-          <g stroke="#515860" stroke-width="1" fill="none" opacity="0.5">
-            <path d="M80 395 L80 325"/>
-            <path d="M170 395 L170 325"/>
-            <path d="M260 395 L260 325"/>
-            <path d="M350 395 L350 325"/>
-            <path d="M420 395 L420 325"/>
-          </g>
-
-          <!-- Animated flow dots going UP from substrate -->
-          <g style="animation: flowUp 2.5s ease-in-out 0.2s infinite;">
-            <circle cx="80" cy="385" r="2" fill="#209bc4"/>
-          </g>
-          <g style="animation: flowUp 2.5s ease-in-out 0.8s infinite;">
-            <circle cx="170" cy="385" r="2" fill="#209bc4"/>
-          </g>
-          <g style="animation: flowUp 2.5s ease-in-out 1.4s infinite;">
-            <circle cx="260" cy="385" r="2" fill="#209bc4"/>
-          </g>
-          <g style="animation: flowUp 2.5s ease-in-out 2s infinite;">
-            <circle cx="350" cy="385" r="2" fill="#209bc4"/>
-          </g>
-          <g style="animation: flowUp 2.5s ease-in-out 0.5s infinite;">
-            <circle cx="420" cy="385" r="2" fill="#209bc4"/>
-          </g>
-
-          <!-- BOTTOM: SDLC substrate -->
-          <g transform="translate(0, 400)">
-            <text x="10" y="0" class="schematic__label">SDLC Substrate — Telemetry</text>
-            <g transform="translate(30, 20)">
-              <rect x="0" y="0" width="440" height="84" fill="#141416" stroke="#2e3135" stroke-width="1"/>
-              <!-- Row of toolchain tags -->
-              <g transform="translate(12, 18)">
-                <g>
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Gradle</text>
-                </g>
-                <g transform="translate(70, 0)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Maven</text>
-                </g>
-                <g transform="translate(140, 0)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Bazel</text>
-                </g>
-                <g transform="translate(210, 0)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">npm</text>
-                </g>
-                <g transform="translate(280, 0)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">sbt</text>
-                </g>
-                <g transform="translate(350, 0)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Python</text>
-                </g>
-                <!-- Second row -->
-                <g transform="translate(0, 32)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">GH Actions</text>
-                </g>
-                <g transform="translate(70, 32)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">GitLab CI</text>
-                </g>
-                <g transform="translate(140, 32)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Jenkins</text>
-                </g>
-                <g transform="translate(210, 32)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">JFrog</text>
-                </g>
-                <g transform="translate(280, 32)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">Nexus</text>
-                </g>
-                <g transform="translate(350, 32)">
-                  <rect x="0" y="0" width="62" height="22" fill="#20262d" stroke="#2e3135"/>
-                  <text x="31" y="15" class="schematic__tag" text-anchor="middle">IntelliJ</text>
-                </g>
-              </g>
-            </g>
-            <text x="30" y="110" class="schematic__label" opacity="0.6">build · test · dependency · artifact telemetry</text>
-          </g>
-        </svg>
+        <img src="images/Dev_Infographic.svg" alt="" style="width:100%;height:auto;">
       </div>
     </div>
   </div>
@@ -1756,12 +2007,87 @@ section { position: relative; z-index: 2; }
 </footer>
 
 <script>
-// Nav shadow on scroll
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
-}, { passive: true });
+(function () {
+  const nav = document.getElementById('nav');
+  const backdrop = document.getElementById('megaBackdrop');
+  const triggers = document.querySelectorAll('[data-mega]');
+  const panels = {
+    products: document.getElementById('mega-products'),
+    solutions: document.getElementById('mega-solutions'),
+  };
+
+  let active = null;
+  function open(name) {
+    if (active === name) return close();
+    Object.values(panels).forEach(p => p && p.classList.remove('open'));
+    triggers.forEach(t => t.classList.remove('open'));
+    if (panels[name]) {
+      panels[name].classList.add('open');
+      const trig = document.querySelector('[data-mega="' + name + '"]');
+      if (trig) trig.classList.add('open');
+      backdrop.classList.add('open');
+      nav.classList.add('mega-active');
+      active = name;
+    }
+  }
+  function close() {
+    Object.values(panels).forEach(p => p && p.classList.remove('open'));
+    triggers.forEach(t => t.classList.remove('open'));
+    backdrop.classList.remove('open');
+    nav.classList.remove('mega-active');
+    active = null;
+  }
+
+  triggers.forEach(t => {
+    t.addEventListener('click', e => {
+      e.preventDefault();
+      open(t.dataset.mega);
+    });
+  });
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') close();
+  });
+
+  // Side-rail facet switcher inside each mega panel
+  Object.values(panels).forEach(panel => {
+    if (!panel) return;
+    const sideItems = panel.querySelectorAll('.mega-side-item');
+    const cards = panel.querySelectorAll('[data-facet]');
+    sideItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const facet = item.dataset.facet;
+        sideItems.forEach(s => s.classList.toggle('active', s === item));
+        cards.forEach(c => c.classList.toggle('hidden', c.dataset.facet !== facet && facet !== 'all'));
+      });
+    });
+  });
+
+  // Typewriter for strapline
+  const twEl = document.getElementById('strapline-tw');
+  const twCursor = document.querySelector('.type-cursor');
+  const twText = 'Enable, govern, and scale.';
+  let twIdx = 0;
+  function typeNext() {
+    if (twIdx <= twText.length) {
+      twEl.textContent = twText.slice(0, twIdx);
+      const progress = twIdx / twText.length;
+      const base = 90 + progress * 70;
+      const jitter = (Math.random() - 0.5) * 40;
+      twIdx++;
+      setTimeout(typeNext, twIdx === 1 ? 800 : base + jitter);
+    } else {
+      setTimeout(() => twCursor.classList.add('done'), 600);
+    }
+  }
+  typeNext();
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, { passive: true });
+})();
 </script>
 
 </body>
