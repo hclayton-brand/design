@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predictive Test Selection — Develocity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B0D0F;
+    --navy-mid: #111827;
+    --navy-soft: #1a2235;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --text-primary: #f0f2f7;
+    --text-secondary: #8b93a8;
+    --text-tertiary: #4f5668;
+    --accent: #4DC9C0;
+    --accent-dim: rgba(77,201,192,0.12);
+    --accent-dim2: rgba(77,201,192,0.06);
+    --blue: #5b9cf6;
+    --blue-dim: rgba(91,156,246,0.12);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.10);
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--navy);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(11,13,15,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex; align-items: center;
+    padding: 0 32px;
+    gap: 32px;
+  }
+  .nav-logo {
+    font-size: 15px; font-weight: 600; letter-spacing: -0.02em;
+    color: var(--text-primary); text-decoration: none; margin-right: 8px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a {
+    font-size: 13px; color: var(--text-secondary); text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+  .nav-links a.active { color: var(--text-primary); font-weight: 500; }
+  .nav-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+  .btn-ghost {
+    font-family: var(--font); font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 6px;
+    border: 1px solid var(--border-strong); color: var(--text-secondary);
+    background: transparent; cursor: pointer; text-decoration: none;
+    transition: all 0.15s; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); color: var(--text-primary); }
+  .btn-primary {
+    font-family: var(--font); font-size: 12px; font-weight: 600;
+    padding: 6px 16px; border-radius: 6px;
+    background: var(--accent); color: var(--navy); border: none;
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    padding: 12px 32px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-tertiary);
+    border-bottom: 1px solid var(--border);
+  }
+  .breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--text-secondary); }
+  .breadcrumb .sep { color: var(--text-tertiary); }
+  .breadcrumb .current { color: var(--text-secondary); }
+
+  /* HERO */
+  .hero {
+    padding: 64px 32px 56px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 48px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-tags { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; font-weight: 500; padding: 3px 10px;
+    border-radius: 20px; letter-spacing: 0.02em;
+  }
+  .tag-accent { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(77,201,192,0.2); }
+  .tag-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(91,156,246,0.2); }
+  .tag-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+  h1 {
+    font-size: 44px; font-weight: 600; line-height: 1.1;
+    letter-spacing: -0.03em; margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+  .hero-sub {
+    font-size: 17px; color: var(--text-secondary); line-height: 1.6;
+    margin-bottom: 28px; max-width: 520px;
+    font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .btn-live {
+    font-family: var(--font); font-size: 13px; font-weight: 600;
+    padding: 10px 20px; border-radius: 8px;
+    background: var(--accent); color: var(--navy); border: none;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: opacity 0.15s;
+  }
+  .btn-live:hover { opacity: 0.88; }
+  .btn-demo {
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    padding: 10px 20px; border-radius: 8px;
+    background: transparent; color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: all 0.15s;
+  }
+  .btn-demo:hover { border-color: rgba(255,255,255,0.25); }
+  .hero-depth-ramps { display: flex; gap: 20px; flex-wrap: wrap; }
+  .depth-link {
+    font-size: 13px; color: var(--blue); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: opacity 0.15s;
+  }
+  .depth-link:hover { opacity: 0.75; }
+
+  .hero-screenshot {
+    background: var(--navy-soft);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    position: relative;
+  }
+  .screenshot-inner {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+  }
+  .ss-bar {
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 12px;
+    display: flex; gap: 6px; align-items: center;
+  }
+  .ss-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .ss-title { font-size: 11px; color: var(--text-tertiary); margin-left: 8px; font-family: var(--mono); }
+  .ss-body { padding: 16px; flex: 1; }
+  .ss-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
+  .ss-stat {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 12px;
+  }
+  .ss-stat-num { font-size: 20px; font-weight: 600; color: var(--accent); font-family: var(--mono); }
+  .ss-stat-label { font-size: 9px; color: var(--text-tertiary); margin-top: 2px; }
+  .ss-bar-chart { display: flex; flex-direction: column; gap: 5px; }
+  .ss-bar-row { display: flex; align-items: center; gap: 8px; }
+  .ss-bar-label { font-size: 9px; color: var(--text-tertiary); width: 60px; font-family: var(--mono); }
+  .ss-bar-track { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .ss-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+  .ss-bar-val { font-size: 9px; color: var(--text-secondary); width: 28px; text-align: right; font-family: var(--mono); }
+
+  /* FEATURE OVERVIEW */
+  .feature-overview {
+    padding: 40px 32px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .feature-overview p {
+    font-size: 16px; color: var(--text-secondary); line-height: 1.7;
+    max-width: 720px; margin-bottom: 16px;
+  }
+  .overview-links { display: flex; gap: 20px; flex-wrap: wrap; }
+
+  /* STICKY TABS */
+  .sticky-tabs {
+    position: sticky; top: 56px; z-index: 90;
+    background: rgba(11,13,15,0.95); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex; gap: 0;
+    overflow-x: auto;
+  }
+  .tab-item {
+    font-size: 13px; font-weight: 500; padding: 14px 20px;
+    color: var(--text-secondary); cursor: pointer;
+    border-bottom: 2px solid transparent; white-space: nowrap;
+    transition: all 0.15s; text-decoration: none; display: block;
+  }
+  .tab-item:hover { color: var(--text-primary); }
+  .tab-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* DEEP DIVE SECTIONS */
+  .deep-dive-section {
+    padding: 56px 32px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 380px;
+    gap: 64px; align-items: start;
+  }
+  .deep-dive-section.reverse { direction: rtl; }
+  .deep-dive-section.reverse > * { direction: ltr; }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 12px; font-family: var(--mono);
+  }
+  h2 {
+    font-size: 26px; font-weight: 600; letter-spacing: -0.02em;
+    line-height: 1.25; margin-bottom: 20px; color: var(--text-primary);
+  }
+  .bullets { display: flex; flex-direction: column; gap: 12px; }
+  .bullet {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .bullet-marker {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); margin-top: 8px; flex-shrink: 0;
+    opacity: 0.7;
+  }
+  .bullet p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .bullet p strong { color: var(--text-primary); font-weight: 500; }
+  .section-screenshot {
+    background: var(--navy-soft);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 20px;
+    aspect-ratio: 4/3;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .mock-chart-title { font-size: 11px; color: var(--text-tertiary); font-family: var(--mono); }
+  .mock-chart-area {
+    flex: 1; position: relative; border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden;
+    background: rgba(77,201,192,0.02);
+  }
+  .chart-line {
+    position: absolute; bottom: 0; left: 0; right: 0;
+  }
+  .mock-table { width: 100%; border-collapse: collapse; }
+  .mock-table th { font-size: 9px; color: var(--text-tertiary); text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-weight: 400; }
+  .mock-table td { font-size: 10px; color: var(--text-secondary); padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); font-family: var(--mono); }
+  .mock-table td.green { color: var(--accent); }
+  .mock-table td.dim { color: var(--text-tertiary); }
+  .mock-badge {
+    display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 3px; font-family: var(--mono);
+  }
+  .mock-badge.skip { background: var(--accent-dim); color: var(--accent); }
+  .mock-badge.run { background: rgba(255,255,255,0.06); color: var(--text-tertiary); }
+
+  /* FULL-WIDTH SECTIONS */
+  .section-full {
+    padding: 48px 32px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  /* VALIDATION */
+  .validation-strip {
+    padding: 32px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--navy-soft);
+    display: flex; align-items: center; gap: 32px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .validation-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text-secondary);
+  }
+  .validation-icon {
+    width: 32px; height: 32px; border-radius: 6px;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* CUSTOMER EVIDENCE */
+  .evidence-section {
+    padding: 56px 32px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .evidence-section h3 {
+    font-size: 13px; font-weight: 600; color: var(--text-tertiary);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 28px; font-family: var(--mono);
+  }
+  .logo-strip { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+  .logo-chip {
+    font-size: 12px; font-weight: 600; padding: 8px 18px;
+    border: 1px solid var(--border-strong); border-radius: 6px;
+    color: var(--text-secondary); letter-spacing: 0.04em;
+    background: rgba(255,255,255,0.02);
+  }
+  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .stat-card {
+    border: 1px solid var(--border-strong);
+    border-radius: 10px; padding: 20px 24px;
+    background: rgba(255,255,255,0.02);
+  }
+  .stat-num { font-size: 36px; font-weight: 600; letter-spacing: -0.03em; color: var(--accent); font-family: var(--mono); }
+  .stat-desc { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+  .stat-attr { font-size: 11px; color: var(--text-tertiary); margin-top: 8px; font-family: var(--mono); }
+
+  /* RESOURCES */
+  .resources-section {
+    padding: 56px 32px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .resources-section h3 {
+    font-size: 13px; font-weight: 600; color: var(--text-tertiary);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 24px; font-family: var(--mono);
+  }
+  .resources-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  .resource-card {
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 18px;
+    background: rgba(255,255,255,0.02);
+    text-decoration: none; display: flex; flex-direction: column; gap: 10px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .resource-card:hover { border-color: var(--border-strong); background: rgba(255,255,255,0.04); }
+  .resource-type { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: var(--text-tertiary); font-family: var(--mono); }
+  .resource-title { font-size: 13px; color: var(--text-primary); line-height: 1.45; font-weight: 400; }
+  .resource-arrow { font-size: 11px; color: var(--blue); margin-top: auto; }
+
+  /* WHATS NEXT */
+  .whats-next {
+    padding: 64px 32px;
+    max-width: 1200px; margin: 0 auto;
+    text-align: center;
+  }
+  .whats-next h2 { font-size: 32px; margin-bottom: 12px; }
+  .whats-next p { font-size: 16px; color: var(--text-secondary); margin-bottom: 28px; }
+  .whats-next-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 32px;
+    font-size: 12px; color: var(--text-tertiary);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-screenshot { display: none; }
+    .deep-dive-section { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: 1fr; }
+    .resources-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">develo<span>city</span></a>
+  <div class="nav-links">
+    <a href="#" class="active">Platform ▾</a>
+    <a href="#">Solutions ▾</a>
+    <a href="#">Customers</a>
+    <a href="#">Blog</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="btn-ghost">Docs ↗</a>
+    <a href="#" class="btn-primary">Request a demo</a>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="#">Platform</a>
+  <span class="sep">›</span>
+  <a href="#">Acceleration</a>
+  <span class="sep">›</span>
+  <span class="current">Predictive Test Selection</span>
+</div>
+
+<div style="max-width:1200px;margin:0 auto;">
+<section class="hero">
+  <div>
+    <div class="hero-tags">
+      <span class="tag tag-accent">Acceleration</span>
+      <span class="tag tag-blue">Context Engineering Layer</span>
+    </div>
+    <h1>Predictive Test<br>Selection</h1>
+    <p class="hero-sub">Skip the tests that won't catch anything. A model trained on your change history scores each test before CI runs — so PRs get fast feedback, and nothing that matters gets missed.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-live">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><polygon points="5.5,4.5 10,7 5.5,9.5" fill="currentColor"/></svg>
+        See PTS catch 99.1% on Spring Boot
+      </a>
+      <a href="#" class="btn-demo">Request a demo</a>
+    </div>
+    <div class="hero-depth-ramps">
+      <a href="#" class="depth-link">View documentation →</a>
+      <a href="#" class="depth-link">View pricing →</a>
+    </div>
+  </div>
+  <div class="hero-screenshot">
+    <div class="screenshot-inner">
+      <div class="ss-bar">
+        <div class="ss-dot" style="background:#ff5f57"></div>
+        <div class="ss-dot" style="background:#febc2e"></div>
+        <div class="ss-dot" style="background:#28c840"></div>
+        <span class="ss-title">build-scan · spring-boot · PR #18472</span>
+      </div>
+      <div class="ss-body">
+        <div class="ss-stat-row">
+          <div class="ss-stat">
+            <div class="ss-stat-num">99.1%</div>
+            <div class="ss-stat-label">catch rate</div>
+          </div>
+          <div class="ss-stat">
+            <div class="ss-stat-num">62%</div>
+            <div class="ss-stat-label">tests skipped</div>
+          </div>
+          <div class="ss-stat">
+            <div class="ss-stat-num">4m 12s</div>
+            <div class="ss-stat-label">saved this run</div>
+          </div>
+        </div>
+        <div class="mock-chart-title">test prediction confidence · this changeset</div>
+        <div class="ss-bar-chart" style="margin-top:8px;">
+          <div class="ss-bar-row">
+            <span class="ss-bar-label">DataTests</span>
+            <div class="ss-bar-track"><div class="ss-bar-fill" style="width:91%"></div></div>
+            <span class="ss-bar-val">0.91</span>
+          </div>
+          <div class="ss-bar-row">
+            <span class="ss-bar-label">AuthTests</span>
+            <div class="ss-bar-track"><div class="ss-bar-fill" style="width:78%"></div></div>
+            <span class="ss-bar-val">0.78</span>
+          </div>
+          <div class="ss-bar-row">
+            <span class="ss-bar-label">ApiTests</span>
+            <div class="ss-bar-track"><div class="ss-bar-fill" style="width:43%"></div></div>
+            <span class="ss-bar-val">0.43</span>
+          </div>
+          <div class="ss-bar-row">
+            <span class="ss-bar-label">UiTests</span>
+            <div class="ss-bar-track"><div class="ss-bar-fill" style="width:6%;background:var(--text-tertiary)"></div></div>
+            <span class="ss-bar-val" style="color:var(--text-tertiary)">0.03 ✕</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<section class="feature-overview">
+  <p>Predictive Test Selection applies a model trained on your Develocity outcome history to score each test by its probability of failing given a specific changeset. Tests below threshold are skipped on PRs and feature branches; full suites run on release builds. Skip decisions are auditable per-run in Build Scan.</p>
+  <div class="overview-links">
+    <a href="#" class="depth-link">View documentation →</a>
+    <a href="#" class="depth-link">View pricing →</a>
+    <a href="#" class="depth-link">Request a Demo →</a>
+  </div>
+</section>
+
+<nav class="sticky-tabs">
+  <a href="#model-accuracy" class="tab-item active">Model accuracy</a>
+  <a href="#branch-strategy" class="tab-item">Branch strategy</a>
+  <a href="#threshold-tuning" class="tab-item">Threshold tuning</a>
+  <a href="#observability" class="tab-item">Observability</a>
+  <a href="#integrations" class="tab-item">Integrations</a>
+</nav>
+
+<div style="max-width:1200px;margin:0 auto;">
+
+<section class="deep-dive-section" id="model-accuracy">
+  <div>
+    <div class="section-eyebrow">Model accuracy</div>
+    <h2>Skip only the tests that won't catch anything</h2>
+    <div class="bullets">
+      <div class="bullet"><div class="bullet-marker"></div><p>Model trained on <strong>your</strong> outcome history — not a generic heuristic. Learns the relationship between changed files and failing tests specific to your codebase.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>99.1% failure catch rate measured on Spring Boot over a 12-month window of 4,300+ builds. Safety-first by design: uncertain predictions default to run.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Model retrains continuously as new build outcomes arrive. Accuracy improves with usage volume — the more CI runs Develocity ingests, the sharper the predictions.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Every skip decision is scored, timestamped, and surfaced in Build Scan — queryable per test class, per author, per PR.</p></div>
+    </div>
+  </div>
+  <div class="section-screenshot">
+    <div class="mock-chart-title">prediction accuracy over 90 days · spring-boot</div>
+    <div class="mock-chart-area">
+      <svg width="100%" height="100%" viewBox="0 0 340 160" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lg1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#4DC9C0" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#4DC9C0" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,140 L40,125 L80,110 L120,95 L160,70 L200,55 L240,42 L280,32 L340,22 L340,160 L0,160Z" fill="url(#lg1)"/>
+        <path d="M0,140 L40,125 L80,110 L120,95 L160,70 L200,55 L240,42 L280,32 L340,22" fill="none" stroke="#4DC9C0" stroke-width="2" stroke-linejoin="round"/>
+        <line x1="0" y1="18" x2="340" y2="18" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="4" y="14" font-family="DM Mono,monospace" font-size="8" fill="rgba(77,201,192,0.6)">99.1%</text>
+      </svg>
+    </div>
+    <table class="mock-table">
+      <tr>
+        <th>test suite</th><th>predicted</th><th>outcome</th><th>confidence</th>
+      </tr>
+      <tr>
+        <td>DataTests</td><td><span class="mock-badge run">RUN</span></td><td class="green">FAIL ✓</td><td class="green">0.91</td>
+      </tr>
+      <tr>
+        <td>AuthTests</td><td><span class="mock-badge run">RUN</span></td><td class="green">PASS ✓</td><td>0.78</td>
+      </tr>
+      <tr>
+        <td>UiTests</td><td><span class="mock-badge skip">SKIP</span></td><td class="dim">— skipped</td><td class="dim">0.03</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section class="deep-dive-section reverse" id="branch-strategy">
+  <div>
+    <div class="section-eyebrow">Branch strategy</div>
+    <h2>PR builds run faster; release builds stay complete</h2>
+    <div class="bullets">
+      <div class="bullet"><div class="bullet-marker"></div><p>PTS applies only on configured branches — PRs, feature branches, draft builds. Release branches and <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">main</code> always run full suites, unconditionally.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Branch policy is enforced at the Gradle or Maven plugin level — no CI pipeline changes required. Configure once in <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">develocity.testDistribution.predictiveTestSelection</code>.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Composable with Test Distribution: PTS selects the subset to run, TD parallelizes across agents. Combined, the two capabilities compound the time savings.</p></div>
+    </div>
+  </div>
+  <div class="section-screenshot">
+    <div class="mock-chart-title">branch policy config · build.gradle</div>
+    <div style="background:rgba(0,0,0,0.3);border-radius:6px;padding:14px;font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--text-secondary);flex:1;">
+      <span style="color:var(--text-tertiary)">// develocity.gradle</span><br>
+      develocity {<br>
+      &nbsp;&nbsp;testSelection {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--blue)">predictive</span> {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text-secondary)">enabled</span> = <span style="color:var(--accent)">true</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text-secondary)">threshold</span> = <span style="color:var(--amber)">0.05</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text-secondary)">branches</span> {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include(<span style="color:var(--accent)">"feature/*"</span>)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include(<span style="color:var(--accent)">"pr/*"</span>)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--text-tertiary)">// main, release/* excluded</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;}<br>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="deep-dive-section" id="threshold-tuning">
+  <div>
+    <div class="section-eyebrow">Threshold tuning</div>
+    <h2>Balance speed and safety per project</h2>
+    <div class="bullets">
+      <div class="bullet"><div class="bullet-marker"></div><p>Default threshold of <strong>0.05</strong> (5% predicted failure probability) is calibrated for maximum safety — typical projects see 40–65% test skip rates at this setting.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Raise threshold for faster builds on well-tested, stable codebases; lower it for projects with high-consequence failures or thin test coverage. Tunable per Gradle subproject.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Develocity 360 surfaces catch-rate vs. skip-rate curves per project — so threshold decisions are data-driven, not guesswork.</p></div>
+    </div>
+  </div>
+  <div class="section-screenshot">
+    <div class="mock-chart-title">catch rate vs skip rate · threshold sweep</div>
+    <div class="mock-chart-area" style="flex:1;">
+      <svg width="100%" height="100%" viewBox="0 0 320 140" preserveAspectRatio="none">
+        <line x1="0" y1="0" x2="0" y2="140" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <line x1="0" y1="140" x2="320" y2="140" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <path d="M10,10 L60,12 L110,18 L160,35 L210,70 L260,110 L310,132" fill="none" stroke="#4DC9C0" stroke-width="1.5"/>
+        <path d="M10,130 L60,120 L110,100 L160,75 L210,48 L260,25 L310,10" fill="none" stroke="#5b9cf6" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <circle cx="160" cy="35" r="4" fill="var(--amber)" stroke="var(--navy)" stroke-width="1.5"/>
+        <text x="162" y="30" font-family="DM Mono,monospace" font-size="8" fill="var(--amber)">0.05 default</text>
+        <text x="4" y="130" font-family="DM Mono,monospace" font-size="7" fill="var(--accent)">catch rate</text>
+        <text x="4" y="20" font-family="DM Mono,monospace" font-size="7" fill="var(--blue)">skip rate</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="deep-dive-section reverse" id="observability">
+  <div>
+    <div class="section-eyebrow">Observability</div>
+    <h2>Every skip decision is auditable</h2>
+    <div class="bullets">
+      <div class="bullet"><div class="bullet-marker"></div><p>Each skipped test records: confidence score, model version, contributing features (changed files, recent outcomes). Queryable in Build Scan and Develocity Analytics.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Aggregate views in Develocity 360: catch rate trend, skip rate by project, false-negative count, and model-version history — so you can see if accuracy drifts.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>False-negative tracking: when a skipped test would have failed, Develocity records it. Feeds back into model retraining and is surfaced in the platform dashboard.</p></div>
+    </div>
+  </div>
+  <div class="section-screenshot">
+    <div class="mock-chart-title">build scan · skipped tests detail</div>
+    <table class="mock-table" style="margin-top:4px;">
+      <tr><th>test</th><th>score</th><th>reason</th></tr>
+      <tr><td>UiIntegrationTest</td><td class="dim">0.02</td><td class="mock-badge skip" style="font-size:9px;">SKIP</td></tr>
+      <tr><td>LegacyPayTests</td><td class="dim">0.01</td><td class="mock-badge skip" style="font-size:9px;">SKIP</td></tr>
+      <tr><td>CoreDataTest</td><td class="green">0.88</td><td class="mock-badge run" style="font-size:9px;">RUN</td></tr>
+      <tr><td>AuthFlowTest</td><td>0.54</td><td class="mock-badge run" style="font-size:9px;">RUN</td></tr>
+    </table>
+    <div style="margin-top:10px;background:rgba(77,201,192,0.04);border:1px solid rgba(77,201,192,0.12);border-radius:6px;padding:10px 12px;">
+      <div style="font-size:9px;color:var(--text-tertiary);font-family:var(--mono);margin-bottom:4px;">this run summary</div>
+      <div style="display:flex;gap:16px;">
+        <div><span style="font-family:var(--mono);font-size:14px;color:var(--accent);">62%</span><div style="font-size:9px;color:var(--text-tertiary)">skipped</div></div>
+        <div><span style="font-family:var(--mono);font-size:14px;color:var(--text-primary);">99.1%</span><div style="font-size:9px;color:var(--text-tertiary)">catch rate</div></div>
+        <div><span style="font-family:var(--mono);font-size:14px;color:var(--text-secondary);">v2.4.1</span><div style="font-size:9px;color:var(--text-tertiary)">model ver</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deep-dive-section" id="integrations">
+  <div>
+    <div class="section-eyebrow">Integrations</div>
+    <h2>Works with the build tools you already use</h2>
+    <div class="bullets">
+      <div class="bullet"><div class="bullet-marker"></div><p><strong>Gradle and Maven</strong> supported natively — plugin-based, no agent installation. Requires Gradle 7.1+ or Maven 3.8.1+.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>CI-agnostic: runs on GitHub Actions, Jenkins, CircleCI, TeamCity, Buildkite, GitLab CI, and any pipeline that invokes Gradle or Maven builds.</p></div>
+      <div class="bullet"><div class="bullet-marker"></div><p>Build Scan telemetry emitted automatically — no additional instrumentation. PTS skip decisions appear in the same Build Scan as the rest of the build data.</p></div>
+    </div>
+  </div>
+  <div class="section-screenshot">
+    <div class="mock-chart-title">supported build tools & CI</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px;">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10px;color:var(--text-secondary);font-family:var(--mono);text-align:center;">Gradle</div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10px;color:var(--text-secondary);font-family:var(--mono);text-align:center;">Maven</div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10px;color:var(--text-secondary);font-family:var(--mono);text-align:center;">GitHub CI</div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10px;color:var(--text-secondary);font-family:var(--mono);text-align:center;">Jenkins</div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10px;color:var(--text-secondary);font-family:var(--mono);text-align:center;">CircleCI</div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10px;color:var(--text-secondary);font-family:var(--mono);text-align:center;">Buildkite</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="validation-strip">
+  <div class="validation-item">
+    <div class="validation-icon">◆</div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-primary)">Gartner Magic Quadrant</div>
+      <div style="font-size:11px;color:var(--text-tertiary)">Leader · DevOps Platforms 2024</div>
+    </div>
+  </div>
+  <div style="width:1px;height:32px;background:var(--border)"></div>
+  <div class="validation-item">
+    <div class="validation-icon">🔒</div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-primary)">SOC 2 Type II</div>
+      <div style="font-size:11px;color:var(--text-tertiary)">Security & availability</div>
+    </div>
+  </div>
+  <div style="width:1px;height:32px;background:var(--border)"></div>
+  <div class="validation-item">
+    <div class="validation-icon">★</div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-primary)">G2 · 4.8 / 5.0</div>
+      <div style="font-size:11px;color:var(--text-tertiary)">140+ reviews</div>
+    </div>
+  </div>
+</div>
+
+<section class="evidence-section">
+  <h3>Used by engineering teams at scale</h3>
+  <div class="logo-strip">
+    <div class="logo-chip">Netflix</div>
+    <div class="logo-chip">LinkedIn</div>
+    <div class="logo-chip">Airbnb</div>
+    <div class="logo-chip">Apple</div>
+    <div class="logo-chip">Shopify</div>
+  </div>
+  <div class="stat-strip">
+    <div class="stat-card">
+      <div class="stat-num">62%</div>
+      <div class="stat-desc">reduction in CI test time on PR builds</div>
+      <div class="stat-attr">Netflix · Android build pipeline</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">99.1%</div>
+      <div class="stat-desc">failure catch rate (Spring Boot, 12 months)</div>
+      <div class="stat-attr">4,300+ builds measured</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3 mo</div>
+      <div class="stat-desc">median payback period for enterprise deployments</div>
+      <div class="stat-attr">across 40+ enterprise customers</div>
+    </div>
+  </div>
+</section>
+
+<section class="resources-section">
+  <h3>Go deeper</h3>
+  <div class="resources-grid">
+    <a href="#" class="resource-card">
+      <div class="resource-type">Case study</div>
+      <div class="resource-title">How Netflix reduced CI test time by 62% using Predictive Test Selection</div>
+      <div class="resource-arrow">Read →</div>
+    </a>
+    <a href="#" class="resource-card">
+      <div class="resource-type">Engineering blog</div>
+      <div class="resource-title">The model behind PTS: change history, outcome weighting, and threshold calibration</div>
+      <div class="resource-arrow">Read →</div>
+    </a>
+    <a href="#" class="resource-card">
+      <div class="resource-type">Documentation</div>
+      <div class="resource-title">Configuring Predictive Test Selection for Gradle and Maven projects</div>
+      <div class="resource-arrow">Read →</div>
+    </a>
+    <a href="#" class="resource-card">
+      <div class="resource-type">Video</div>
+      <div class="resource-title">PTS deep dive: accuracy, branch strategy, and composing with Test Distribution (32 min)</div>
+      <div class="resource-arrow">Watch →</div>
+    </a>
+  </div>
+</section>
+
+<section class="whats-next">
+  <h2>See it on a real codebase</h2>
+  <p>PTS is running against Spring Boot's full commit history. Walk through a prediction, inspect the skip decisions, and pull the catch-rate curve for the last 90 days.</p>
+  <div class="whats-next-ctas">
+    <a href="#" class="btn-live">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><polygon points="5.5,4.5 10,7 5.5,9.5" fill="currentColor"/></svg>
+      See PTS catch 99.1% on Spring Boot
+    </a>
+    <a href="#" class="btn-demo">Request a demo</a>
+    <a href="#" class="depth-link">View docs →</a>
+    <a href="#" class="depth-link">View pricing →</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Develocity, Inc.</span>
+  <div style="display:flex;gap:20px;">
+    <a href="#" style="color:var(--text-tertiary);text-decoration:none;">Privacy</a>
+    <a href="#" style="color:var(--text-tertiary);text-decoration:none;">Terms</a>
+    <a href="#" style="color:var(--text-tertiary);text-decoration:none;">Security</a>
+  </div>
+</footer>
+
+</body>
+</html>
