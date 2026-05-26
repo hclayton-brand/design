@@ -431,6 +431,7 @@
     var hasImg = !!document.querySelector('.right-img');
 
     function setFormat(name) {
+      if (!name || !formats[name]) return;
       currentFormat = name;
       var f = formats[name];
       var c = document.getElementById('canvas');
