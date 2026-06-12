@@ -2,9 +2,9 @@
 <defs>
   <style>
     @keyframes spin {
-      0%   { transform: rotateY(0deg);   animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
-      50%  { transform: rotateY(180deg); animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
-      100% { transform: rotateY(360deg); }
+      0%   { transform: rotate(0deg);   animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+      50%  { transform: rotate(180deg); animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+      100% { transform: rotate(360deg); }
     }
     #cube {
       transform-origin: 220px 148px;
