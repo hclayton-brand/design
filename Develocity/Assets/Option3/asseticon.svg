@@ -4,73 +4,70 @@
     @keyframes hop-r { 0%,18%,100%{transform:translate(0,0)} 9%{transform:translate(57px,0)} }
     @keyframes hop-l { 0%,18%,100%{transform:translate(0,0)} 9%{transform:translate(-57px,0)} }
     @keyframes hop-d { 0%,18%,100%{transform:translate(0,0)} 9%{transform:translate(0,57px)} }
-    @keyframes hop-u { 0%,18%,100%{transform:translate(0,0)} 9%{transform:translate(0,-57px)} }
 
-    #p1  { animation: hop-r 7s ease-in-out 0.0s  infinite; }
-    #p2  { animation: hop-d 7s ease-in-out 0.7s  infinite; }
-    #p3  { animation: hop-u 7s ease-in-out 1.4s  infinite; }
-    #p4  { animation: hop-r 7s ease-in-out 2.1s  infinite; }
-    #p5  { animation: hop-l 7s ease-in-out 2.8s  infinite; }
-    #p6  { animation: hop-u 7s ease-in-out 3.5s  infinite; }
-    #p7  { animation: hop-r 7s ease-in-out 4.2s  infinite; }
-    #p8  { animation: hop-d 7s ease-in-out 4.9s  infinite; }
-    #p9  { animation: hop-l 7s ease-in-out 5.6s  infinite; }
-    #p10 { animation: hop-r 7s ease-in-out 6.3s  infinite; }
-    #p11 { animation: hop-u 7s ease-in-out 0.35s infinite; }
-    #p12 { animation: hop-l 7s ease-in-out 1.05s infinite; }
-    #p13 { animation: hop-d 7s ease-in-out 1.75s infinite; }
-    #p14 { animation: hop-r 7s ease-in-out 2.45s infinite; }
-    #p15 { animation: hop-u 7s ease-in-out 3.15s infinite; }
-    #p16 { animation: hop-l 7s ease-in-out 3.85s infinite; }
-    #p17 { animation: hop-d 7s ease-in-out 4.55s infinite; }
-    #p18 { animation: hop-r 7s ease-in-out 5.25s infinite; }
-    #p19 { animation: hop-l 7s ease-in-out 5.95s infinite; }
-    #p20 { animation: hop-u 7s ease-in-out 6.65s infinite; }
-    #p21 { animation: hop-r 7s ease-in-out 1.2s  infinite; }
-    #p22 { animation: hop-d 7s ease-in-out 2.9s  infinite; }
+    /* Group 1 (right) — each hops to a known empty square */
+    #p1 { animation: hop-r 7s ease-in-out 0.0s infinite; } /* col2→col3 row1 (empty) */
+    #p2 { animation: hop-l 7s ease-in-out 2.0s infinite; } /* col3→col2 row2 (empty) */
+    #p3 { animation: hop-l 7s ease-in-out 4.0s infinite; } /* col3→col2 row3 (empty) */
+    #p5 { animation: hop-l 7s ease-in-out 1.0s infinite; } /* col3→col2 row4 (empty) */
+    #p6 { animation: hop-r 7s ease-in-out 3.0s infinite; } /* col2→col3 row5 (empty) */
+
+    /* Group 2 (middle) — each hops to a known empty square */
+    #p7  { animation: hop-r 7s ease-in-out 0.5s infinite; } /* col2→col3 row1 (empty) */
+    #p8  { animation: hop-l 7s ease-in-out 2.5s infinite; } /* col3→col2 row2 (empty) */
+    #p9  { animation: hop-l 7s ease-in-out 4.5s infinite; } /* col4→col3 row3 (empty) */
+    #p11 { animation: hop-r 7s ease-in-out 1.5s infinite; } /* col3→col4 row4 (empty) */
+    #p12 { animation: hop-r 7s ease-in-out 3.5s infinite; } /* col2→col3 row5 (empty) */
+
+    /* Group 3 (left) — only pixels with a free adjacent square */
+    #p21 { animation: hop-r 7s ease-in-out 1.0s infinite; } /* col2→col3 row1 (empty) */
+    #p15 { animation: hop-r 7s ease-in-out 3.0s infinite; } /* col3→col4 row2 (empty) */
+    #p16 { animation: hop-d 7s ease-in-out 5.0s infinite; } /* col4 row3→row4 (empty) */
+    #p19 { animation: hop-d 7s ease-in-out 2.0s infinite; } /* col3 row4→row5 (empty) */
+    #p20 { animation: hop-r 7s ease-in-out 5.5s infinite; } /* col2→col3 row5, clear of p19 */
   </style>
   <clipPath id="clip0_976_25924">
-    <rect width="320" height="340" fill="white" transform="translate(720 0)"/>
+    <rect width="256" height="284" fill="white" transform="translate(767.477 18.6836)"/>
   </clipPath>
   <clipPath id="clip1_976_25924">
-    <rect width="320" height="340" fill="white" transform="translate(362 0)"/>
+    <rect width="256" height="284" fill="white" transform="translate(383.738 18.6836)"/>
   </clipPath>
   <clipPath id="clip2_976_25924">
-    <rect width="320" height="340" fill="white" transform="translate(0 0)"/>
+    <rect width="256" height="284" fill="white" transform="translate(32.6836 18.6836)"/>
   </clipPath>
 </defs>
 
 <rect x="702.109" width="321.367" height="321.367" fill="#1E1E1E"/>
 <g clip-path="url(#clip0_976_25924)">
-  <path id="p1"  d="M909.114 18.541H852.008V75.3425H909.114V18.541Z"     fill="white"/>
-  <path id="p2"  d="M966.223 75.3418H909.117V132.143H966.223V75.3418Z"   fill="white"/>
-  <path id="p3"  d="M966.224 131.859H909.117V188.661H966.224V131.859Z"   fill="white"/>
-  <path id="p4"  d="M824.77 18.541H767.664V302.396H824.77V18.541Z"       fill="white"/>
-  <path id="p5"  d="M966.223 188.793H909.117V245.594H966.223V188.793Z"   fill="white"/>
-  <path id="p6"  d="M909.114 245.594H852.008V302.395H909.114V245.594Z"   fill="white"/>
+  <path id="p1" d="M909.114 18.541H852.008V75.3425H909.114V18.541Z"     fill="white"/>
+  <path id="p2" d="M966.223 75.3418H909.117V132.143H966.223V75.3418Z"   fill="white"/>
+  <path id="p3" d="M966.224 131.859H909.117V188.661H966.224V131.859Z"   fill="white"/>
+  <path     id="p4" d="M824.77 18.541H767.664V302.396H824.77V18.541Z"   fill="white"/>
+  <path id="p5" d="M966.223 188.793H909.117V245.594H966.223V188.793Z"   fill="white"/>
+  <path id="p6" d="M909.114 245.594H852.008V302.395H909.114V245.594Z"   fill="white"/>
 </g>
 
 <rect x="351.055" width="321.367" height="321.367" fill="#1E1E1E"/>
 <g clip-path="url(#clip1_976_25924)">
-  <path id="p7"  d="M525.38 18.541H468.273V75.3425H525.38V18.541Z"       fill="white"/>
-  <path id="p8"  d="M582.485 75.3418H525.379V132.143H582.485V75.3418Z"   fill="white"/>
-  <path id="p9"  d="M639.591 131.859H582.484V188.661H639.591V131.859Z"   fill="white"/>
-  <path id="p10" d="M441.028 18.541H383.922V302.396H441.028V18.541Z"     fill="white"/>
-  <path id="p11" d="M582.485 188.793H525.379V245.594H582.485V188.793Z"   fill="white"/>
-  <path id="p12" d="M525.38 245.594H468.273V302.395H525.38V245.594Z"     fill="white"/>
+  <path id="p7"  d="M525.38 18.541H468.273V75.3425H525.38V18.541Z"      fill="white"/>
+  <path id="p8"  d="M582.485 75.3418H525.379V132.143H582.485V75.3418Z"  fill="white"/>
+  <path id="p9"  d="M639.591 131.859H582.484V188.661H639.591V131.859Z"  fill="white"/>
+  <path    id="p10" d="M441.028 18.541H383.922V302.396H441.028V18.541Z" fill="white"/>
+  <path id="p11" d="M582.485 188.793H525.379V245.594H582.485V188.793Z"  fill="white"/>
+  <path id="p12" d="M525.38 245.594H468.273V302.395H525.38V245.594Z"    fill="white"/>
 </g>
 
 <rect width="321.367" height="321.367" fill="#1E1E1E"/>
 <g clip-path="url(#clip2_976_25924)">
-  <path id="p13" d="M174.325 188.66H117.219V245.462H174.325V188.66Z"     fill="white"/>
-  <path id="p14" d="M174.325 75.0586H117.219V131.86H174.325V75.0586Z"    fill="white"/>
-  <path id="p15" d="M231.431 75.0586H174.324V131.86H231.431V75.0586Z"    fill="white"/>
-  <path id="p16" d="M288.684 131.859H231.578V188.661H288.684V131.859Z"   fill="white"/>
-  <path id="p17" d="M174.325 131.859H117.219V188.661H174.325V131.859Z"   fill="white"/>
-  <path id="p18" d="M89.9735 18.541H32.8672V302.396H89.9735V18.541Z"     fill="white"/>
-  <path id="p19" d="M231.431 188.793H174.324V245.594H231.431V188.793Z"   fill="white"/>
-  <path id="p20" d="M174.325 245.461H117.219V302.262H174.325V245.461Z"   fill="white"/>
-  <path id="p21" d="M174.325 18.6836H117.219V75.4851H174.325V18.6836Z"   fill="white"/>
-  <path id="p22" d="M231.431 131.859H174.324V188.661H231.431V131.859Z"   fill="white"/>
+  <path id="p13" d="M174.325 188.66H117.219V245.462H174.325V188.66Z"    fill="white"/>
+  <path id="p14" d="M174.325 75.0586H117.219V131.86H174.325V75.0586Z"   fill="white"/>
+  <path id="p15" d="M231.431 75.0586H174.324V131.86H231.431V75.0586Z"   fill="white"/>
+  <path id="p16" d="M288.684 131.859H231.578V188.661H288.684V131.859Z"  fill="white"/>
+  <path id="p17" d="M174.325 131.859H117.219V188.661H174.325V131.859Z"  fill="white"/>
+  <path    id="p18" d="M89.9735 18.541H32.8672V302.396H89.9735V18.541Z" fill="white"/>
+  <path id="p19" d="M231.431 188.793H174.324V245.594H231.431V188.793Z"  fill="white"/>
+  <path id="p20" d="M174.325 245.461H117.219V302.262H174.325V245.461Z"  fill="white"/>
+  <path id="p21" d="M174.325 18.6836H117.219V75.4851H174.325V18.6836Z"  fill="white"/>
+  <path id="p22" d="M231.431 131.859H174.324V188.661H231.431V131.859Z"  fill="white"/>
 </g>
 </svg>
