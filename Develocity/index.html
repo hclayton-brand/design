@@ -876,14 +876,16 @@
           </div>
         </div>
 
-        <div class="bento-cell bento-c" style="align-items:center; justify-content:center;">
-          <div class="mockup-placeholder">
-            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-            <span class="mockup-placeholder-label">Coming Soon</span>
+        <div class="bento-cell bento-c" style="padding:0; overflow:hidden;">
+          <canvas id="pixel-bg-opt2-bento" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Texture</span>
+            <span class="bento-value">Pixel Rain</span>
+            <span class="bento-sub">Canvas · 60fps · Procedural</span>
           </div>
           <div class="bento-overlay">
             <div class="bento-overlay-title">Brand Pattern</div>
-            <div class="bento-overlay-body">Core visual language of the identity system.</div>
+            <div class="bento-overlay-body">A procedural pixel rain canvas creates a living, dynamic brand texture.</div>
           </div>
         </div>
 
@@ -1543,6 +1545,7 @@
   initPixelBg('pixel-bg',      [150, 81, 255]);
   initPixelBg('pixel-bg-2',   [48, 171, 194]);
   initPixelBg('pixel-bg-opt2',[150, 81, 255]);
+  initPixelBg('pixel-bg-opt2-bento', [150, 81, 255], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
   initPixelBg('pixel-bg-3',   [44, 167, 190]);
   initPixelBg('pixel-bg-mini', [150, 81, 255], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
   </script>
