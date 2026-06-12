@@ -1466,6 +1466,7 @@
     const DENSITY    = (opts && opts.density)        || 0.038;
     const MAX_A_ACC  = (opts && opts.maxAlphaAccent) || 0.18;
     const MAX_A_OTH  = (opts && opts.maxAlphaOther)  || 0.08;
+    const MIN_A      = (opts && opts.minAlpha)       || 0.018;
     const INSTANT    = !!(opts && opts.instant);
     const COOL_WHITE = [210, 218, 245];
     const BLUE_WHITE = [170, 190, 255];
@@ -1483,7 +1484,7 @@
         maxAlpha:  isAccent ? rnd(MAX_A_ACC * 0.5, MAX_A_ACC) : rnd(MAX_A_OTH * 0.4, MAX_A_OTH),
         riseSpeed: rnd(0.055, 0.14),
         fallSpeed: rnd(0.04,  0.11),
-        alpha: 0, state: INSTANT ? 2 : 0, timer: INSTANT ? rnd(0, 3200) : rnd(0, 28000),
+        alpha: MIN_A, state: INSTANT ? 2 : 0, timer: INSTANT ? rnd(0, 3200) : rnd(0, 28000),
       };
     }
 
@@ -1520,7 +1521,7 @@
           case 2: p.timer -= dt; if (p.timer <= 0) p.state = 3; break;
           case 3:
             p.alpha -= p.fallSpeed * dt / 1000;
-            if (p.alpha <= 0) { p.alpha = 0; p.state = 0; p.timer = rnd(18000, 52000); }
+            if (p.alpha <= MIN_A) { p.alpha = MIN_A; p.state = 0; p.timer = rnd(18000, 52000); }
             break;
         }
         if (p.alpha > 0.003) {
