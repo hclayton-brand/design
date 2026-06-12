@@ -1521,7 +1521,7 @@
           case 2: p.timer -= dt; if (p.timer <= 0) p.state = 3; break;
           case 3:
             p.alpha -= p.fallSpeed * dt / 1000;
-            if (p.alpha <= MIN_A) { p.alpha = MIN_A; p.state = 0; p.timer = rnd(18000, 52000); }
+            if (p.alpha <= MIN_A) { p.alpha = MIN_A; p.state = 1; }
             break;
         }
         if (p.alpha > 0.003) {
