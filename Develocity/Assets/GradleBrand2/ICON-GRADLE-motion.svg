@@ -2,12 +2,13 @@
 <defs>
   <style>
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
+      0%   { transform: rotate(0deg);   animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+      50%  { transform: rotate(180deg); animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+      100% { transform: rotate(360deg); }
     }
     #cube {
       transform-origin: 220px 148px;
-      animation: spin 4s linear infinite;
+      animation: spin 5s linear infinite;
     }
   </style>
 </defs>
