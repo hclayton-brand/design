@@ -60,17 +60,18 @@
    WHY NOW — outcome cards
    ============================================================ */
 .why-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 48px;
-  border-top: 1px solid var(--cap-line); border-bottom: 1px solid var(--cap-line); }
+  --cap-line: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.13); }
 .og { display: contents; }
-.og-gov { --acc: var(--gov); --cap-line: rgba(255,255,255,0.13); }
-.og-eff { --acc: var(--eff); --cap-line: rgba(255,255,255,0.13); }
+.og-gov { --acc: var(--gov); }
+.og-eff { --acc: var(--eff); }
 
 /* ---- header cells: illustration above, big title below ---- */
 .or-head { display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
   gap: 26px; padding: 44px 28px 36px; min-width: 0; }
 .og-gov .or-head { grid-column: 1 / span 2; grid-row: 1; }
 .og-eff .or-head { grid-column: 3 / span 2; grid-row: 1; border-left: 1px solid var(--cap-line); }
-.or-title { font-size: clamp(28px, 2.8vw, 48px); line-height: 0.92; font-weight: 600;
+.or-title { font-size: clamp(30px, 4.1vw, 52px); line-height: 0.92; font-weight: 700;
   letter-spacing: -0.03em; color: var(--text); margin: 0; }
 .or-art { width: clamp(120px, 11vw, 150px); flex: none; }
 .or-art.wide { width: clamp(170px, 17vw, 230px); }
@@ -128,7 +129,7 @@
   .og-eff .or-head { grid-column: 1 / span 2; grid-row: 3; border-left: 0; border-top: 1px solid var(--cap-line); }
   .og-eff .or-block:nth-child(2) { grid-column: 1; grid-row: 4; border-left: 0; }
   .og-eff .or-block:nth-child(3) { grid-column: 2; grid-row: 4; }
-  .or-title { font-size: clamp(44px, 8vw, 64px); }
+  .or-title { font-size: clamp(28px, 6vw, 44px); }
 }
 @media (max-width: 560px) {
   .why-grid4 { grid-template-columns: 1fr; }
