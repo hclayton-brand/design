@@ -442,8 +442,11 @@
    RICHER FOOTER (reference structure)
    ============================================================ */
 .footer-rich { background: #050506; border-top: 1px solid var(--border-soft); padding: 64px 0 40px; color: var(--text-dim); }
-.fr-top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding-bottom: 32px;
+.fr-top-wrap { position: relative; overflow-x: clip; padding: 44px 0;
   margin-bottom: 40px; border-bottom: 1px solid var(--border-soft); }
+.fr-top { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.fr-glass-gradle { position: absolute; right: -60px; top: 0;
+  height: 100%; width: auto; pointer-events: none; }
 .fr-gradle { height: 30px; width: auto; opacity: 0.85; filter: grayscale(1) brightness(1.5); }
 .fr-gradle-mark { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--text);
   letter-spacing: -0.01em; padding: 7px 14px; border: 1px solid var(--border); border-radius: 9px; white-space: nowrap; }
