@@ -275,6 +275,14 @@ h1, h2, h3 { font-weight: 500; letter-spacing: -0.022em; margin: 0; line-height:
 .btn-outline:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); }
 .btn-white { background: #fff; color: #0b0c0e; }
 .btn-white:hover { background: #e9eaec; }
+.cta .btn-white {
+  background: linear-gradient(90deg, #2CA7BE, #9B5DE5, #2CA7BE);
+  background-size: 350% 100%;
+  background-position: 0% 50%;
+  color: #fff;
+  transition: transform .16s ease, background-position .5s ease, box-shadow .25s;
+}
+.cta .btn-white:hover { background-position: 100% 50%; }
 
 /* ============================================================
    Section scaffolding
