@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en" data-hero="systemmap" data-accent="cyan">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Develocity — Ship reliable AI software with context engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="illustrations.css" />
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#000000">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#000000"/>
+    <g fill="#1ec9f2">
+      <rect x="520" y="430" width="34" height="44" rx="17"/>
+      <rect x="520" y="360" width="34" height="44" rx="17"/>
+      <rect x="566" y="396" width="34" height="78" rx="17"/>
+      <rect x="612" y="330" width="34" height="144" rx="17"/>
+    </g>
+    <text x="600" y="560" fill="#f3f4f6" font-family="monospace" font-size="34" letter-spacing="2" text-anchor="middle">develocity</text>
+  </svg>
+</template>
+
+<!-- ============ SVG ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34d6f5"/><stop offset="1" stop-color="#10aee0"/>
+    </linearGradient>
+  </defs>
+  <!-- develocity mark: ascending velocity bars -->
+  <symbol id="i-logo" viewBox="0 0 48 48">
+    <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#markGrad)"/>
+    <g fill="#ffffff">
+      <rect x="14" y="26" width="6" height="8" rx="3"/>
+      <rect x="14" y="14" width="6" height="8" rx="3"/>
+      <rect x="22" y="22" width="6" height="12" rx="3"/>
+      <rect x="30" y="16" width="6" height="18" rx="3"/>
+    </g>
+  </symbol>
+  <symbol id="m-bars" viewBox="0 0 36 36"><g fill="#fff">
+    <rect x="6" y="20" width="5" height="8" rx="2.5"/><rect x="6" y="10" width="5" height="6" rx="2.5"/>
+    <rect x="14" y="15" width="5" height="13" rx="2.5"/><rect x="22" y="9" width="5" height="19" rx="2.5"/></g></symbol>
+  <symbol id="g-build" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M5 19l7-7M9 8l3-3 4 4-3 3M14 3l4 4M3 21l3-3"/><rect x="13" y="11" width="7" height="7" rx="1" transform="rotate(45 16.5 14.5)"/></symbol>
+  <symbol id="g-test" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M5 13l4 4 10-10"/></symbol>
+  <symbol id="g-ci" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 13-6m3 6a8 8 0 0 1-13 6"/><path d="M17 3v4h-4M7 21v-4h4"/></symbol>
+  <symbol id="g-fail" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M12 4l9 16H3z"/><path d="M12 10v5M12 18h.01"/></symbol>
+  <symbol id="g-cube" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9"/></symbol>
+  <symbol id="g-shield" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="g-doc" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+  <symbol id="g-graph" viewBox="0 0 24 24" fill="none" stroke="#cfd2d8" stroke-width="1.6"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="9" cy="18" r="2"/><path d="M7.5 7l9 .6M8 16l8.5-7M7.5 16.5"/></symbol>
+  <symbol id="g-user" viewBox="0 0 24 24" fill="none" stroke="#e7e9ed" stroke-width="1.7"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/></symbol>
+  <symbol id="g-ai" viewBox="0 0 24 24" fill="none" stroke="#e7e9ed" stroke-width="1.6" stroke-linejoin="round"><path d="M12 4l1.7 4.3L18 10l-4.3 1.7L12 16l-1.7-4.3L6 10l4.3-1.7z"/><path d="M18.5 15l.7 1.8L21 17.5l-1.8.7L18.5 20l-.7-1.8L16 17.5l1.8-.7z"/></symbol>
+  <!-- nav rail domain icons (inherit currentColor) -->
+  <symbol id="n-telemetry" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5h17l-6.5 7.2V20l-4-2v-4.3z"/></symbol>
+  <symbol id="n-observe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.6"/></symbol>
+  <symbol id="n-context" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></symbol>
+  <symbol id="n-speed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 18a8 8 0 1 1 15 0"/><path d="M12 13.5 16 9"/><circle cx="12" cy="14" r="1.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="n-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="n-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></symbol>
+  <!-- monochrome integration logos -->
+  <symbol id="l-gradle" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3.5 20a1 1 0 0 1-1-1v-5.5A6.5 6.5 0 0 1 9 7h3.5A6 6 0 0 1 18.5 13v.6a2.9 2.9 0 0 1-5.8 0 1 1 0 0 1 2 0 .9.9 0 0 0 1.8 0V13A4 4 0 0 0 12.5 9H9a4.5 4.5 0 0 0-4.5 4.5V19a1 1 0 0 1-1 1z"/><path d="M7.2 20a1 1 0 0 1-1-1v-2.6a1 1 0 1 1 2 0V19a1 1 0 0 1-1 1z"/><circle cx="9.2" cy="11.6" r="1"/></symbol>
+  <symbol id="l-maven" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6C13 8 8 15 8 25"/><path d="M23 6c2 7-1 13-8 16"/><path d="M22 7 12 17M14 24l-6 2"/></symbol>
+  <symbol id="l-gitlab" viewBox="0 0 32 32" fill="currentColor" stroke="none"><path d="M16 28 5.5 14.5l1.9-7 3.2 7.5h10.8l3.2-7.5 1.9 7z"/></symbol>
+  <symbol id="l-circleci" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="3.4" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="l-junit" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4.5 27.5 16 16 27.5 4.5 16z"/><path d="M11 16.5l3.5 3.5L22 12"/></symbol>
+  <symbol id="l-vscode" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M23 5v22l-15-11z"/><path d="M23 5 9.5 16 5 13M23 27 9.5 16 5 19"/></symbol>
+  <symbol id="l-k8s" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M16 4l10.4 5v9L16 23 5.6 18V9z"/><circle cx="16" cy="13.5" r="3"/><path d="M16 4.5v6M16 16.5v6M6.5 10l6.8 4.3M25.5 10l-6.8 4.3M8.5 19l5-3.4M23.5 19l-5-3.4"/></symbol>
+  <symbol id="l-intellij" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="5" width="22" height="22" rx="3"/><path d="M9.5 9.5h4.5M11.7 9.5v8.5M9.5 18h4.5"/><rect x="18" y="21" width="6.5" height="2.6" fill="currentColor" stroke="none" rx="0.6"/></symbol>
+
+</svg>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <nav class="nav" id="nav">
+      <div class="nav-left">
+        <a class="brand" href="#top"><img class="brand-logo" src="assets/develocity-logo.png" alt="Develocity" /></a>
+        <div class="nav-links" id="navLinks">
+          <div class="nav-item" data-menu="platform">
+            <button class="nav-link" type="button">Platform<svg class="chev" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="nav-item" data-menu="solutions">
+            <button class="nav-link" type="button">Solutions<svg class="chev" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <a class="nav-link" href="#testimonials">Customers</a>
+          <div class="nav-item" data-menu="resources">
+            <button class="nav-link" type="button">Resources<svg class="chev" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-ghost" type="button">Request a Demo</button>
+        <button class="nav-cta" type="button">Get started for free</button>
+      </div>
+      <button class="nav-burger" aria-label="Menu">Menu</button>
+    </nav>
+
+    <!-- ===== Platform mega-menu ===== -->
+    <div class="mega mega--platform" id="mega-platform" role="region" aria-label="Platform menu">
+      <div class="mega-inner">
+        <div class="mega-rail">
+          <div class="mega-rail-head">Governance &amp; efficiency for AI-driven delivery</div>
+          <div class="mega-domain active" data-domain="telemetry">
+            <svg class="md-ic" aria-hidden="true"><use href="#n-telemetry"/></svg>
+            <div class="md-text">
+              <span class="md-title">Telemetry Pipeline</span>
+              <span class="md-blurb">What Develocity ingests — build, CI, IDE, agent, and repository signals.</span>
+            </div>
+          </div>
+          <div class="mega-domain" data-domain="observability">
+            <svg class="md-ic" aria-hidden="true"><use href="#n-observe"/></svg>
+            <div class="md-text">
+              <span class="md-title">Observability</span>
+              <span class="md-blurb">See what every build, test, and pipeline is doing.</span>
+            </div>
+          </div>
+          <div class="mega-domain" data-domain="context">
+            <svg class="md-ic" aria-hidden="true"><use href="#n-context"/></svg>
+            <div class="md-text">
+              <span class="md-title">Context Engineering</span>
+              <span class="md-blurb">Turn build and test telemetry into insight and prediction.</span>
+            </div>
+          </div>
+          <div class="mega-domain" data-domain="efficiency">
+            <svg class="md-ic" aria-hidden="true"><use href="#n-speed"/></svg>
+            <div class="md-text">
+              <span class="md-title">Efficiency &amp; Acceleration</span>
+              <span class="md-blurb">Make builds and tests faster and cheaper.</span>
+            </div>
+          </div>
+          <div class="mega-domain" data-domain="governance">
+            <svg class="md-ic" aria-hidden="true"><use href="#n-shield"/></svg>
+            <div class="md-text">
+              <span class="md-title">Governance</span>
+              <span class="md-blurb">Provenance, policy, and audit across the toolchain.</span>
+            </div>
+          </div>
+          <div class="mega-domain" data-domain="platform-cap">
+            <svg class="md-ic" aria-hidden="true"><use href="#n-grid"/></svg>
+            <div class="md-text">
+              <span class="md-title">Platform Capabilities</span>
+              <span class="md-blurb">How Develocity is built, integrated, and secured.</span>
+            </div>
+          </div>
+          <div class="mega-rail-foot">
+            <a class="mega-rail-link" href="#features">View Pricing<i class="mc-arrow">&rsaquo;</i></a>
+          </div>
+        </div>
+        <div class="mega-detail">
+          <!-- Telemetry -->
+          <div class="mega-pane active" data-pane="telemetry">
+            <div class="mega-hero"><svg class="mega-hero-ic" aria-hidden="true"><use href="#n-telemetry"/></svg><div class="mega-hero-text"><h3>Telemetry Pipeline</h3><p>What Develocity ingests — build, CI, IDE, agent, and repository signals.</p></div></div>
+            <div class="mega-links mega-links--cat">
+              <a class="mega-card mega-card--cat" href="#integrations"><span>Build Systems &amp; Package Managers</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card mega-card--sub" href="#integrations"><span>Docker</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card mega-card--cat" href="#integrations"><span>CI, Local, IDEs &amp; AI Coding Agents</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card mega-card--sub" href="#integrations"><span>Repository Managers</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card mega-card--sub" href="#integrations"><span>DORA Gates</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card mega-card--sub" href="#integrations"><span>CD &amp; ITSM</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card mega-card--sub" href="#integrations"><span>Universal Endpoint</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+          </div>
+          <!-- Observability -->
+          <div class="mega-pane" data-pane="observability">
+            <div class="mega-hero"><svg class="mega-hero-ic" aria-hidden="true"><use href="#n-observe"/></svg><div class="mega-hero-text"><h3>Observability</h3><p>See what every build, test, and pipeline is doing.</p></div></div>
+            <div class="mega-sublabel">Develocity 360</div>
+            <div class="mega-links cols-3">
+              <a class="mega-card" href="#features"><span>Build Scan</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Policy Scan</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Fact Store</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+          </div>
+          <!-- Context -->
+          <div class="mega-pane" data-pane="context">
+            <div class="mega-hero"><svg class="mega-hero-ic" aria-hidden="true"><use href="#n-context"/></svg><div class="mega-hero-text"><h3>Context Engineering</h3><p>Turn build and test telemetry into insight and prediction.</p></div></div>
+            <div class="mega-links cols-2">
+              <a class="mega-card" href="#how"><span>Context Engineering Overview</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Flaky Tests Detection</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Failure Analytics</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Failure Root Cause</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Performance &amp; Efficiency Insights</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Develocity Analytics</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Toolchain Health Agents</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#integrations"><span>MCP Servers</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+          </div>
+          <!-- Efficiency -->
+          <div class="mega-pane" data-pane="efficiency">
+            <div class="mega-hero"><svg class="mega-hero-ic" aria-hidden="true"><use href="#n-speed"/></svg><div class="mega-hero-text"><h3>Efficiency &amp; Acceleration</h3><p>Make builds and tests faster and cheaper.</p></div></div>
+            <div class="mega-sublabel">Universal Cache</div>
+            <div class="mega-links cols-3">
+              <a class="mega-card" href="#features"><span>Build Cache</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Artifact Cache</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Setup Cache</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+            <div class="mega-sublabel">Acceleration</div>
+            <div class="mega-links cols-3">
+              <a class="mega-card" href="#features"><span>Predictive Test Selection</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Test Distribution</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Optimizer Agents</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+          </div>
+          <!-- Governance -->
+          <div class="mega-pane" data-pane="governance">
+            <div class="mega-hero"><svg class="mega-hero-ic" aria-hidden="true"><use href="#n-shield"/></svg><div class="mega-hero-text"><h3>Governance</h3><p>Provenance, policy, and audit across the toolchain.</p></div></div>
+            <div class="mega-sublabel">Develocity Provenance Governor</div>
+            <div class="mega-links cols-2">
+              <a class="mega-card" href="#features"><span>Fact Store</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Policy Engine</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+            <div class="mega-sublabel">Compliance</div>
+            <div class="mega-links cols-2">
+              <a class="mega-card" href="#features"><span>On-Demand Auditing</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#features"><span>Software Delivery Performance (DORA)</span><i class="mc-arrow">&rarr;</i></a>
+            </div>
+          </div>
+          <!-- Platform Capabilities -->
+          <div class="mega-pane" data-pane="platform-cap">
+            <div class="mega-hero"><svg class="mega-hero-ic" aria-hidden="true"><use href="#n-grid"/></svg><div class="mega-hero-text"><h3>Platform Capabilities</h3><p>How Develocity is built, integrated, and secured.</p></div></div>
+            <div class="mega-links cols-2">
+              <a class="mega-card" href="#how"><span>Platform Architecture</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#integrations"><span>Integrations</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#cta"><span>Deployment Options</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#cta"><span>Security &amp; Compliance</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#integrations"><span>MCP Servers</span><i class="mc-arrow">&rarr;</i></a>
+              <a class="mega-card" href="#integrations"><span>API</span><i class="mc-ext">&#8599;</i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Solutions mega-menu ===== -->
+    <div class="mega mega--solutions" id="mega-solutions" role="region" aria-label="Solutions menu">
+      <div class="mega-inner mega-inner--cols">
+        <div class="mega-col">
+          <div class="mega-sublabel">Use Case</div>
+          <div class="mega-links">
+            <a class="mega-card" href="#features"><span>AI Value Realization</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#features"><span>Software Delivery Performance</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#features"><span>Governance &amp; Provenance</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#features"><span>Reduce Infrastructure Cost</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#features"><span>Software Modernization</span><i class="mc-arrow">&rarr;</i></a>
+          </div>
+        </div>
+        <div class="mega-col">
+          <div class="mega-sublabel">Industry</div>
+          <div class="mega-links">
+            <a class="mega-card" href="#cta"><span>Financial Services</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Healthcare / Life Sciences</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Government</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Manufacturing &amp; Logistics</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Retail / E-Commerce</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Media &amp; Entertainment</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Technology</span><i class="mc-arrow">&rarr;</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Resources mega-menu ===== -->
+    <div class="mega mega--solutions" id="mega-resources" role="region" aria-label="Resources menu">
+      <div class="mega-inner mega-inner--cols">
+        <div class="mega-col">
+          <div class="mega-sublabel">Learn</div>
+          <div class="mega-links">
+            <a class="mega-card" href="#how"><span>Documentation</span><i class="mc-ext">&#8599;</i></a>
+            <a class="mega-card" href="#how"><span>Guides &amp; Tutorials</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#how"><span>API Reference</span><i class="mc-ext">&#8599;</i></a>
+            <a class="mega-card" href="#integrations"><span>Community Forum</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#integrations"><span>Webinars &amp; Events</span><i class="mc-arrow">&rarr;</i></a>
+          </div>
+        </div>
+        <div class="mega-col">
+          <div class="mega-sublabel">Insights</div>
+          <div class="mega-links">
+            <a class="mega-card" href="#testimonials"><span>Blog</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#testimonials"><span>Case Studies</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#how"><span>Whitepapers &amp; Reports</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#how"><span>Developer Productivity Engineering</span><i class="mc-arrow">&rarr;</i></a>
+            <a class="mega-card" href="#cta"><span>Release Notes</span><i class="mc-arrow">&rarr;</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <a class="hero-pill" href="#how"><span class="hp-dot"></span>The universal toolchain and artifact observability platform</a>
+        <h1>Ship reliable AI software<br/>with <span class="l2">context engineering</span></h1>
+        <p>When agents ship code at machine pace, builds, tests, and policies have to keep up. Develocity is the layer that makes that possible.</p>
+        <div class="hero-actions">
+          <button class="btn btn-white">Contact Sales</button>
+          <a href="#how" class="btn btn-outline">See how it works</a>
+        </div>
+      </div>
+      <div class="hero-illo" id="heroIllo" aria-hidden="true">
+        <div class="arch">
+          <div class="arch-frame">
+            <span class="cbr tl"></span><span class="cbr tr"></span><span class="cbr bl"></span><span class="cbr br"></span>
+
+            <div class="arch-head">
+              <span class="ah-live"><i class="live-dot"></i>LIVE // <b>context_stream</b></span>
+              <span class="ah-meta">ctx &#183; 24.7k tokens &#183; ver 2026.04</span>
+            </div>
+
+            <div class="tier-label tl-top">CONSUMERS</div>
+            <div class="consumers">
+              <div class="ccard"><div class="ct">Engineers</div><div class="cs">HUMANS</div><span class="cdots">&#183;&#183;&#183;</span></div>
+              <div class="ccard lit"><div class="ct">Claude &#183; Copilot &#183; Devin</div><div class="cs">AI AGENTS</div><span class="cdots">&#183;&#183;</span></div>
+            </div>
+
+            <div class="conn">
+              <span class="vl acc" style="left:25%"></span>
+              <span class="vl" style="left:50%"></span>
+              <span class="vl acc" style="left:75%"></span>
+              <span class="gd" style="left:25%;animation-delay:.2s"></span>
+              <span class="gd" style="left:75%;animation-delay:1.3s"></span>
+            </div>
+
+            <div class="ce-layer">
+              <span class="layer-tab">DEVELOCITY &#8212; CONTEXT ENGINEERING LAYER</span>
+              <div class="layer-cols">
+                <div class="lcol"><div class="lh">Know</div><ul><li>BUILD SCAN</li><li>POLICY SCAN</li><li>ATTESTATION</li></ul></div>
+                <div class="lcol"><div class="lh">Understand</div><ul><li>DOMAIN MODEL</li><li>FLAKY ANALYSIS</li><li>DEPENDENCIES</li></ul></div>
+                <div class="lcol"><div class="lh">Expose</div><ul><li>MCP SERVERS</li><li>SKILLS</li><li>ANALYTICS</li></ul></div>
+              </div>
+            </div>
+
+            <div class="conn">
+              <span class="vl acc" style="left:16%"></span>
+              <span class="vl" style="left:50%"></span>
+              <span class="vl acc" style="left:84%"></span>
+              <span class="gd" style="left:16%;animation-delay:.8s"></span>
+              <span class="gd" style="left:84%;animation-delay:1.9s"></span>
+            </div>
+
+            <div class="tier-label">SDLC SUBSTRATE &#8212; TELEMETRY</div>
+            <div class="tools">
+              <div class="tool">Gradle</div><div class="tool">Maven</div><div class="tool">Bazel</div><div class="tool">npm</div><div class="tool">sbt</div><div class="tool">Python</div>
+              <div class="tool">GH Actions</div><div class="tool">GitLab CI</div><div class="tool">Jenkins</div><div class="tool">JFrog</div><div class="tool">Nexus</div><div class="tool">IntelliJ</div>
+            </div>
+            <div class="arch-foot">BUILD &#183; TEST &#183; DEPENDENCY &#183; ARTIFACT TELEMETRY</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUSTED BY ============ -->
+<section class="trusted">
+  <div class="container">
+    <div class="trusted-box reveal">
+      <div class="cell trusted-label">Trusted by leading tech and global business brands</div>
+      <div class="cell"><span class="logo wordmark wm-fitbit">fitbit</span></div>
+      <div class="cell"><span class="logo wordmark wm-robinhood">Robinhood</span></div>
+      <div class="cell"><span class="logo wordmark wm-salesforce">salesforce</span></div>
+      <div class="cell"><span class="logo wordmark wm-dyson">dyson</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section-pad" id="how">
+  <div class="container">
+    <p class="eyebrow reveal">How it works</p>
+    <div class="section-head reveal" style="margin-bottom:48px">
+      <h2>AI agents can write code. Develocity helps them understand the delivery system behind it</h2>
+    </div>
+    <div class="how-scroll" id="howScroll">
+      <div class="how-sticky">
+        <div class="how-panel">
+          <div class="steps" id="howSteps">
+            <div class="step active" data-step="0"><div class="step-rail"><span class="step-num">1</span><span class="step-line"></span></div><div class="step-text">Turn build and CI data into actionable insights</div></div>
+            <div class="step" data-step="1"><div class="step-rail"><span class="step-num">2</span><span class="step-line"></span></div><div class="step-text">Diagnose failures, flaky tests, and performance bottlenecks faster</div></div>
+            <div class="step" data-step="2"><div class="step-rail"><span class="step-num">3</span><span class="step-line"></span></div><div class="step-text">Empower AI agents with real software delivery context</div></div>
+            <div class="step" data-step="3"><div class="step-rail"><span class="step-num">4</span><span class="step-line"></span></div><div class="step-text">Strengthen trust with continuous provenance and policy governance</div></div>
+          </div>
+          <div class="how-illo">
+            <div class="iso">
+              <div class="iso-stage">
+                <div class="iso-floor"></div>
+                <div class="layers" id="howLayers">
+                  <div class="lyr layer" data-i="0" data-step="3"></div>
+                  <div class="lyr layer" data-i="1" data-step="2"></div>
+                  <div class="lyr layer" data-i="2" data-step="1"></div>
+                  <div class="lyr layer top" data-i="3" data-step="0"></div>
+                  <div class="core-node" id="howCore">
+                    <svg class="core-ic active" data-step="0"><use href="#m-bars"/></svg>
+                    <svg class="core-ic" data-step="1"><use href="#g-build"/></svg>
+                    <svg class="core-ic" data-step="2"><use href="#g-graph"/></svg>
+                    <svg class="core-ic" data-step="3"><use href="#g-shield"/></svg>
+                  </div>
+                                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENABLE / GOVERN / SCALE ============ -->
+<section class="section-pad" id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Enable, govern, and scale<br/><span class="accent">AI driven software delivery</span></h2>
+      <p>Develocity gives developers and AI agents the context to act, the controls to stay compliant, and the performance foundation to scale software delivery at machine speed.</p>
+    </div>
+
+    <div class="feature-shell reveal">
+      <div class="feature-tabs" id="featureTabs">
+        <button class="feature-tab active" data-target="row-enable">Context</button>
+        <button class="feature-tab" data-target="row-govern">Governance</button>
+        <button class="feature-tab" data-target="row-scale">Efficiency</button>
+      </div>
+
+      <!-- ENABLE -->
+      <div class="feature-row" id="row-enable">
+        <div class="feature-illo feature-illo--code">
+          <div class="codecard-wrap">
+            <div class="cc-label">AGENT_CONTEXT &#183; SNAPSHOT</div>
+            <div class="codecard">
+              <div class="cc-head">
+                <span class="cc-dots"><i></i><i></i><i></i></span>
+                <span class="cc-file">context.json</span>
+                <span class="cc-tokens"><i></i>24.7k tokens</span>
+              </div>
+              <pre class="cc-body"><span class="c-com">// injected into every agent call</span>
+<span class="c-key">project</span>: <span class="c-str">"checkout-svc"</span>
+<span class="c-key">last_green</span>: <span class="c-str">"main@a3c9f1"</span>
+<span class="c-key">dependencies</span>: {
+  <span class="c-key">kotlin</span>: <span class="c-str">"2.1.0"</span>,
+  <span class="c-key">spring</span>: <span class="c-str">"3.4.2"</span>
+}
+<span class="c-key">recent_failures</span>: [
+  <span class="c-com">// 3 similar failures in 7d</span>
+  <span class="c-str">"OrderE2E::refundFlow"</span> <span class="c-flaky">(flaky)</span>,
+  <span class="c-str">"PaymentTest::retry"</span>
+]
+<span class="c-key">cache_hints</span>: <span class="c-str">"reuse :core:compileKotlin"</span>
+<span class="c-key">budget_remaining</span>: <span class="c-str">"$1,284 / $5,000"</span></pre>
+            </div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <h3 style="font-size: 24px">Context for AI agents built on software delivery data</h3>
+          <p style="font-size: 16px">Give AI agents access to build, test, CI, and failure intelligence so they can troubleshoot, recommend next steps, and act with context.</p>
+          <a href="#cta" class="feature-cta">Develocity 360<span class="fc-arrow">&rarr;</span></a>
+        </div>
+      </div>
+
+      <!-- GOVERN -->
+      <div class="stripe-divider"></div>
+      <div class="feature-row flip" id="row-govern">
+        <div class="feature-illo feature-illo--dots">
+          <div class="provgraph">
+            <div class="pg-title">PROVENANCE_GRAPH &#183; BUILD #41,297</div>
+            <svg class="pg-links" viewBox="0 0 546 430" fill="none" preserveAspectRatio="xMidYMid meet">
+              <g stroke="rgba(255,255,255,0.22)" stroke-width="1.5">
+                <path d="M164 116 C196 116, 163 161, 195 161"/>
+                <path d="M164 216 C196 216, 163 161, 195 161"/>
+                <path d="M164 216 C196 216, 163 271, 195 271"/>
+                <path d="M164 316 C196 316, 163 271, 195 271"/>
+                <path d="M359 161 C391 161, 350 216, 382 216"/>
+                <path d="M359 271 C391 271, 350 216, 382 216"/>
+              </g>
+            </svg>
+            <div class="pg-node" style="left:0;top:80px"><span class="pg-lbl">COMMIT</span><span class="pg-val">a3c9f1 &#183; main</span></div>
+            <div class="pg-node" style="left:0;top:180px"><span class="pg-lbl">AGENT</span><span class="pg-val teal">Claude Code &#183; v4.5</span></div>
+            <div class="pg-node" style="left:0;top:280px"><span class="pg-lbl">PROMPT</span><span class="pg-val">refactor-pay-retry</span></div>
+            <div class="pg-node pg-node--accent" style="left:195px;top:125px"><span class="pg-lbl">BUILD &#183; 2m14s</span><span class="pg-val teal">:app:assemble&nbsp;<i class="pg-ck">&#10003;</i></span></div>
+            <div class="pg-node pg-node--accent" style="left:195px;top:235px"><span class="pg-lbl">TESTS &#183; 847 ran</span><span class="pg-val teal">842&nbsp;<i class="pg-ck">&#10003;</i> &#183; 5 skipped</span></div>
+            <div class="pg-node" style="left:382px;top:180px"><span class="pg-lbl">ARTIFACT</span><span class="pg-val">app-v2.4.jar</span></div>
+            <div class="pg-chips">
+              <span class="pg-chip teal"><i class="pg-ck">&#10003;</i>SIGNED</span>
+              <span class="pg-chip teal">SLSA &#183; L3</span>
+              <span class="pg-chip">SBOM &#183; 284 deps</span>
+            </div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <h3 style="font-size: 24px"><b>Govern</b> AI driven delivery with provenance and policy automation</h3>
+          <p style="font-size: 16px">Verify what was built, where it came from, and whether it met policy with automated provenance, controls, and audit-ready evidence.</p>
+          <a href="#cta" class="feature-cta">Provenance Governor<span class="fc-arrow">&rarr;</span></a>
+        </div>
+      </div>
+
+      <!-- SCALE -->
+      <div class="stripe-divider"></div>
+      <div class="feature-row" id="row-scale">
+        <div class="feature-illo feature-illo--dots">
+          <div class="costview">
+            <div class="cv-head">
+              <span class="cv-range">COST_VIEW &#183; APR 01 &#8211; APR 21</span>
+              <span class="cv-live"><i></i>LIVE</span>
+            </div>
+            <div class="cv-stats">
+              <div class="cv-card"><span class="cv-lbl">CI MINUTES</span><span class="cv-big">48.2k</span><span class="cv-delta teal">&#8722;38% vs last mo</span></div>
+              <div class="cv-card"><span class="cv-lbl">LLM TOKENS</span><span class="cv-big">214M</span><span class="cv-delta amber">+12% this wk</span></div>
+            </div>
+            <div class="cv-chart">
+              <span class="cv-lbl">BUDGET BURN &#183; $24,300 / $40,000</span>
+              <svg class="cv-graph" viewBox="0 0 500 150" preserveAspectRatio="none">
+                <defs><linearGradient id="cvGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffffff" stop-opacity="0.32"/>
+                  <stop offset="0.55" stop-color="#9aa0aa" stop-opacity="0.12"/>
+                  <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+                </linearGradient></defs>
+                <line class="cv-grid" x1="0" y1="30" x2="500" y2="30"/>
+                <line class="cv-grid" x1="0" y1="70" x2="500" y2="70"/>
+                <line class="cv-grid" x1="0" y1="110" x2="500" y2="110"/>
+                <polygon class="cv-area" points="0,120 40,112 80,108 120,96 160,92 200,78 240,62 280,68 320,50 360,46 400,52 440,32 470,26 500,16 500,150 0,150"/>
+                <polyline class="cv-line" points="0,120 40,112 80,108 120,96 160,92 200,78 240,62 280,68 320,50 360,46 400,52 440,32 470,26 500,16"/>
+              </svg>
+              <div class="cv-xaxis"><span>APR 01</span><span>APR 07</span><span>APR 14</span><span>TODAY</span></div>
+            </div>
+            <div class="cv-chips">
+              <span class="cv-chip teal">ON TRACK &#183; 14d LEFT</span>
+              <span class="cv-chip">$1.2k saved today</span>
+            </div>
+          </div>
+        </div>
+        <div class="feature-copy">
+          <h3 style="font-size: 24px"><b>Scale</b> AI generated change<br/>without slowing delivery</h3>
+          <p style="font-size: 16px">Keep feedback loops fast and cost efficient as AI increases code, test, and CI volume.</p>
+          <div class="feature-cta-stack">
+            <a href="#cta" class="feature-cta">Universal Cache<span class="fc-arrow">&rarr;</span></a>
+            <a href="#cta" class="feature-cta">Predictive Test Selection<span class="fc-arrow">&rarr;</span></a>
+            <a href="#cta" class="feature-cta">Test Distribution<span class="fc-arrow">&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section-pad" id="testimonials" style="padding-top:0">
+  <div class="container">
+    <div class="tm-panel reveal">
+      <div class="tm-logos" id="tmLogos">
+        <button class="tm-logo active" data-i="0"><span class="wordmark wm-fitbit">fitbit</span></button>
+        <button class="tm-logo" data-i="1"><span class="wordmark wm-robinhood">Robinhood</span></button>
+        <button class="tm-logo" data-i="2"><span class="wordmark wm-salesforce">salesforce</span></button>
+        <button class="tm-logo" data-i="3"><span class="wordmark wm-dyson">dyson</span></button>
+        <button class="tm-logo" data-i="4"><span class="wordmark wm-fitbit">fitbit</span></button>
+      </div>
+      <div class="tm-body" id="tmBody">
+        <p class="tm-quote" style="color: rgb(165, 161, 161)">&ldquo;Thanks to Develocity, we've been able to <span class="hl">reduce our build times by 50%</span>, freeing up valuable developer time and resources for other critical tasks.&rdquo;</p>
+        <div class="tm-author">Lann YeCunn</div>
+        <div class="tm-role">Staff Engineering Manager @ Meta</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OBSERVABILITY ============ -->
+<section class="section-pad sync" id="observability">
+  <div class="container">
+    <h2 class="sync-head reveal">Stay in sync with your builds in real time.<br/><span class="dim">Every build is logged. Every decision is visible.</span></h2>
+    <div class="sync-chart reveal" id="syncChart">
+      <div class="sync-bar" style="--h:52%" data-time="Jan 25, 06:00AM" data-val="21"><i style="top:8%"></i></div>
+      <div class="sync-bar" style="--h:50%" data-time="Jan 25, 06:30AM" data-val="20"><i style="top:8%"></i></div>
+      <div class="sync-bar" style="--h:70%" data-time="Jan 25, 07:00AM" data-val="28"></div>
+      <div class="sync-bar" style="--h:58%" data-time="Jan 25, 07:30AM" data-val="23"><i style="top:40%"></i></div>
+      <div class="sync-bar" style="--h:60%" data-time="Jan 25, 08:00AM" data-val="24"><i style="top:8%"></i></div>
+      <div class="sync-bar" style="--h:34%" data-time="Jan 25, 08:30AM" data-val="14" data-warn="1" data-inv="8"></div>
+      <div class="sync-bar" style="--h:74%" data-time="Jan 25, 09:00AM" data-val="30"><i style="top:30%"></i></div>
+      <div class="sync-bar bright" style="--h:94%" data-time="Jan 25, 09:30AM" data-val="38"></div>
+      <div class="sync-bar" style="--h:88%" data-time="Jan 25, 10:00AM" data-val="35"><i style="top:6%"></i></div>
+      <div class="sync-bar" style="--h:80%" data-time="Jan 25, 10:30AM" data-val="32"><i style="top:10%"></i></div>
+      <div class="sync-bar" style="--h:56%" data-time="Jan 25, 11:00AM" data-val="22"><i style="top:8%"></i></div>
+      <div class="sync-bar" style="--h:40%" data-time="Jan 25, 11:30AM" data-val="16"></div>
+      <div class="sync-bar" style="--h:36%" data-time="Jan 25, 12:00PM" data-val="14" data-warn="1" data-inv="10"></div>
+      <div class="sync-bar" style="--h:46%" data-time="Jan 25, 12:30PM" data-val="18"><i style="top:62%"></i></div>
+      <div class="sync-bar" style="--h:40%" data-time="Jan 25, 01:00PM" data-val="16"></div>
+      <div class="sync-bar" style="--h:50%" data-time="Jan 25, 01:30PM" data-val="20"><i style="top:8%"></i></div>
+      <div class="sync-tip" id="syncTip">
+        <div class="sync-tip-h"></div>
+        <div class="sync-tip-rows">
+          <span class="k">Timestamp:</span><span class="v" data-f="time"></span>
+          <span class="k">Status:</span><span class="v" data-f="status"></span>
+          <span class="k">Reason:</span><span class="v" data-f="reason"></span>
+        </div>
+      </div>
+    </div>
+    <div class="sync-foot reveal">
+      <div class="sync-col"><b>Automatic logs and metrics collection.</b> Captures build scans, test results, dependency resolutions, and CI logs &mdash; automatically.</div>
+      <div class="sync-col"><b>Spot spikes and unusual patterns.</b> Use metrics to flag flaky tests, regressions, and performance issues &mdash; and feed signals into your alerting stack.</div>
+      <div class="sync-col"><b>Replay any build in full detail.</b> Inspect every task, cache hit, and dependency for any historical build, down to the input.</div>
+      <div class="sync-col"><b>Govern access and retention.</b> Set policies for data retention, access control, and audit trails across every team.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ INTEGRATIONS ============ -->
+<section class="section-pad integrations" id="integrations">
+  <div class="int-bg" id="intBg"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Connect AI to the
+tools your teams already use</h2>
+      <p>Develocity connects to the build tools, CI systems, repositories, dependency sources, and artifact workflows your teams already rely on.</p>
+      <div style="margin-top:34px"><button class="btn btn-white">See all integrations</button></div>
+    </div>
+    <div class="int-grid reveal">
+      <div class="int-cell"><img class="int-img" src="assets/gradle.png" alt="Gradle"/>Gradle</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-maven"/></svg>Maven</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-gitlab"/></svg>GitLab CI</div>
+      <div class="int-cell"><span class="int-txt">sbt</span>sbt</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-circleci"/></svg>CircleCI</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-junit"/></svg>JUnit</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-vscode"/></svg>VS Code</div>
+      <div class="int-cell"><span class="int-txt">aws</span>AWS</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-k8s"/></svg>Kubernetes</div>
+      <div class="int-cell"><svg class="int-ico"><use href="#l-intellij"/></svg>IntelliJ IDEA</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="cta" id="cta">
+  <div class="cta-bg" id="ctaBg">
+    <span class="smoke s1"></span>
+    <span class="smoke s2"></span>
+    <span class="smoke s3"></span>
+    <span class="smoke s4"></span>
+  </div>
+  <div class="container">
+    <h2 class="reveal">Enable, govern and scale
+AI-driven software delivery</h2>
+    <p class="reveal">Talk to us, or take a self-guided look at how it works.</p>
+    <div class="reveal"><button class="btn btn-white">Request a demo</button></div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand" href="#top"><img class="brand-logo" src="assets/develocity-logo.png" alt="Develocity" /></a>
+    <div class="footer-links">
+      <a href="#features">Products</a><a href="#how">Solutions</a>
+      <a href="#integrations">Integrations</a><a href="#testimonials">Customers</a>
+      <a href="#cta">Company</a>
+    </div>
+    <div class="footer-copy">© 2026 Develocity</div>
+  </div>
+</footer>
+
+<!-- tweaks panel mount -->
+<div id="tweaks-root"></div>
+
+<script src="backgrounds.js"></script>
+<script src="main.js"></script>
+<script src="hero-typewriter.js"></script>
+
+<!-- React + Babel for the Tweaks panel only -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks-app.jsx"></script>
+
+<style id="__om-edit-overrides"></style>
+</body>
+</html>

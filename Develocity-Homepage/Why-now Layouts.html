@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="cyan">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Why-now — layout options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="homepage.css" />
+<style>
+  body { margin: 0; }
+  .cv { background: #000; color: var(--text); font-family: var(--sans); padding: 52px 46px; }
+  .cv-eyebrow { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
+  .cv h2 { font-size: 38px; line-height: 1.1; letter-spacing: -0.025em; margin: 0; max-width: 20ch; }
+  .cv h2 .muted { color: var(--text-faint); }
+  .cv-lead { color: var(--text-dim); font-size: 17px; line-height: 1.55; margin: 18px 0 40px; max-width: 70ch; }
+
+  /* shared pillar scoping for arrow + chips inside both variants */
+  .pill.eff .oc-answer::before { color: var(--eff); }
+  .pill.gov .chip.on { color: var(--accent); background: rgba(30,201,242,0.12); border-color: rgba(30,201,242,0.32); }
+  .pill.eff .chip.on { color: var(--eff); background: rgba(65,228,134,0.12); border-color: rgba(65,228,134,0.30); }
+  .cv .oc-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  /* ---- A: alternating editorial bands ---- */
+  .lba { display: flex; flex-direction: column; gap: 20px; }
+  .lba-band { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start;
+    border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 36px 38px; position: relative; overflow: hidden; }
+  .lba-band::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.6;
+    background: linear-gradient(118deg, var(--oc), transparent 52%); }
+  .lba-band.gov { --oc: rgba(30,201,242,0.10); border-color: rgba(30,201,242,0.28); }
+  .lba-band.eff { --oc: rgba(65,228,134,0.09); border-color: rgba(65,228,134,0.26); }
+  .lba-band > * { position: relative; z-index: 1; }
+  .lba-side h3 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+  .lba-band.gov .lba-side h3 { color: var(--accent); }
+  .lba-band.eff .lba-side h3 { color: var(--eff); }
+  .lba-metric { display: block; font-family: var(--mono); font-size: 13px; color: var(--text-dim); margin-top: 14px; line-height: 1.6; }
+  .lba-metric b { color: var(--text); }
+  .lba-items { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+
+  /* ---- B: flattened 4-up grid ---- */
+  .lbb { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .lbb-card { border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 28px 30px; position: relative; overflow: hidden; }
+  .lbb-card::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.55;
+    background: linear-gradient(150deg, var(--oc), transparent 60%); }
+  .lbb-card.gov { --oc: rgba(30,201,242,0.09); border-color: rgba(30,201,242,0.26); }
+  .lbb-card.eff { --oc: rgba(65,228,134,0.08); border-color: rgba(65,228,134,0.24); }
+  .lbb-card > * { position: relative; z-index: 1; }
+  .lbb-tag { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 18px; padding: 5px 11px; border-radius: 999px; border: 1px solid; }
+  .lbb-card.gov .lbb-tag { color: var(--accent); border-color: rgba(30,201,242,0.3); background: rgba(30,201,242,0.1); }
+  .lbb-card.eff .lbb-tag { color: var(--eff); border-color: rgba(65,228,134,0.28); background: rgba(65,228,134,0.1); }
+  .lbb-tag b { color: var(--text-dim); font-weight: 500; }
+
+  /* ---- C: tabbed (LiveKit-style) ---- */
+  .lbc-tabs { display: inline-flex; gap: 5px; border: 1px solid var(--border-soft); border-radius: 13px; padding: 6px; margin-bottom: 22px; }
+  .lbc-tab { display: inline-flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 13px; font-weight: 500;
+    letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-dim); padding: 11px 18px; border-radius: 9px;
+    border: 1px solid transparent; background: none; cursor: pointer; transition: color .15s, background .15s, border-color .15s; }
+  .lbc-tab .tdot { width: 8px; height: 8px; border-radius: 2px; background: currentColor; }
+  .lbc-tab:hover { color: var(--text); }
+  .lbc-panel[data-c="gov"] .lbc-tab.gov { color: var(--accent); border-color: rgba(30,201,242,0.4); background: rgba(30,201,242,0.1); }
+  .lbc-panel[data-c="eff"] .lbc-tab.eff { color: var(--eff); border-color: rgba(65,228,134,0.4); background: rgba(65,228,134,0.1); }
+  .lbc-body { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 44px 46px; min-height: 360px; }
+  .lbc-pane { display: none; }
+  .lbc-panel[data-c="gov"] .lbc-pane.gov { display: contents; }
+  .lbc-panel[data-c="eff"] .lbc-pane.eff { display: contents; }
+  .lbc-lock { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 16px; }
+  .lbc-h { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 14px; }
+  .lbc-panel[data-c="gov"] .lbc-h .k { color: var(--accent); }
+  .lbc-panel[data-c="eff"] .lbc-h .k { color: var(--eff); }
+  .lbc-sub { color: var(--text-dim); font-size: 16px; line-height: 1.55; margin: 0 0 24px; max-width: 40ch; }
+  .lbc-bullets { display: flex; flex-direction: column; gap: 14px; margin: 0 0 24px; }
+  .lbc-bullet { display: flex; gap: 12px; align-items: flex-start; font-size: 15.5px; color: #d6d8dd; }
+  .lbc-bullet svg { width: 18px; height: 18px; flex: none; margin-top: 2px; }
+  .lbc-pane.gov .lbc-bullet svg { color: var(--accent); }
+  .lbc-pane.eff .lbc-bullet svg { color: var(--eff); }
+  .lbc-metric { font-family: var(--mono); font-size: 13px; color: var(--text-dim); }
+  .lbc-metric b { color: var(--text); }
+  /* right-side visual */
+  .cviz { position: relative; border: 1px solid var(--border-soft); border-radius: 16px; padding: 26px 28px;
+    background: linear-gradient(150deg, rgba(20,23,28,0.7), rgba(8,10,13,0.7)); justify-self: center; width: 300px; }
+  .cviz .cbrk { position: absolute; width: 20px; height: 20px; }
+  .cviz .cbrk.tl { left: -1px; top: -1px; border-left: 2px solid; border-top: 2px solid; }
+  .cviz .cbrk.tr { right: -1px; top: -1px; border-right: 2px solid; border-top: 2px solid; }
+  .cviz .cbrk.bl { left: -1px; bottom: -1px; border-left: 2px solid; border-bottom: 2px solid; }
+  .cviz .cbrk.br { right: -1px; bottom: -1px; border-right: 2px solid; border-bottom: 2px solid; }
+  .cviz.gov .cbrk { border-color: var(--accent); }
+  .cviz.eff .cbrk { border-color: var(--eff); }
+  .cviz-head { display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 13px; color: #dfe2e6; }
+  .cviz-lbl { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--text-faint); margin-top: 18px; }
+  .cviz-num { font-family: var(--mono); font-size: 30px; color: #fff; margin-top: 4px; }
+  .cviz-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; }
+  .cviz.gov .cviz-row { color: var(--accent); }
+  .cviz .led { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
+  .cviz-stat { display: flex; align-items: baseline; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--border-soft); }
+  .cviz-stat:last-child { border-bottom: none; }
+  .cviz-stat span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--text-faint); width: 84px; flex: none; }
+  .cviz-stat b { font-family: var(--mono); font-size: 24px; color: #fff; font-weight: 500; }
+  .cviz-stat em { font-family: var(--mono); font-size: 12px; font-style: normal; color: var(--eff); margin-left: auto; }
+  .lbc-pane.gov .chip.on { color: var(--accent); background: rgba(30,201,242,0.12); border-color: rgba(30,201,242,0.32); }
+  .lbc-pane.eff .chip.on { color: var(--eff); background: rgba(65,228,134,0.12); border-color: rgba(65,228,134,0.30); }
+</style>
+</head>
+<body>
+<div id="canvas-root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+const { DesignCanvas, DCSection, DCArtboard } = window;
+
+// one problem -> answer -> proof block
+function block(kicker, problem, answer, chips) {
+  return `
+    <div class="oc-block">
+      <p class="oc-kicker">${kicker}</p>
+      <p class="oc-problem">${problem}</p>
+      <p class="oc-answer">${answer}</p>
+      <div class="oc-chips">${chips.map(c => `<span class="chip on">${c}</span>`).join('')}</div>
+    </div>`;
+}
+
+const GA = block('Attribution &amp; lineage',
+  'AI ships machine-scale change with no accountable owner.',
+  'Develocity attributes and signs every build and artifact, so every change traces back to its source &mdash; human or agent.',
+  ['Build Scan', 'Fact Store', '+8 more &rsaquo;']);
+const GB = block('Policy &amp; audit',
+  "Manual policy gates can't keep pace with AI-scale change.",
+  'Automated gates and on-demand evidence enforce policy continuously, and produce audit-ready proof on request.',
+  ['Policy Engine', 'On-Demand Auditing', '+3 more &rsaquo;']);
+const EA = block('Fast feedback',
+  'Agents iterate faster than the pipeline can answer.',
+  'Develocity caches and predicts across builds and tests, returning results in seconds instead of minutes.',
+  ['Universal Cache', 'Predictive Test Selection', '+5 more &rsaquo;']);
+const EB = block('Failure diagnosis',
+  'AI multiplies toolchain failures and bottlenecks.',
+  'Failure and flaky-test analytics pinpoint root cause automatically, so fixes land the first time.',
+  ['Develocity Analytics', 'Flaky Tests Detection', '+5 more &rsaquo;']);
+
+const HEAD = `
+  <p class="cv-eyebrow">Why now</p>
+  <h2>The human was always the bottleneck of software delivery. <span class="muted">AI moved it.</span></h2>
+  <p class="cv-lead">Now the bottleneck is the toolchain itself. Develocity gives AI the context to ship software that's both governed and efficient &mdash; turning raw build, test, and CI telemetry into accountability and speed.</p>`;
+
+// Layout A — alternating editorial bands
+const A_HTML = `<div class="cv">
+  ${HEAD}
+  <div class="lba">
+    <div class="lba-band gov pill gov">
+      <div class="lba-side"><h3>Governance</h3><span class="lba-metric"><b>100%</b> lineage &amp; policy<br/>signed &amp; audit-ready</span></div>
+      <div class="lba-items">${GA}${GB}</div>
+    </div>
+    <div class="lba-band eff pill eff">
+      <div class="lba-side"><h3>Efficiency</h3><span class="lba-metric"><b>9&times;</b> faster CI<br/>60% less compute</span></div>
+      <div class="lba-items">${EA}${EB}</div>
+    </div>
+  </div>
+</div>`;
+
+// Layout B — flattened 4-up grid
+const B_HTML = `<div class="cv">
+  ${HEAD}
+  <div class="lbb">
+    <div class="lbb-card gov pill gov"><span class="lbb-tag">Governance &middot; <b>100% lineage</b></span>${GA}</div>
+    <div class="lbb-card eff pill eff"><span class="lbb-tag">Efficiency &middot; <b>9&times; faster CI</b></span>${EA}</div>
+    <div class="lbb-card gov pill gov"><span class="lbb-tag">Governance &middot; <b>policy &amp; audit</b></span>${GB}</div>
+    <div class="lbb-card eff pill eff"><span class="lbb-tag">Efficiency &middot; <b>60% less compute</b></span>${EB}</div>
+  </div>
+</div>`;
+
+function raw(html) { return <div style={{ background: '#000', minHeight: '100%' }} dangerouslySetInnerHTML={{ __html: html }} />; }
+
+// Layout C — tabbed (LiveKit-style): pillar tabs + split copy/visual panel
+function bullet(txt, ic) {
+  return `<div class="lbc-bullet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ic}</svg><span>${txt}</span></div>`;
+}
+const C_HTML = `<div class="cv">
+  ${HEAD}
+  <div class="lbc-panel" data-c="gov">
+    <div class="lbc-tabs">
+      <button class="lbc-tab gov" onclick="cTab('gov')"><span class="tdot"></span>Governance</button>
+      <button class="lbc-tab eff" onclick="cTab('eff')"><span class="tdot"></span>Efficiency</button>
+    </div>
+    <div class="lbc-body">
+      <div class="lbc-pane gov">
+        <div>
+          <p class="lbc-lock">Develocity &middot; Governance</p>
+          <h2 class="lbc-h">Trust every change <span class="k">AI ships</span>.</h2>
+          <p class="lbc-sub">Attribute, sign, and police every build and artifact &mdash; automatically, at machine speed.</p>
+          <div class="lbc-bullets">
+            ${bullet('Attribute &amp; sign every build and artifact', '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>')}
+            ${bullet('Enforce policy gates continuously', '<path d="M4 12a8 8 0 0 1 13-6m3 6a8 8 0 0 1-13 6"/><path d="M17 3v4h-4M7 21v-4h4"/>')}
+            ${bullet('Audit-ready evidence on demand', '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>')}
+          </div>
+          <p class="lbc-metric"><b>100%</b> lineage &amp; policy</p>
+          <div class="oc-chips" style="margin-top:18px"><span class="chip on">Build Scan</span><span class="chip on">Fact Store</span><span class="chip on">Policy Engine</span><span class="chip on">On-Demand Auditing</span><span class="chip on">+7 more &rsaquo;</span></div>
+        </div>
+        <div class="cviz gov">
+          <span class="cbrk tl"></span><span class="cbrk tr"></span><span class="cbrk bl"></span><span class="cbrk br"></span>
+          <div class="cviz-head"><span>build-provenance</span><span>&#9211;</span></div>
+          <div class="cviz-lbl">SIGNED ARTIFACTS</div>
+          <div class="cviz-num">1,284</div>
+          <div class="cviz-row"><span class="led"></span>POLICY VERIFIED</div>
+        </div>
+      </div>
+      <div class="lbc-pane eff">
+        <div>
+          <p class="lbc-lock">Develocity &middot; Efficiency</p>
+          <h2 class="lbc-h">Keep up with <span class="k">agent-speed</span> delivery.</h2>
+          <p class="lbc-sub">Cache, predict, and diagnose across builds and tests so feedback stays instant as volume explodes.</p>
+          <div class="lbc-bullets">
+            ${bullet('Cache builds, tests, and artifacts universally', '<path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>')}
+            ${bullet('Predict and distribute test runs', '<path d="M5 13l4 4 10-10"/>')}
+            ${bullet('Pinpoint failures and flaky tests automatically', '<path d="M12 4l9 16H3z"/><path d="M12 10v5M12 18h.01"/>')}
+          </div>
+          <p class="lbc-metric"><b>9&times;</b> faster CI &middot; 60% less compute</p>
+          <div class="oc-chips" style="margin-top:18px"><span class="chip on">Universal Cache</span><span class="chip on">Predictive Test Selection</span><span class="chip on">Develocity Analytics</span><span class="chip on">Flaky Tests Detection</span><span class="chip on">+8 more &rsaquo;</span></div>
+        </div>
+        <div class="cviz eff">
+          <span class="cbrk tl"></span><span class="cbrk tr"></span><span class="cbrk bl"></span><span class="cbrk br"></span>
+          <div class="cviz-stat"><span>BUILD TIME</span><b>3m 12s</b><em>&darr; 38%</em></div>
+          <div class="cviz-stat"><span>CACHE HIT</span><b>92%</b><em>1,204 hits</em></div>
+          <div class="cviz-stat"><span>FLAKY</span><b>3</b><em>quarantined</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+window.cTab = function (which) {
+  document.querySelectorAll('.lbc-panel').forEach(p => p.setAttribute('data-c', which));
+};
+
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="why-layouts" title="Why-now — layout options" subtitle="Same copy, two structures. Pan/zoom to compare; open either fullscreen.">
+        <DCArtboard id="a" label="A · Alternating editorial bands" width={1240} height={1080}>{raw(A_HTML)}</DCArtboard>
+        <DCArtboard id="b" label="B · Flattened 4-up grid" width={1240} height={980}>{raw(B_HTML)}</DCArtboard>
+        <DCArtboard id="c" label="C · Tabbed (click the tabs)" width={1240} height={940}>{raw(C_HTML)}</DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+ReactDOM.createRoot(document.getElementById('canvas-root')).render(<App />);
+</script>
+</body>
+</html>
