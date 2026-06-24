@@ -678,11 +678,16 @@
 
     .bento-overlay {
       position: absolute;
-      inset: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 62%;
       z-index: 20;
-      background: rgba(11,13,15,0.82);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: linear-gradient(to bottom, rgba(11,13,15,0) 0%, rgba(11,13,15,0.93) 58%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 55%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 55%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -690,6 +695,11 @@
       opacity: 0;
       transition: opacity 0.25s ease;
       pointer-events: none;
+    }
+
+    /* White-background cell: start gradient from white-transparent so there's no muddy gray mid-point */
+    .bento-b .bento-overlay {
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(11,13,15,0.93) 62%);
     }
 
     .bento-cell:hover .bento-overlay {
