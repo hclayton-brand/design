@@ -306,6 +306,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ── Add-on cards ───────────────────────────────────────────── */
+.addon-cat-header .hmc-wrap { padding-top: 28px; padding-bottom: 0; }
+.addon-cat-header .hmc-left { padding: 0; justify-content: flex-start; }
 .addon-hmc { height: 400px; }
 .addon-hmc .hmc-wrap { height: 100%; }
 .addon-hmc .hmc-cols { height: 100%; }
@@ -315,11 +317,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   justify-content: center;
 }
 .addon-cat {
-  position: absolute;
-  top: 27px; left: 0;
-  width: 229px; height: 24px;
   font: 400 14px/24px var(--fs);
-  /* Gradient: purple → teal, -90deg */
+  margin-bottom: 6px;
   background: linear-gradient(-89.9999deg, rgb(138,92,255) 6.32%, rgb(77,201,192) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -361,7 +360,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .vdiv.center-v { display: none; }
   .base-hmc { height: auto; }
   .addon-hmc { height: auto; }
-  .addon-cat { position: static; margin-bottom: 10px; }
+  .addon-cat { margin-bottom: 10px; }
   .tab-list { flex-wrap: wrap; }
   .hmc-wrap { padding: 0 24px; gap: 24px; }
   .hmc-left, .hmc-right, .addon-right { padding: 40px 0; }
@@ -678,13 +677,23 @@ function renderTab(id) {
   }
   if (!group) { container.innerHTML = ''; return; }
 
-  container.innerHTML = group.items.map(function(item) {
+  var catLabel = group.items.length ?
+    '<div class="addon-cat-header">' +
+      '<div class="hmc-wrap">' +
+        '<div class="vdiv"></div>' +
+        '<div class="hmc-cols">' +
+          '<div class="hmc-left"><span class="addon-cat">' + group.items[0].cat + '</span></div>' +
+        '</div>' +
+        '<div class="vdiv"></div>' +
+      '</div>' +
+    '</div>' : '';
+
+  container.innerHTML = catLabel + group.items.map(function(item) {
     return '<section class="hmc addon-hmc">' +
       '<div class="hmc-wrap">' +
         '<div class="vdiv"></div>' +
         '<div class="hmc-cols">' +
           '<div class="hmc-left">' +
-            '<span class="addon-cat">' + item.cat + '</span>' +
             '<h2 class="addon-title">' + item.name + '</h2>' +
           '</div>' +
           '<div class="vdiv center-v"></div>' +
