@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Develocity Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+<style>
+
+/* ── Tokens ─────────────────────────────────────────────────── */
+:root {
+  --bg:      #0a0a0a;
+  --surface: #171717;
+  --border:  #262626;
+  --div:     #171717;
+  --fg:      #fafafa;
+  --muted:   #a3a3a3;
+  --accent:  #2ca7be;
+  --fs: "Geist", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 16px/24px var(--fs);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ── Nav ────────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 32px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo img { height: 32px; display: block; }
+.nav-links { display: flex; align-items: center; }
+.nav-links a,
+.nav-links button {
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 12px;
+  font: 400 16px/24px var(--fs);
+  color: var(--fg);
+  background: none; border: none; cursor: pointer;
+  white-space: nowrap; text-decoration: none;
+  opacity: .85;
+  transition: opacity .12s;
+}
+.nav-links a:hover,
+.nav-links button:hover { opacity: 1; }
+.nav-links .chev { width: 16px; height: 16px; flex-shrink: 0; }
+.btn-trial {
+  display: inline-flex; align-items: center;
+  padding: 10px 24px; border-radius: 8px;
+  background: var(--accent); color: #071014;
+  font: 500 14px/1 var(--fs);
+  border: none; cursor: pointer; text-decoration: none;
+  transition: opacity .12s;
+}
+.btn-trial:hover { opacity: .9; }
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center;
+  padding: 12px 24px; border-radius: 8px;
+  font: 500 14px/1 var(--fs);
+  border: none; cursor: pointer; text-decoration: none;
+  transition: opacity .12s; white-space: nowrap;
+}
+.btn:hover { opacity: .85; }
+.btn-primary { background: var(--accent); color: #071014; }
+.btn-outline {
+  background: transparent; color: var(--fg);
+  border: 1px solid var(--border);
+}
+
+/* ── Hero ───────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 730px;
+  background: var(--bg);
+  display: flex; align-items: center;
+  overflow: hidden;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 1280px; margin: 0 auto;
+  padding: 64px;
+  width: 100%;
+  margin-top: -150px;
+}
+.hero-text { width: 472px; }
+.hero h1 {
+  font-size: 48px; font-weight: 600;
+  letter-spacing: -0.4px; line-height: 56px;
+  color: #fff; margin-bottom: 8px;
+}
+.hero-sub {
+  font-size: 18px; line-height: 24px;
+  color: var(--muted); margin-bottom: 24px;
+}
+.hero-cta { display: flex; gap: 24px; align-items: center; }
+
+/* ── Isometric tiles ────────────────────────────────────────── */
+.hero-tiles {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+.tiles-svg {
+  position: absolute;
+  right: 0; top: 0;
+  width: 1200px; height: 1050px;
+}
+.hero-fade {
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 1200px; height: 480px;
+  background: linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0) 100%);
+  pointer-events: none;
+}
+@keyframes tile-rise {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+#gt0 { animation: tile-rise 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s  both; }
+#gt1 { animation: tile-rise 2.2s cubic-bezier(0.16, 1, 0.3, 1) 1.4s  both; }
+#gt2 { animation: tile-rise 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s  both; }
+#gt3 { animation: tile-rise 2.2s cubic-bezier(0.16, 1, 0.3, 1) 2.1s  both; }
+#gt4 { animation: tile-rise 2.2s cubic-bezier(0.16, 1, 0.3, 1) 1.0s  both; }
+
+/* ── HMC layout (base + add-on sections) ───────────────────── */
+.hmc {
+  border-top: 1px solid var(--div);
+  border-bottom: 1px solid var(--div);
+  background: var(--bg);
+  position: relative;
+}
+.hmc-wrap {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 64px;
+  display: flex; gap: 48px; align-items: stretch;
+}
+.vdiv {
+  width: 1px; flex-shrink: 0;
+  background: var(--div);
+  align-self: stretch;
+}
+.hmc-cols {
+  flex: 1; display: flex; gap: 48px; min-width: 0;
+  position: relative;
+}
+.hmc-left {
+  flex: 2; min-width: 0;
+  padding: 64px 0;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.hmc-right {
+  flex: 3; min-width: 0;
+  padding: 64px 0;
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative;
+}
+
+/* ── Base section ───────────────────────────────────────────── */
+.base-hmc { height: 710px; }
+.base-hmc .hmc-wrap { height: 100%; }
+.base-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; height: 800px;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+.base-title {
+  position: relative; z-index: 1;
+  font-size: 36px; font-weight: 600;
+  letter-spacing: -0.4px; line-height: 40px;
+  color: var(--fg); width: 365px;
+}
+/* Border overlay card in base right col */
+.base-card-border {
+  position: absolute;
+  right: 0; top: 184px;
+  width: calc(100% + 0px);
+  height: 434px;
+  border: 1px solid var(--div);
+  pointer-events: none;
+}
+.hmc-desc {
+  font-size: 18px; line-height: 24px;
+  color: var(--muted);
+}
+.pkg-title {
+  font-size: 20px; font-weight: 600;
+  line-height: 1.4; color: #fff;
+  margin-bottom: 29px; padding-top: 48px;
+}
+.checklist { display: flex; flex-direction: column; gap: 14px; margin-bottom: 29px; }
+.check-item { display: flex; align-items: center; gap: 12px; }
+.check-ic {
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.check-lbl {
+  font-size: 14px; line-height: 1.4;
+  color: rgba(255,255,255,.85);
+}
+.cta-row { display: flex; gap: 18px; align-items: center; }
+.pricing-note { font-size: 18px; line-height: 24px; color: var(--muted); }
+
+/* ── "Explore Add Ons" + tabs ───────────────────────────────── */
+.explore-section {
+  background: var(--bg);
+  border-top: 1px solid var(--div);
+  border-bottom: 1px solid var(--div);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 190px; padding: 0;
+}
+.explore-box {
+  width: 1152px; min-height: 190px;
+  border-left: 1px solid var(--div);
+  border-right: 1px solid var(--div);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 20px; padding: 24px 0;
+}
+/* Eyebrow */
+.eyebrow {
+  position: relative;
+  display: inline-flex; align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+.eyebrow-text {
+  font: 600 12px/16px var(--fs);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.csq {
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--fg);
+  border-radius: 1px;
+}
+.csq.tl { top: -5px; left: -5px; }
+.csq.br { bottom: -5px; right: -5px; }
+/* Tab pill container */
+.tab-list {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+}
+.tab-btn {
+  position: relative;
+  padding: 12px 16px; border-radius: 4px;
+  font: 500 14px/normal var(--fs);
+  letter-spacing: 0.35px;
+  color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  white-space: nowrap; overflow: hidden;
+  transition: background .12s;
+}
+.tab-btn:hover { color: var(--fg); }
+.tab-btn.active { background: var(--surface); }
+/* Gradient text inside active tab — applied to the inner span */
+.tab-btn.active .tab-label {
+  background: linear-gradient(180deg, #fafafa 0%, #a3a3a3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+/* Active indicator bar pinned to bottom */
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 0;
+  width: 24px; height: 2px;
+  background: var(--fg);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 -2px 6px 1px rgba(255,255,255,.15);
+}
+
+/* ── Add-on cards ───────────────────────────────────────────── */
+.addon-hmc { height: 400px; }
+.addon-hmc .hmc-wrap { height: 100%; }
+.addon-hmc .hmc-cols { height: 100%; }
+.addon-hmc .hmc-left {
+  position: relative;
+  padding: 64px 0;
+  justify-content: center;
+}
+.addon-cat {
+  position: absolute;
+  top: 27px; left: 0;
+  width: 229px; height: 24px;
+  font: 400 14px/24px var(--fs);
+  /* Gradient: purple → teal, -90deg */
+  background: linear-gradient(-89.9999deg, rgb(138,92,255) 6.32%, rgb(77,201,192) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+.addon-title {
+  font-size: 36px; font-weight: 600;
+  letter-spacing: -0.4px; line-height: 40px;
+  color: var(--fg); width: 365px;
+}
+.addon-right {
+  flex: 3; min-width: 0;
+  padding: 64px 0;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.addon-desc {
+  font-size: 18px; line-height: 24px;
+  color: var(--muted);
+}
+.addon-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 400 14px/24px var(--fs);
+  color: var(--accent); text-decoration: none;
+}
+.addon-link:hover { text-decoration: underline; }
+.addon-link-arrow { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1280px) {
+  .nav-inner, .hero-content, .hmc-wrap { padding-left: 32px; padding-right: 32px; }
+  .explore-box { width: 100%; border-left: none; border-right: none; }
+}
+@media (max-width: 900px) {
+  .hero { height: auto; }
+  .hero-content { padding: 60px 24px; }
+  .hero-text { width: auto; }
+  .hmc-cols { flex-direction: column; }
+  .vdiv.center-v { display: none; }
+  .base-hmc { height: auto; }
+  .addon-hmc { height: auto; }
+  .addon-cat { position: static; margin-bottom: 10px; }
+  .tab-list { flex-wrap: wrap; }
+  .hmc-wrap { padding: 0 24px; gap: 24px; }
+  .hmc-left, .hmc-right, .addon-right { padding: 40px 0; }
+  .base-title, .addon-title { width: auto; }
+  .base-card-border { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="Assets/Logo_Full_Colour.svg" alt="Develocity">
+    </a>
+    <div class="nav-links">
+      <button type="button">Platform
+        <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+      </button>
+      <button type="button">Solutions
+        <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+      </button>
+      <a href="/customers/">Customers</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="https://docs.gradle.com/" target="_blank" rel="noopener">Docs</a>
+      <a href="#">Open Source</a>
+      <a href="#">About</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <a href="/trial/" class="btn-trial">Free trial</a>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <!-- Isometric tile grid (inline so glowing tiles can animate) -->
+  <div class="hero-tiles" aria-hidden="true">
+    <svg class="tiles-svg" viewBox="0 0 744 651" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.5">
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 25.6965 352.907)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 159.165 429.966)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 292.642 507.029)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 426.118 584.089)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 157.032 277.08)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 290.501 354.139)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <g id="gt0" filter="url(#filter0_d_1100_33628)">
+          <rect width="133.159" height="133.159" rx="3.69886" transform="matrix(0.866025 -0.5 0.866025 0.5 25.625 323.051)" fill="#0A0A0A"/>
+          <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 25.6965 323.318)" stroke="#FAFAFA" stroke-width="0.616477"/>
+        </g>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 423.978 431.202)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 557.47 508.262)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 288.368 201.253)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 421.837 278.312)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 555.337 355.375)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 688.822 432.435)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 419.704 125.425)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <g id="gt1" filter="url(#filter1_d_1100_33628)">
+          <rect width="133.159" height="133.159" rx="3.69886" transform="matrix(0.866025 -0.5 0.866025 0.5 419.641 104.198)" fill="#0A0A0A"/>
+          <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 419.712 104.465)" stroke="#FAFAFA" stroke-width="0.616477"/>
+        </g>
+        <g id="gt2" filter="url(#filter2_d_1100_33628)">
+          <rect width="133.159" height="133.159" rx="3.69886" transform="matrix(0.866025 -0.5 0.866025 0.5 290.43 323.049)" fill="#0A0A0A"/>
+          <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 290.501 323.316)" stroke="#FAFAFA" stroke-width="0.616477"/>
+        </g>
+        <g id="gt3" filter="url(#filter3_d_1100_33628)">
+          <rect width="133.159" height="133.159" rx="3.69886" transform="matrix(0.866025 -0.5 0.866025 0.5 290.43 287.292)" fill="#0A0A0A"/>
+          <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 290.501 287.559)" stroke="#FAFAFA" stroke-width="0.616477"/>
+        </g>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 553.197 202.484)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 686.689 279.547)" fill="#0A0A0A" stroke="#FAFAFA" stroke-width="0.616477"/>
+        <g id="gt4" filter="url(#filter4_d_1100_33628)">
+          <rect width="133.159" height="133.159" rx="3.69886" transform="matrix(0.866025 -0.5 0.866025 0.5 426.047 401.959)" fill="#0A0A0A"/>
+          <rect x="0.533885" width="132.543" height="132.543" rx="3.39063" transform="matrix(0.866025 -0.5 0.866025 0.5 426.118 402.226)" stroke="#FAFAFA" stroke-width="0.616477"/>
+        </g>
+      </g>
+      <defs>
+        <filter id="filter0_d_1100_33628" x="16.4034" y="252.007" width="249.084" height="153.185" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feMorphology radius="3.08239" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_1100_33628"/>
+          <feOffset dy="5.5483"/>
+          <feGaussianBlur stdDeviation="4.0071"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1100_33628"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1100_33628" result="shape"/>
+        </filter>
+        <filter id="filter1_d_1100_33628" x="410.419" y="33.1533" width="249.084" height="153.185" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feMorphology radius="3.08239" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_1100_33628"/>
+          <feOffset dy="5.5483"/>
+          <feGaussianBlur stdDeviation="4.0071"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0.607843 0 0 0 0 0.364706 0 0 0 0 0.898039 0 0 0 0.5 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1100_33628"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1100_33628" result="shape"/>
+        </filter>
+        <filter id="filter2_d_1100_33628" x="281.208" y="252.005" width="249.084" height="153.185" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feMorphology radius="3.08239" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_1100_33628"/>
+          <feOffset dy="5.5483"/>
+          <feGaussianBlur stdDeviation="4.0071"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1100_33628"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1100_33628" result="shape"/>
+        </filter>
+        <filter id="filter3_d_1100_33628" x="281.208" y="216.248" width="249.084" height="153.185" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feMorphology radius="3.08239" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_1100_33628"/>
+          <feOffset dy="5.5483"/>
+          <feGaussianBlur stdDeviation="4.0071"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0.172549 0 0 0 0 0.654902 0 0 0 0 0.745098 0 0 0 0.4 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1100_33628"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1100_33628" result="shape"/>
+        </filter>
+        <filter id="filter4_d_1100_33628" x="416.825" y="330.915" width="249.084" height="153.185" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feMorphology radius="3.08239" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_1100_33628"/>
+          <feOffset dy="5.5483"/>
+          <feGaussianBlur stdDeviation="4.0071"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1100_33628"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1100_33628" result="shape"/>
+        </filter>
+      </defs>
+    </svg>
+    <div class="hero-fade"></div>
+  </div>
+  <!-- Text -->
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Pricing that scales with your team, not your builds</h1>
+      <p class="hero-sub">One metric across every capability — you pay per committer, never per build or per host.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#">Start free trial</a>
+        <a class="btn btn-outline" href="#">Contact us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Observability Data Platform (base) ───────────────────── -->
+<section class="hmc base-hmc">
+  <div class="hmc-wrap">
+    <div class="vdiv"></div>
+    <div class="hmc-cols">
+      <div class="hmc-left">
+        <img class="base-glow" src="Assets/Icon_BG.png" alt="">
+        <p class="base-title">Observability Data Platform</p>
+      </div>
+      <div class="vdiv center-v"></div>
+      <div class="hmc-right">
+        <!-- border overlay card -->
+        <div class="base-card-border"></div>
+        <p class="hmc-desc">The telemetry foundation: it ingests and records every build, test, and pipeline signal and serves the live and historical views the rest of the platform reads from.</p>
+        <div>
+          <p class="pkg-title">Required Base Package</p>
+          <ul class="checklist">
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Observability Data Platform</span>
+            </li>
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Build Scan</span>
+            </li>
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Develocity Analytics</span>
+            </li>
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Performance &amp; Efficiency Insights</span>
+            </li>
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Build Systems &amp; Package Managers</span>
+            </li>
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Metadata Enrichment</span>
+            </li>
+            <li class="check-item">
+              <span class="check-ic">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4 8.5L9.5 2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="check-lbl">Repository Managers</span>
+            </li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#">Start a free trial</a>
+            <a class="btn btn-outline" href="#">Contact us</a>
+          </div>
+        </div>
+        <p class="pricing-note">Pricing is tailored to your footprint and team size.</p>
+      </div>
+    </div>
+    <div class="vdiv"></div>
+  </div>
+</section>
+
+<!-- ── Explore Add Ons + tabs ────────────────────────────────── -->
+<div class="explore-section">
+  <div class="explore-box">
+    <!-- Eyebrow label with corner squares -->
+    <div class="eyebrow">
+      <span class="csq tl"></span>
+      <span class="eyebrow-text">Explore add ons</span>
+      <span class="csq br"></span>
+    </div>
+    <!-- Tab pill list -->
+    <div class="tab-list" role="tablist">
+      <button class="tab-btn active" role="tab" data-tab="context" aria-selected="true"><span class="tab-label">Context Engineering</span></button>
+      <button class="tab-btn" role="tab" data-tab="efficiency" aria-selected="false"><span class="tab-label">Efficiency &amp; Acceleration</span></button>
+      <button class="tab-btn" role="tab" data-tab="governance" aria-selected="false"><span class="tab-label">Governance</span></button>
+      <button class="tab-btn" role="tab" data-tab="ops" aria-selected="false"><span class="tab-label">Operational tier</span></button>
+      <button class="tab-btn" role="tab" data-tab="services" aria-selected="false"><span class="tab-label">Professional Services</span></button>
+      <button class="tab-btn" role="tab" data-tab="deployment" aria-selected="false"><span class="tab-label">Deployment Options</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Add-on cards (filled by JS) ──────────────────────────── -->
+<div id="addon-cards"></div>
+
+<script>
+'use strict';
+
+/* ── Add-on data ─────────────────────────────────────────────── */
+const TABS = [
+  { id: 'context', items: [
+    { cat: 'Observability Data Platform +', name: 'Flaky Test Detection',
+      desc: 'Finds and quarantines flaky tests so they stop failing builds for non-real reasons.',
+      link: { label: 'Flaky Test Detection', href: '/product/flaky-test-detection/' } },
+    { cat: 'Observability Data Platform +', name: 'MCP Servers',
+      desc: 'Exposes your build and test data to AI agents over MCP, so assistants can query it directly.',
+      link: { label: 'MCP Servers', href: '/product/mcp-servers/' } },
+    { cat: 'Observability Data Platform +', name: 'Build Systems & Package Managers',
+      desc: 'First-class Build Scan support for Maven, sbt, npm, Bazel, and more — extend observability beyond Gradle and Maven to every build tool in your stack.',
+      link: { label: 'Build Systems & Package Managers', href: '/product/build-systems-package-managers/' } }
+  ]},
+  { id: 'efficiency', items: [
+    { cat: 'Observability Data Platform +', name: 'Build Cache & Optimizer',
+      desc: 'Remote build cache with optimizer intelligence — avoid redundant work across every CI run and reduce average build times by up to 90%.',
+      link: { label: 'Build Cache & Optimizer', href: '/product/build-caching-optimizer/' } },
+    { cat: 'Observability Data Platform +', name: 'Test Distribution',
+      desc: 'Parallelize test suites across an agent pool and cut test feedback loops from hours to minutes without changing a line of test code.',
+      link: { label: 'Test Distribution', href: '/product/test-distribution/' } },
+    { cat: 'Observability Data Platform + Test Distribution +', name: 'Predictive Test Selection',
+      desc: 'ML-driven selection that runs only the tests likely to fail for your code change — reduce CI time without sacrificing coverage confidence.',
+      link: { label: 'Predictive Test Selection', href: '/product/predictive-test-selection/' } }
+  ]},
+  { id: 'governance', items: [
+    { cat: 'Add-on', name: 'DORA Gates',
+      desc: 'Measure and gate deployments against your DORA targets — frequency, change failure rate, and lead time — without manual pipeline instrumentation.',
+      link: { label: 'DORA Gates', href: '/product/dora-gates/' } },
+    { cat: 'Add-on', name: 'CD & ITSM',
+      desc: 'Connect build and deploy events to ServiceNow, Jira Service Management, or your ITSM workflow for automated change management.',
+      link: { label: 'CD & ITSM', href: '/product/cd-itsm/' } }
+  ]},
+  { id: 'ops', items: [
+    { cat: 'Add-on', name: 'SAML / SSO',
+      desc: 'Enterprise identity — connect Develocity to your IdP via SAML 2.0 or OIDC. Supports Okta, Entra ID, Ping Identity, and more.',
+      link: { label: 'SAML / SSO', href: '/product/saml-sso/' } },
+    { cat: 'Add-on', name: 'High Availability',
+      desc: 'Multi-replica, cross-AZ configuration with SLA-backed uptime for mission-critical CI infrastructure.',
+      link: { label: 'High Availability', href: '/product/high-availability/' } },
+    { cat: 'Add-on', name: 'Audit Logging',
+      desc: 'Tamper-evident, exportable log of every administrative action for compliance review, forensic investigation, and access governance.',
+      link: { label: 'Audit Logging', href: '/product/audit-logging/' } }
+  ]},
+  { id: 'services', items: [
+    { cat: 'Professional Services', name: 'Services & Enablement',
+      desc: "Hands-on onboarding, rollout, and advisory from Gradle's engineers. Scoped engagements from fast-track QuickStart deployment to continuous advisory.",
+      link: { label: 'Services & Enablement', href: '/services/' } }
+  ]},
+  { id: 'deployment', items: [
+    { cat: 'Deployment', name: 'SaaS',
+      desc: 'Develocity hosted and operated by Gradle — nothing to run yourself. Live in hours with SLA-backed uptime, managed upgrades, and no infrastructure to provision.',
+      link: { label: 'Deployment options', href: '/product/deployment-options/' } },
+    { cat: 'Deployment', name: 'Self-Managed',
+      desc: 'Run Develocity on your own infrastructure, under your full control — your cloud account, data centre, or air-gapped network. Full data residency on your terms.',
+      link: { label: 'Deployment options', href: '/product/deployment-options/' } }
+  ]}
+];
+
+const ARROW_SVG = `<svg class="addon-link-arrow" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* ── Render add-on cards ──────────────────────────────────────── */
+function renderTab(id) {
+  var container = document.getElementById('addon-cards');
+  var group = null;
+  for (var i = 0; i < TABS.length; i++) {
+    if (TABS[i].id === id) { group = TABS[i]; break; }
+  }
+  if (!group) { container.innerHTML = ''; return; }
+
+  container.innerHTML = group.items.map(function(item) {
+    return '<section class="hmc addon-hmc">' +
+      '<div class="hmc-wrap">' +
+        '<div class="vdiv"></div>' +
+        '<div class="hmc-cols">' +
+          '<div class="hmc-left">' +
+            '<span class="addon-cat">' + item.cat + '</span>' +
+            '<h2 class="addon-title">' + item.name + '</h2>' +
+          '</div>' +
+          '<div class="vdiv center-v"></div>' +
+          '<div class="addon-right">' +
+            '<p class="addon-desc">' + item.desc + '</p>' +
+            (item.link ? '<a class="addon-link" href="' + item.link.href + '" target="_blank" rel="noopener">' + item.link.label + ' ' + ARROW_SVG + '</a>' : '') +
+            '<div class="cta-row">' +
+              '<a class="btn btn-primary" href="#">Start a free trial</a>' +
+              '<a class="btn btn-outline" href="#">Contact us</a>' +
+            '</div>' +
+            '<p class="pricing-note">Pricing is tailored to your footprint and team size.</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="vdiv"></div>' +
+      '</div>' +
+    '</section>';
+  }).join('');
+}
+
+/* ── Tab switching ────────────────────────────────────────────── */
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(function(t) {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    renderTab(btn.dataset.tab);
+  });
+});
+
+/* ── Init ────────────────────────────────────────────────────── */
+renderTab('context');
+</script>
+</body>
+</html>
