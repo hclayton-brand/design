@@ -892,6 +892,22 @@
       .btn-large, .btn-large-ghost { width: 100%; text-align: center; }
       .review-tab   { padding: 5px 12px; }
     }
+
+    /* ═══════════════════════════════════════════
+       IDENTITY 05 — EMBER ORANGE OVERRIDES
+    ═══════════════════════════════════════════ */
+    [data-identity="5"] .bento-c { --bento-glow: rgba(44,167,190,0.09); }
+
+    /* ═══════════════════════════════════════════
+       IDENTITY 06 — SIGNAL BLUE OVERRIDES
+    ═══════════════════════════════════════════ */
+    [data-identity="6"] .bento-c { --bento-glow: rgba(59,130,246,0.09); }
+
+    /* ═══════════════════════════════════════════
+       IDENTITY 07 — SIGNAL GREEN OVERRIDES
+    ═══════════════════════════════════════════ */
+    [data-identity="7"] .bento-c { --bento-glow: rgba(48,171,194,0.09); }
+    [data-identity="8"] .bento-c { --bento-glow: rgba(99,102,241,0.09); }
   </style>
 </head>
 <body>
@@ -901,9 +917,11 @@
     <span class="review-label">Develocity — Brand Identity Review</span>
     <div class="review-center">
       <div class="review-tabs">
-        <button class="review-tab active" data-identity="1">Option 01</button>
-        <button class="review-tab"        data-identity="2">Option 02</button>
-        <button class="review-tab"        data-identity="4">Option 04</button>
+        <button class="review-tab active" data-identity="4">Option 04</button>
+        <button class="review-tab"        data-identity="5">Option 05</button>
+        <button class="review-tab"        data-identity="6">Option 06</button>
+        <button class="review-tab"        data-identity="7">Option 07</button>
+        <button class="review-tab"        data-identity="8">Option 08</button>
       </div>
       <div class="bin-wrap">
         <button class="bin-btn" id="binBtn" title="More options">
@@ -914,6 +932,8 @@
           </svg>
         </button>
         <div class="bin-dropdown" id="binDropdown">
+          <button class="review-tab" data-identity="1">Option 01</button>
+          <button class="review-tab" data-identity="2">Option 02</button>
           <button class="review-tab" data-identity="3">Option 03</button>
         </div>
       </div>
@@ -1467,6 +1487,666 @@
   </div><!-- /identity-03 -->
 
 
+  <!-- ══ IDENTITY 05 — OPTION 05 ════════════════════════ -->
+  <div class="identity-panel" data-identity="5">
+
+    <section class="hero">
+      <canvas id="pixel-bg-5"></canvas>
+      <div class="hero-overlay" style="background:
+        radial-gradient(ellipse 65% 55% at 50% 48%, rgba(44,167,190,0.13) 0%, transparent 68%),
+        radial-gradient(ellipse 40% 40% at 50% 48%, rgba(44,167,190,0.07) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(11,13,15,0.0) 0%, rgba(11,13,15,0.0) 60%, rgba(11,13,15,0.85) 90%, rgba(11,13,15,1.0) 100%);"></div>
+      <img src="Assets/option5/SVG/full_colour.svg" alt="Develocity" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(580px,72vw); height:auto; z-index:2; filter:drop-shadow(0 0 60px rgba(44,167,190,0.4));">
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section class="bento-section">
+      <div class="bento-grid">
+
+        <!-- A: Logo white on dark -->
+        <div class="bento-cell bento-a">
+          <img src="Assets/option5/SVG/full_colour.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Light</div>
+            <div class="bento-overlay-body">Primary logo for use on dark backgrounds. White wordmark with organic brand mark.</div>
+          </div>
+        </div>
+
+        <!-- B: Logo dark on white -->
+        <div class="bento-cell bento-b" style="background:#FFFFFF; align-items:center; justify-content:center;">
+          <img src="Assets/option5/SVG/Logo_dark.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Dark</div>
+            <div class="bento-overlay-body">Dark variant for use on light or white backgrounds. Maintains full brand legibility.</div>
+          </div>
+        </div>
+
+        <!-- C: Waveforms image -->
+        <div class="bento-cell bento-c" style="padding:0;">
+          <img src="Assets/Gradlebrand/Waveforms.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Pattern</div>
+            <div class="bento-overlay-body">Waveform graphics represent data flow and build pipeline velocity across the Develocity ecosystem.</div>
+          </div>
+        </div>
+
+        <!-- D: Brand mark standalone with 3D tilt -->
+        <div class="bento-cell bento-d" style="align-items:center; justify-content:center;" data-tilt>
+          <div class="icon-3d-scene">
+            <svg viewBox="79 19 308 308" class="icon-3d-obj" aria-label="Develocity brand mark">
+              <path fill="#2CA7BE" d="M386,161.7V19H79.6v1.3c204.1,51.5,292.3,98.8,306.4,141.4Z"/>
+              <path fill="#2CA7BE" d="M79.6,323.6v1.8h306.4v-139c-18,54.4-153.2,100.4-306.4,137.3Z"/>
+              <path fill="#2CA7BE" d="M79.6,306.3c165.6-86.5,153.9-176.1,0-265.3v265.3Z"/>
+            </svg>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Mark</div>
+            <div class="bento-overlay-body">The organic icon mark in isolation. A fluid form used as a standalone symbol across product UI and brand touchpoints.</div>
+          </div>
+        </div>
+
+        <!-- E: Pixel rain mini canvas -->
+        <div class="bento-cell bento-e" style="padding:0; overflow:hidden;">
+          <canvas id="pixel-bg-5-mini" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Texture</span>
+            <span class="bento-value">Pixel Rain</span>
+            <span class="bento-sub">Canvas · 60fps · Procedural</span>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Texture</div>
+            <div class="bento-overlay-body">A procedural pixel canvas creates a living, dynamic brand texture unique to this identity.</div>
+          </div>
+        </div>
+
+        <!-- F: Atmospheric warm glow -->
+        <div class="bento-cell bento-f" style="padding:0; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 110% 80% at 50% 108%, rgba(44,167,190,0.55) 0%, rgba(21,100,120,0.12) 38%, transparent 62%), linear-gradient(to bottom, #0B0D0F 0%, #060E10 100%);pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.07;pointer-events:none;">
+            <svg viewBox="79 19 308 308" style="width:180%;height:auto;" aria-hidden="true">
+              <path fill="#2CA7BE" d="M386,161.7V19H79.6v1.3c204.1,51.5,292.3,98.8,306.4,141.4Z"/>
+              <path fill="#2CA7BE" d="M79.6,323.6v1.8h306.4v-139c-18,54.4-153.2,100.4-306.4,137.3Z"/>
+              <path fill="#2CA7BE" d="M79.6,306.3c165.6-86.5,153.9-176.1,0-265.3v265.3Z"/>
+            </svg>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Atmosphere</div>
+            <div class="bento-overlay-body">Cool, luminous light treatments bring depth and clarity to brand applications.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="colour-section">
+      <div class="colour-section-header">
+        <h2 class="colour-section-title">Colour System</h2>
+        <p class="colour-section-sub">A cool, precise palette anchored in teal and deep obsidian.</p>
+      </div>
+      <div class="colour-panels-wrap">
+        <div class="colour-panels">
+          <div class="colour-panel colour-panel--light" style="--c:#FFFFFF">
+            <div class="colour-info">
+              <span class="colour-label-name">White</span>
+              <span class="colour-label-hex">#FFFFFF</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#2CA7BE">
+            <div class="colour-info">
+              <span class="colour-label-name">Brand Teal</span>
+              <span class="colour-label-hex">#2CA7BE</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#1A7A8C">
+            <div class="colour-info">
+              <span class="colour-label-name">Deep Teal</span>
+              <span class="colour-label-hex">#1A7A8C</span>
+            </div>
+          </div>
+          <div class="colour-panel colour-panel--dark" style="--c:#0B0D0F">
+            <div class="colour-info">
+              <span class="colour-label-name">Obsidian</span>
+              <span class="colour-label-hex">#0B0D0F</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mockup-section">
+      <div class="mockup-header">
+        <h2 class="section-title">Merchandise &amp; Applications</h2>
+      </div>
+      <div class="mockup-grid">
+        <div class="mockup-cell mockup-feature">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-side">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-l">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-r">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <img src="Assets/option5/SVG/full_colour.svg" alt="Develocity" class="footer-logo">
+      </div>
+    </footer>
+
+  </div><!-- /identity-05 -->
+
+
+  <!-- ══ IDENTITY 06 — OPTION 06 ════════════════════════ -->
+  <div class="identity-panel" data-identity="6">
+
+    <section class="hero">
+      <canvas id="pixel-bg-6"></canvas>
+      <div class="hero-overlay" style="background:
+        radial-gradient(ellipse 65% 55% at 50% 48%, rgba(59,130,246,0.13) 0%, transparent 68%),
+        radial-gradient(ellipse 40% 40% at 50% 48%, rgba(59,130,246,0.07) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(11,13,15,0.0) 0%, rgba(11,13,15,0.0) 60%, rgba(11,13,15,0.85) 90%, rgba(11,13,15,1.0) 100%);"></div>
+      <img src="Assets/option6/SVG/Logo_white.svg" alt="Develocity" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(560px,70vw); height:auto; z-index:2; filter:drop-shadow(0 0 60px rgba(44,167,190,0.4));">
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section class="bento-section">
+      <div class="bento-grid">
+
+        <!-- A: Logo white on dark -->
+        <div class="bento-cell bento-a">
+          <img src="Assets/option6/SVG/Logo_white.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Light</div>
+            <div class="bento-overlay-body">Primary logo for use on dark backgrounds. Full white wordmark with organic brand mark.</div>
+          </div>
+        </div>
+
+        <!-- B: Logo on white — full logo as designed -->
+        <div class="bento-cell bento-b" style="background:#FFFFFF; align-items:center; justify-content:center;">
+          <img src="Assets/option6/SVG/Logo_dark.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Primary</div>
+            <div class="bento-overlay-body">The full designed logo on light backgrounds. The solid black square frames the white icon mark alongside the wordmark.</div>
+          </div>
+        </div>
+
+        <!-- C: Tall bento image -->
+        <div class="bento-cell bento-c" style="padding:0;">
+          <img src="Assets/option6/tall_bento.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Pattern</div>
+            <div class="bento-overlay-body">The icon mark tiled as a drifting repeating texture across brand surfaces.</div>
+          </div>
+        </div>
+
+        <!-- D: Brand mark icon asset -->
+        <div class="bento-cell bento-d" style="padding:0;">
+          <img src="Assets/option6/icon_asset.png" alt="Develocity brand mark" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Mark</div>
+            <div class="bento-overlay-body">The icon mark in isolation. A symbol used across product UI and brand touchpoints.</div>
+          </div>
+        </div>
+
+        <!-- E: Pixel rain mini canvas -->
+        <div class="bento-cell bento-e" style="padding:0; overflow:hidden;">
+          <canvas id="pixel-bg-6-mini" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Texture</span>
+            <span class="bento-value">Pixel Rain</span>
+            <span class="bento-sub">Canvas · 60fps · Procedural</span>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Texture</div>
+            <div class="bento-overlay-body">A procedural pixel canvas creates a living, dynamic brand texture for this identity.</div>
+          </div>
+        </div>
+
+        <!-- F: Bottom right image -->
+        <div class="bento-cell bento-f" style="padding:0;">
+          <img src="Assets/option6/bento_bottomright.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Application</div>
+            <div class="bento-overlay-body">Real-world brand application showcasing the identity system in context.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="colour-section">
+      <div class="colour-section-header">
+        <h2 class="colour-section-title">Colour System</h2>
+        <p class="colour-section-sub">A precise, high-contrast palette anchored in black and signal blue.</p>
+      </div>
+      <div class="colour-panels-wrap">
+        <div class="colour-panels">
+          <div class="colour-panel colour-panel--light" style="--c:#FFFFFF">
+            <div class="colour-info">
+              <span class="colour-label-name">White</span>
+              <span class="colour-label-hex">#FFFFFF</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#3B82F6">
+            <div class="colour-info">
+              <span class="colour-label-name">Signal Blue</span>
+              <span class="colour-label-hex">#3B82F6</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#1E40AF">
+            <div class="colour-info">
+              <span class="colour-label-name">Deep Navy</span>
+              <span class="colour-label-hex">#1E40AF</span>
+            </div>
+          </div>
+          <div class="colour-panel colour-panel--dark" style="--c:#0B0D0F">
+            <div class="colour-info">
+              <span class="colour-label-name">Obsidian</span>
+              <span class="colour-label-hex">#0B0D0F</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mockup-section">
+      <div class="mockup-header">
+        <h2 class="section-title">Merchandise &amp; Applications</h2>
+      </div>
+      <div class="mockup-grid">
+        <div class="mockup-cell mockup-feature">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-side">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-l">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-r">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <img src="Assets/option6/SVG/Logo_white.svg" alt="Develocity" class="footer-logo">
+      </div>
+    </footer>
+
+  </div><!-- /identity-06 -->
+
+
+  <!-- ══ IDENTITY 07 — OPTION 07 ════════════════════════ -->
+  <div class="identity-panel" data-identity="7">
+
+    <section class="hero">
+      <canvas id="pixel-bg-7"></canvas>
+      <div class="hero-overlay" style="background:
+        radial-gradient(ellipse 65% 55% at 50% 48%, rgba(48,171,194,0.12) 0%, transparent 68%),
+        radial-gradient(ellipse 40% 40% at 50% 48%, rgba(97,61,193,0.07) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(11,13,15,0.0) 0%, rgba(11,13,15,0.0) 60%, rgba(11,13,15,0.85) 90%, rgba(11,13,15,1.0) 100%);"></div>
+      <img src="Assets/Option7/SVG/logo_option7.svg" alt="Develocity" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(580px,72vw); height:auto; z-index:2; filter:drop-shadow(0 0 60px rgba(48,171,194,0.35));">
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section class="bento-section">
+      <div class="bento-grid">
+
+        <!-- A: Logo white on dark -->
+        <div class="bento-cell bento-a">
+          <img src="Assets/Option7/SVG/logo_option7.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Light</div>
+            <div class="bento-overlay-body">Primary logo for use on dark backgrounds. Clean white wordmark with dynamic brand mark.</div>
+          </div>
+        </div>
+
+        <!-- B: Logo dark on white -->
+        <div class="bento-cell bento-b" style="background:#FFFFFF; align-items:center; justify-content:center;">
+          <img src="Assets/Option7/SVG/logo_option7_Dark.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Dark</div>
+            <div class="bento-overlay-body">Dark variant for use on light or white backgrounds. Maintains full brand legibility.</div>
+          </div>
+        </div>
+
+        <!-- C: Tall bento image -->
+        <div class="bento-cell bento-c" style="padding:0;">
+          <img src="Assets/Option7/tall_bento.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Pattern</div>
+            <div class="bento-overlay-body">The brand mark tiled as a drifting texture — a living surface for brand applications.</div>
+          </div>
+        </div>
+
+        <!-- D: Top right image -->
+        <div class="bento-cell bento-d" style="padding:0;">
+          <img src="Assets/Option7/top_right_bento.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Application</div>
+            <div class="bento-overlay-body">Real-world brand application showcasing the identity system in context.</div>
+          </div>
+        </div>
+
+        <!-- E: Pixel rain mini canvas -->
+        <div class="bento-cell bento-e" style="padding:0; overflow:hidden;">
+          <canvas id="pixel-bg-7-mini" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Texture</span>
+            <span class="bento-value">Pixel Rain</span>
+            <span class="bento-sub">Canvas · 60fps · Procedural</span>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Texture</div>
+            <div class="bento-overlay-body">A procedural pixel canvas creates a living, dynamic brand texture for this identity.</div>
+          </div>
+        </div>
+
+        <!-- F: Bottom right image -->
+        <div class="bento-cell bento-f" style="padding:0;">
+          <img src="Assets/Option7/bottom_right_benot.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Application</div>
+            <div class="bento-overlay-body">Real-world brand application showcasing the identity system in context.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="colour-section">
+      <div class="colour-section-header">
+        <h2 class="colour-section-title">Colour System</h2>
+        <p class="colour-section-sub">The Gradle palette — deep violet and teal in tension, unified by obsidian.</p>
+      </div>
+      <div class="colour-panels-wrap">
+        <div class="colour-panels">
+          <div class="colour-panel colour-panel--light" style="--c:#FFFFFF">
+            <div class="colour-info">
+              <span class="colour-label-name">White</span>
+              <span class="colour-label-hex">#FFFFFF</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#613DC1">
+            <div class="colour-info">
+              <span class="colour-label-name">Deep Violet</span>
+              <span class="colour-label-hex">#613DC1</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#30ABC2">
+            <div class="colour-info">
+              <span class="colour-label-name">Gradle Teal</span>
+              <span class="colour-label-hex">#30ABC2</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="background:linear-gradient(160deg,#613DC1,#4DC9C0);">
+            <div class="colour-info">
+              <span class="colour-label-name">Brand Gradient</span>
+              <span class="colour-label-hex">#613DC1 → #4DC9C0</span>
+            </div>
+          </div>
+          <div class="colour-panel colour-panel--dark" style="--c:#0B0D0F">
+            <div class="colour-info">
+              <span class="colour-label-name">Obsidian</span>
+              <span class="colour-label-hex">#0B0D0F</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mockup-section">
+      <div class="mockup-header">
+        <h2 class="section-title">Merchandise &amp; Applications</h2>
+      </div>
+      <div class="mockup-grid">
+        <div class="mockup-cell mockup-feature">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-side">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-l">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-r">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <img src="Assets/Option7/SVG/logo_option7.svg" alt="Develocity" class="footer-logo">
+      </div>
+    </footer>
+
+  </div><!-- /identity-07 -->
+
+
+  <!-- ══ IDENTITY 08 — OPTION 08 ════════════════════════ -->
+  <div class="identity-panel" data-identity="8">
+
+    <section class="hero">
+      <canvas id="pixel-bg-8"></canvas>
+      <div class="hero-overlay" style="background:
+        radial-gradient(ellipse 65% 55% at 50% 48%, rgba(99,102,241,0.13) 0%, transparent 68%),
+        radial-gradient(ellipse 40% 40% at 50% 48%, rgba(99,102,241,0.07) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(11,13,15,0.0) 0%, rgba(11,13,15,0.0) 60%, rgba(11,13,15,0.85) 90%, rgba(11,13,15,1.0) 100%);"></div>
+      <img src="Assets/Option 8/Logo_light.svg" alt="Develocity" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(580px,72vw); height:auto; z-index:2; filter:drop-shadow(0 0 60px rgba(99,102,241,0.4));">
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section class="bento-section">
+      <div class="bento-grid">
+
+        <!-- A: Logo on dark -->
+        <div class="bento-cell bento-a">
+          <img src="Assets/Option 8/Logo_light.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Light</div>
+            <div class="bento-overlay-body">Primary logo for use on dark backgrounds. Clean white wordmark with geometric brand mark.</div>
+          </div>
+        </div>
+
+        <!-- B: Logo on white -->
+        <div class="bento-cell bento-b" style="background:#FFFFFF; align-items:center; justify-content:center;">
+          <img src="Assets/Option 8/Logo_dark.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Dark</div>
+            <div class="bento-overlay-body">Dark variant for use on light or white backgrounds. Maintains full brand legibility.</div>
+          </div>
+        </div>
+
+        <!-- C: Tall bento image -->
+        <div class="bento-cell bento-c" style="padding:0;">
+          <img src="Assets/Option 8/bento_tall.png" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Pattern</div>
+            <div class="bento-overlay-body">The brand mark tiled as a drifting texture — a living surface for brand applications.</div>
+          </div>
+        </div>
+
+        <!-- D: Brand mark standalone with 3D tilt -->
+        <div class="bento-cell bento-d" style="align-items:center; justify-content:center;" data-tilt>
+          <div class="icon-3d-scene">
+            <svg viewBox="-5 -5 345 345" class="icon-3d-obj" aria-label="Develocity brand mark">
+              <rect x="19.295" y="19.297" width="312.27" height="312.27" fill="none" stroke="rgba(99,102,241,0.9)" stroke-width="8.21"/>
+              <rect x="0" y="0" width="38.613" height="38.613" fill="#6366F1"/>
+              <path fill="#6366F1" d="M72.089,134.444C104.654,122.622,132.786,115.452,156.047,113.208C170.168,111.84,179.965,128.15,171.974,139.479L48.691,305.042L212.968,178.585C223.914,170.047,240.662,179.105,239.978,193.253C238.829,216.623,233,245.029,222.737,278.141C303.111,136.496,314.276,75.416,292.274,54.426C270.272,33.437,209.793,47.476,72.117,134.471Z"/>
+            </svg>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Mark</div>
+            <div class="bento-overlay-body">The geometric icon mark in isolation — a bold, structured symbol used across product UI and brand touchpoints.</div>
+          </div>
+        </div>
+
+        <!-- E: Pixel rain mini canvas -->
+        <div class="bento-cell bento-e" style="padding:0; overflow:hidden;">
+          <canvas id="pixel-bg-8-mini" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Texture</span>
+            <span class="bento-value">Pixel Rain</span>
+            <span class="bento-sub">Canvas · 60fps · Procedural</span>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Texture</div>
+            <div class="bento-overlay-body">A procedural pixel canvas creates a living, dynamic brand texture for this identity.</div>
+          </div>
+        </div>
+
+        <!-- F: Indigo atmospheric gradient -->
+        <div class="bento-cell bento-f" style="padding:0; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 110% 80% at 50% 108%, rgba(99,102,241,0.55) 0%, rgba(55,48,163,0.12) 38%, transparent 62%), linear-gradient(to bottom, #0B0D0F 0%, #08080F 100%);pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.07;pointer-events:none;">
+            <svg viewBox="-5 -5 345 345" style="width:180%;height:auto;" aria-hidden="true">
+              <rect x="19.295" y="19.297" width="312.27" height="312.27" fill="none" stroke="#6366F1" stroke-width="8.21"/>
+              <rect x="0" y="0" width="38.613" height="38.613" fill="#6366F1"/>
+              <path fill="#6366F1" d="M72.089,134.444C104.654,122.622,132.786,115.452,156.047,113.208C170.168,111.84,179.965,128.15,171.974,139.479L48.691,305.042L212.968,178.585C223.914,170.047,240.662,179.105,239.978,193.253C238.829,216.623,233,245.029,222.737,278.141C303.111,136.496,314.276,75.416,292.274,54.426C270.272,33.437,209.793,47.476,72.117,134.471Z"/>
+            </svg>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Atmosphere</div>
+            <div class="bento-overlay-body">Deep, luminous indigo treatments bring structure and depth to brand applications.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="colour-section">
+      <div class="colour-section-header">
+        <h2 class="colour-section-title">Colour System</h2>
+        <p class="colour-section-sub">A bold, structured palette anchored in deep indigo.</p>
+      </div>
+      <div class="colour-panels-wrap">
+        <div class="colour-panels">
+          <div class="colour-panel colour-panel--light" style="--c:#FFFFFF">
+            <div class="colour-info">
+              <span class="colour-label-name">White</span>
+              <span class="colour-label-hex">#FFFFFF</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#6366F1">
+            <div class="colour-info">
+              <span class="colour-label-name">Indigo</span>
+              <span class="colour-label-hex">#6366F1</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#3730A3">
+            <div class="colour-info">
+              <span class="colour-label-name">Deep Indigo</span>
+              <span class="colour-label-hex">#3730A3</span>
+            </div>
+          </div>
+          <div class="colour-panel colour-panel--dark" style="--c:#0B0D0F">
+            <div class="colour-info">
+              <span class="colour-label-name">Obsidian</span>
+              <span class="colour-label-hex">#0B0D0F</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mockup-section">
+      <div class="mockup-header">
+        <h2 class="section-title">Merchandise &amp; Applications</h2>
+      </div>
+      <div class="mockup-grid">
+        <div class="mockup-cell mockup-feature">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-side">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-l">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-r">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <img src="Assets/Option 8/Logo_light.svg" alt="Develocity" class="footer-logo">
+      </div>
+    </footer>
+
+  </div><!-- /identity-08 -->
+
+
   <!-- ══ SCRIPTS ═════════════════════════════════════════ -->
   <script>
   /* ── Colour panels scroll-in ───────────────────────── */
@@ -1630,6 +2310,233 @@
   initPixelBg('pixel-bg-opt2-bento', [150, 81, 255], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
   initPixelBg('pixel-bg-3',   [44, 167, 190]);
   initPixelBg('pixel-bg-mini', [150, 81, 255], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
+
+  /* ── Option 05 pixel canvases ───────────────────────── */
+  initPixelBg('pixel-bg-5',      [44, 167, 190]);
+  initPixelBg('pixel-bg-5-mini', [44, 167, 190], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
+
+  /* ── Option 06 pixel canvases ───────────────────────── */
+  initPixelBg('pixel-bg-6',      [59, 130, 246]);
+  initPixelBg('pixel-bg-6-mini', [59, 130, 246], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
+
+  /* ── Option 06 drifting logo mark pattern ───────────── */
+  (function() {
+    var canvas = document.getElementById('logo-mark-6');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    var PATHS = [
+      'M33.22,75.83c32.77-17.37,49.6-14.34,40.72,27.43,18.36-46.34,30.92-95.11-40.72-27.43Z',
+      'M33.2,75.81c19.54-31.52,17.67-48.52-24.61-42.48,47.48-15.18,96.99-24.41,24.61,42.48Z',
+      'M71.98,39.44s15.31-11.28,23.24-8.25c0-7.88-.04-13.86-.04-13.86l-23.2,22.12Z',
+      'M71.95,39.4s11.99-14.01,9.37-22.08c8.39,0,13.9.04,13.9.04l-23.27,22.04Z'
+    ].map(function(d) { return new Path2D(d); });
+
+    var SC = 0.65;
+    var MW = 114, MH = 112;
+    var TW = MW * SC + 16, TH = MH * SC + 14;
+    var W, H, raf;
+
+    function resize() {
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      canvas.width = W; canvas.height = H;
+    }
+
+    function draw(ts) {
+      var off = (ts * 0.015) % TH;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = 'rgba(59,130,246,0.09)';
+      var cols = Math.ceil(W / TW) + 2;
+      var rows = Math.ceil(H / TH) + 2;
+      for (var r = -1; r < rows; r++) {
+        for (var c = -1; c < cols; c++) {
+          var ox = (r % 2 === 0) ? 0 : TW * 0.5;
+          ctx.save();
+          ctx.translate(c * TW + ox, r * TH - off);
+          ctx.scale(SC, SC);
+          for (var i = 0; i < PATHS.length; i++) ctx.fill(PATHS[i]);
+          ctx.restore();
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      raf = requestAnimationFrame(draw);
+    });
+
+    resize();
+    raf = requestAnimationFrame(draw);
+  })();
+
+  /* ── Option 05 drifting logo mark pattern ───────────── */
+  (function() {
+    var canvas = document.getElementById('logo-mark-5');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    var PATHS = [
+      'M386,161.7V19H79.6v1.3c204.1,51.5,292.3,98.8,306.4,141.4Z',
+      'M79.6,323.6v1.8h306.4v-139c-18,54.4-153.2,100.4-306.4,137.3Z',
+      'M79.6,306.3c165.6-86.5,153.9-176.1,0-265.3v265.3Z'
+    ].map(function(d) { return new Path2D(d); });
+
+    var SC = 0.20;
+    var MW = 308, MH = 308;
+    var TW = MW * SC + 18, TH = MH * SC + 14;
+    var W, H, raf;
+
+    function resize() {
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      canvas.width = W; canvas.height = H;
+    }
+
+    function draw(ts) {
+      var off = (ts * 0.015) % TH;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = 'rgba(44,167,190,0.09)';
+      var cols = Math.ceil(W / TW) + 2;
+      var rows = Math.ceil(H / TH) + 2;
+      for (var r = -1; r < rows; r++) {
+        for (var c = -1; c < cols; c++) {
+          var ox = (r % 2 === 0) ? 0 : TW * 0.5;
+          ctx.save();
+          ctx.translate(c * TW + ox, r * TH - off);
+          ctx.scale(SC, SC);
+          ctx.translate(-79.6, -19);
+          for (var i = 0; i < PATHS.length; i++) ctx.fill(PATHS[i]);
+          ctx.restore();
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      raf = requestAnimationFrame(draw);
+    });
+
+    resize();
+    raf = requestAnimationFrame(draw);
+  })();
+
+  /* ── Option 07 pixel canvases ───────────────────────── */
+  initPixelBg('pixel-bg-7',      [48, 171, 194]);
+  initPixelBg('pixel-bg-7-mini', [48, 171, 194], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
+
+  /* ── Option 07 drifting logo mark pattern ───────────── */
+  (function() {
+    var canvas = document.getElementById('logo-mark-7');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    var PATHS = [
+      new Path2D('M0,56.45c38.46-11.65,66.75-2.41,24.36-56.45C75.06,36.41,121.28,79.32,0,56.45Z'),
+      new Path2D('M0,56.38c35.74,12.17,66.75,2.41,24.36,56.45C75.06,76.42,121.28,33.51,0,56.38Z'),
+      new Path2D('M69.16,46.04s4.25,7.22.22,18.29-5.09-8.07-5.09-8.07l4.87-10.22Z')
+    ];
+    var openPath = new Path2D('M67.7,0l11.75,23.78c9.65,19.54,9.93,42.41.74,62.17l-12.49,26.87');
+
+    var SC = 0.55;
+    var MW = 122, MH = 115;
+    var TW = MW * SC + 18, TH = MH * SC + 14;
+    var W, H, raf;
+
+    function resize() {
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      canvas.width = W; canvas.height = H;
+    }
+
+    function draw(ts) {
+      var off = (ts * 0.015) % TH;
+      ctx.clearRect(0, 0, W, H);
+      var cols = Math.ceil(W / TW) + 2;
+      var rows = Math.ceil(H / TH) + 2;
+      for (var r = -1; r < rows; r++) {
+        for (var c = -1; c < cols; c++) {
+          var ox = (r % 2 === 0) ? 0 : TW * 0.5;
+          ctx.save();
+          ctx.translate(c * TW + ox, r * TH - off);
+          ctx.scale(SC, SC);
+          ctx.fillStyle = 'rgba(34,197,94,0.09)';
+          for (var i = 0; i < PATHS.length; i++) ctx.fill(PATHS[i]);
+          ctx.strokeStyle = 'rgba(34,197,94,0.06)';
+          ctx.lineWidth = 3.5 / SC;
+          ctx.lineCap = 'round';
+          ctx.stroke(openPath);
+          ctx.restore();
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      raf = requestAnimationFrame(draw);
+    });
+
+    resize();
+    raf = requestAnimationFrame(draw);
+  })();
+
+  /* ── Option 08 pixel canvases ───────────────────────── */
+  initPixelBg('pixel-bg-8',      [99, 102, 241]);
+  initPixelBg('pixel-bg-8-mini', [99, 102, 241], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
+
+  /* ── Option 08 drifting logo mark pattern ───────────── */
+  (function() {
+    var canvas = document.getElementById('logo-mark-8');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    var swoosh = new Path2D('M72.089,134.444C104.654,122.622,132.786,115.452,156.047,113.208C170.168,111.84,179.965,128.15,171.974,139.479L48.691,305.042L212.968,178.585C223.914,170.047,240.662,179.105,239.978,193.253C238.829,216.623,233,245.029,222.737,278.141C303.111,136.496,314.276,75.416,292.274,54.426C270.272,33.437,209.793,47.476,72.117,134.471Z');
+
+    var SC = 0.18;
+    var MW = 340, MH = 340;
+    var TW = MW * SC + 18, TH = MH * SC + 14;
+    var W, H, raf;
+
+    function resize() {
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      canvas.width = W; canvas.height = H;
+    }
+
+    function draw(ts) {
+      var off = (ts * 0.015) % TH;
+      ctx.clearRect(0, 0, W, H);
+      var cols = Math.ceil(W / TW) + 2;
+      var rows = Math.ceil(H / TH) + 2;
+      for (var r = -1; r < rows; r++) {
+        for (var c = -1; c < cols; c++) {
+          var ox = (r % 2 === 0) ? 0 : TW * 0.5;
+          ctx.save();
+          ctx.translate(c * TW + ox, r * TH - off);
+          ctx.scale(SC, SC);
+          ctx.strokeStyle = 'rgba(99,102,241,0.12)';
+          ctx.lineWidth = 8.21 / SC;
+          ctx.strokeRect(19.295, 19.297, 312.27, 312.27);
+          ctx.fillStyle = 'rgba(99,102,241,0.09)';
+          ctx.fill(swoosh);
+          ctx.fillRect(0, 0, 38.613, 38.613);
+          ctx.restore();
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      raf = requestAnimationFrame(draw);
+    });
+
+    resize();
+    raf = requestAnimationFrame(draw);
+  })();
   </script>
 
 </body>
