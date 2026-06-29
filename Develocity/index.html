@@ -908,6 +908,7 @@
     ═══════════════════════════════════════════ */
     [data-identity="7"] .bento-c { --bento-glow: rgba(48,171,194,0.09); }
     [data-identity="8"] .bento-c { --bento-glow: rgba(99,102,241,0.09); }
+    [data-identity="9"] .bento-c { --bento-glow: rgba(44,167,190,0.09); }
   </style>
 </head>
 <body>
@@ -921,6 +922,7 @@
         <button class="review-tab"        data-identity="5">Option 05</button>
         <button class="review-tab"        data-identity="7">Option 07</button>
         <button class="review-tab"        data-identity="8">Option 08</button>
+        <button class="review-tab"        data-identity="9">Option 09</button>
       </div>
       <div class="bin-wrap">
         <button class="bin-btn" id="binBtn" title="More options">
@@ -2147,6 +2149,177 @@
   </div><!-- /identity-08 -->
 
 
+  <!-- ══ IDENTITY 09 — OPTION 09 ════════════════════════ -->
+  <div class="identity-panel" data-identity="9">
+
+    <section class="hero">
+      <canvas id="pixel-bg-9"></canvas>
+      <div class="hero-overlay" style="background:
+        radial-gradient(ellipse 65% 55% at 50% 48%, rgba(44,167,190,0.13) 0%, transparent 68%),
+        radial-gradient(ellipse 40% 40% at 50% 48%, rgba(44,167,190,0.07) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(11,13,15,0.0) 0%, rgba(11,13,15,0.0) 60%, rgba(11,13,15,0.85) 90%, rgba(11,13,15,1.0) 100%);"></div>
+      <img src="Assets/Option9/Logo.svg" alt="Develocity" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(580px,72vw); height:auto; z-index:2; filter:drop-shadow(0 0 60px rgba(44,167,190,0.4));">
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section class="bento-section">
+      <div class="bento-grid">
+
+        <!-- A: Logo on dark -->
+        <div class="bento-cell bento-a">
+          <img src="Assets/Option9/Logo.svg" alt="Develocity" class="bento-logo">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Light</div>
+            <div class="bento-overlay-body">Primary logo for use on dark backgrounds. White wordmark with teal brand mark.</div>
+          </div>
+        </div>
+
+        <!-- B: Logo on white -->
+        <div class="bento-cell bento-b" style="background:#FFFFFF; align-items:center; justify-content:center;">
+          <img src="Assets/Option9/Logo.svg" alt="Develocity" class="bento-logo" style="filter:invert(1);">
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Logo — Dark</div>
+            <div class="bento-overlay-body">Dark variant for use on light or white backgrounds.</div>
+          </div>
+        </div>
+
+        <!-- C: Scrolling icon mark pattern canvas -->
+        <div class="bento-cell bento-c" style="padding:0; overflow:hidden;">
+          <canvas id="logo-mark-9" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Brand Pattern</span>
+            <span class="bento-value">Mark Texture</span>
+            <span class="bento-sub">Canvas · Tiled · Dynamic</span>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Pattern</div>
+            <div class="bento-overlay-body">The brand mark tiled as a drifting texture — a living surface for brand applications.</div>
+          </div>
+        </div>
+
+        <!-- D: Brand mark standalone with 3D tilt -->
+        <div class="bento-cell bento-d" style="align-items:center; justify-content:center;" data-tilt>
+          <div class="icon-3d-scene">
+            <svg viewBox="110 185 100 100" class="icon-3d-obj" aria-label="Develocity brand mark">
+              <rect x="124.363" y="199.709" width="67.463" height="67.463" fill="#2CA7BE"/>
+            </svg>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Mark</div>
+            <div class="bento-overlay-body">The teal icon mark in isolation — a bold, minimal symbol used across product UI and brand touchpoints.</div>
+          </div>
+        </div>
+
+        <!-- E: Pixel rain mini canvas -->
+        <div class="bento-cell bento-e" style="padding:0; overflow:hidden;">
+          <canvas id="pixel-bg-9-mini" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div class="bento-cell-inner" style="position:relative;z-index:1;padding:24px;">
+            <span class="bento-small-label">Texture</span>
+            <span class="bento-value">Pixel Rain</span>
+            <span class="bento-sub">Canvas · 60fps · Procedural</span>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Texture</div>
+            <div class="bento-overlay-body">A procedural pixel canvas creates a living, dynamic brand texture for this identity.</div>
+          </div>
+        </div>
+
+        <!-- F: Teal atmospheric gradient -->
+        <div class="bento-cell bento-f" style="padding:0; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 110% 80% at 50% 108%, rgba(44,167,190,0.55) 0%, rgba(21,100,120,0.12) 38%, transparent 62%), linear-gradient(to bottom, #0B0D0F 0%, #060E10 100%);pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.15;pointer-events:none;">
+            <svg viewBox="110 185 100 100" style="width:60%;height:auto;" aria-hidden="true">
+              <rect x="124.363" y="199.709" width="67.463" height="67.463" fill="#2CA7BE"/>
+            </svg>
+          </div>
+          <div class="bento-overlay">
+            <div class="bento-overlay-title">Brand Atmosphere</div>
+            <div class="bento-overlay-body">Cool, luminous teal treatments bring depth and clarity to brand applications.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="colour-section">
+      <div class="colour-section-header">
+        <h2 class="colour-section-title">Colour System</h2>
+        <p class="colour-section-sub">A clean, precise palette anchored in teal and deep obsidian.</p>
+      </div>
+      <div class="colour-panels-wrap">
+        <div class="colour-panels">
+          <div class="colour-panel colour-panel--light" style="--c:#FFFFFF">
+            <div class="colour-info">
+              <span class="colour-label-name">White</span>
+              <span class="colour-label-hex">#FFFFFF</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#2CA7BE">
+            <div class="colour-info">
+              <span class="colour-label-name">Brand Teal</span>
+              <span class="colour-label-hex">#2CA7BE</span>
+            </div>
+          </div>
+          <div class="colour-panel" style="--c:#1A7A8C">
+            <div class="colour-info">
+              <span class="colour-label-name">Deep Teal</span>
+              <span class="colour-label-hex">#1A7A8C</span>
+            </div>
+          </div>
+          <div class="colour-panel colour-panel--dark" style="--c:#0B0D0F">
+            <div class="colour-info">
+              <span class="colour-label-name">Obsidian</span>
+              <span class="colour-label-hex">#0B0D0F</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mockup-section">
+      <div class="mockup-header">
+        <h2 class="section-title">Merchandise &amp; Applications</h2>
+      </div>
+      <div class="mockup-grid">
+        <div class="mockup-cell mockup-feature">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-side">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-l">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+        <div class="mockup-cell mockup-bot-r">
+          <div class="mockup-placeholder">
+            <div class="mockup-placeholder-ring"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></div>
+            <span class="mockup-placeholder-label">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <img src="Assets/Option9/Logo.svg" alt="Develocity" class="footer-logo">
+      </div>
+    </footer>
+
+  </div><!-- /identity-09 -->
+
+
   <!-- ══ SCRIPTS ═════════════════════════════════════════ -->
   <script>
   /* ── Colour panels scroll-in ───────────────────────── */
@@ -2522,6 +2695,55 @@
           ctx.fillStyle = 'rgba(99,102,241,0.09)';
           ctx.fill(swoosh);
           ctx.fillRect(0, 0, 38.613, 38.613);
+          ctx.restore();
+        }
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      raf = requestAnimationFrame(draw);
+    });
+
+    resize();
+    raf = requestAnimationFrame(draw);
+  })();
+
+  /* ── Option 09 pixel canvases ───────────────────────── */
+  initPixelBg('pixel-bg-9',      [44, 167, 190]);
+  initPixelBg('pixel-bg-9-mini', [44, 167, 190], { density: 0.045, maxAlphaAccent: 0.55, maxAlphaOther: 0.22, instant: true });
+
+  /* ── Option 09 drifting logo mark pattern ───────────── */
+  (function() {
+    var canvas = document.getElementById('logo-mark-9');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    var SC = 0.85;
+    var TW = 67.463 * SC + 18, TH = 67.463 * SC + 14;
+    var W, H, raf;
+
+    function resize() {
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      canvas.width = W; canvas.height = H;
+    }
+
+    function draw(ts) {
+      var off = (ts * 0.015) % TH;
+      ctx.clearRect(0, 0, W, H);
+      var cols = Math.ceil(W / TW) + 2;
+      var rows = Math.ceil(H / TH) + 2;
+      for (var r = -1; r < rows; r++) {
+        for (var c = -1; c < cols; c++) {
+          var ox = (r % 2 === 0) ? 0 : TW * 0.5;
+          ctx.save();
+          ctx.translate(c * TW + ox, r * TH - off);
+          ctx.scale(SC, SC);
+          ctx.translate(-124.363, -199.709);
+          ctx.fillStyle = 'rgba(44,167,190,0.09)';
+          ctx.fillRect(124.363, 199.709, 67.463, 67.463);
           ctx.restore();
         }
       }
